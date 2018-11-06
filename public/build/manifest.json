@@ -1,8 +1,8 @@
 {
-  "build/app.js": "/build/app.20c3da8d.js",
-  "build/app.css": "/build/app.54fc4280.css",
-  "build/fonts/MaterialIcons-Regular.eot": "/build/fonts/MaterialIcons-Regular.016c14ad.eot",
-  "build/fonts/MaterialIcons-Regular.woff": "/build/fonts/MaterialIcons-Regular.c38ebd3c.woff",
-  "build/fonts/MaterialIcons-Regular.woff2": "/build/fonts/MaterialIcons-Regular.8a9a261c.woff2",
-  "build/fonts/MaterialIcons-Regular.ttf": "/build/fonts/MaterialIcons-Regular.d41ae58d.ttf"
+  "build/app.js": "/camisetas/public/build/app.ff010721.js",
+  "build/app.css": "/camisetas/public/build/app.54fc4280.css",
+  "build/fonts/MaterialIcons-Regular.eot": "/camisetas/public/build/fonts/MaterialIcons-Regular.016c14ad.eot",
+  "build/fonts/MaterialIcons-Regular.woff": "/camisetas/public/build/fonts/MaterialIcons-Regular.c38ebd3c.woff",
+  "build/fonts/MaterialIcons-Regular.woff2": "/camisetas/public/build/fonts/MaterialIcons-Regular.8a9a261c.woff2",
+  "build/fonts/MaterialIcons-Regular.ttf": "/camisetas/public/build/fonts/MaterialIcons-Regular.d41ae58d.ttf"
 }
