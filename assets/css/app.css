@@ -1,0 +1,8 @@
+body {
+    background-color: lightgray;
+}
+.modal-btn-close{
+	position: absolute !important;
+    top: 0px !important;
+    right: 0px !important;
+}

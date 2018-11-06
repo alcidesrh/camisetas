@@ -1,0 +1,32 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "encore production",
+    "dev-server": "encore dev-server",
+    "dev": "encore dev",
+    "watch": "encore dev --watch"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "babel-plugin-transform-builtin-extend": "^1.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "material-design-icons-iconfont": "^4.0.2",
+    "vue": "^2.5.17",
+    "vue-loader": "^14.2.3",
+    "vue-router": "^3.0.1",
+    "vue-template-compiler": "^2.5.17",
+    "vuetify": "^1.3.0",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "@symfony/webpack-encore": "^0.20.0",
+    "css-loader": "^1.0.1",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.1",
+    "vue-cli-plugin-vuetify": "^0.4.5",
+    "vuetify-loader": "^1.0.5",
+    "webpack-notifier": "^1.6.0"
+  },
+  "license": "UNLICENSED"
+}

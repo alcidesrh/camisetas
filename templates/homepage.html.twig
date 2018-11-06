@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Locally Sourced System</title>
+    <link href="{{ asset('build/fonts/MaterialIcons-Regular.eot') }}" rel="stylesheet">
+    <link href="{{ asset('build/fonts/MaterialIcons-Regular.woff') }}" rel="stylesheet">
+    <link href="{{ asset('build/fonts/MaterialIcons-Regular.woff2') }}" rel="stylesheet">
+    <link href="{{ asset('build/fonts/MaterialIcons-Regular.ttf') }}" rel="stylesheet">
+    <link href="{{ asset('build/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+<v-app id="app"></v-app>
+{% if route_reload is defined %}
+    <script>
+        var route_reload = '{{ route_reload }}';
+        route_reload = route_reload.split(',');
+    </script>
+{% endif %}
+<script src="{{ asset('build/app.js') }}" type="text/javascript"></script>
+</body>
+</html>
