@@ -85,7 +85,7 @@
             <v-text-field
                     label="Nombre"
                     v-model="item.nombre"
-                    :rules="nameRule"
+                    :rules="fieldRule"
                     required
             ></v-text-field>
           </v-card-text>
@@ -118,7 +118,7 @@
                 snackbarColor: 'success',
                 flag: false,
                 item: {name: ''},
-                nameRule: [
+                fieldRule: [
                     v => !!v || 'Este campo es requerido'
                 ]
             }
@@ -181,7 +181,7 @@
             },
             deleteItem(item) {
                 const index = this.items.indexOf(item)
-                if (confirm('Are you sure you want to delete?')) {
+                if (confirm('Seguro quieres eliminar este elemento?')) {
 
                     this.$store.dispatch('talla/del/delete', item).then(
                         () => {

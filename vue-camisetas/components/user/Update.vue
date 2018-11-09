@@ -9,36 +9,36 @@
     <div v-if="updateError" class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ updateError }}</div>
     <div v-if="deleteError" class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ deleteError }}</div>
 
-    <ProductoForm v-if="item" :handle-submit="update" :values="item" :errors="violations" :initialValues="retrieved"></ProductoForm>
-    <router-link v-if="item" :to="{ name: 'ProductoList' }" class="btn btn-default">Back to list</router-link>
+    <UserForm v-if="item" :handle-submit="update" :values="item" :errors="violations" :initialValues="retrieved"></UserForm>
+    <router-link v-if="item" :to="{ name: 'UserList' }" class="btn btn-default">Back to list</router-link>
     <button @click="del" class="btn btn-danger">Delete</button>
   </div>
 </template>
 
 <script>
-  import ProductoForm from './Form.vue';
+  import UserForm from './Form.vue';
   import { mapGetters } from 'vuex';
 
   export default {
     created () {
-      this.$store.dispatch('producto/update/retrieve', decodeURIComponent(this.$route.params.id));
+      this.$store.dispatch('user/update/retrieve', decodeURIComponent(this.$route.params.id));
     },
     components: {
-      ProductoForm
+      UserForm
     },
     computed: {
       ...mapGetters({
-        retrieveError: 'producto/update/retrieveError',
-        retrieveLoading: 'producto/update/retrieveLoading',
-        updateError: 'producto/update/updateError',
-        updateLoading: 'producto/update/updateLoading',
-        deleteError: 'producto/del/error',
-        deleteLoading: 'producto/del/loading',
-        created: 'producto/create/created',
-        deleted: 'producto/del/deleted',
-        retrieved: 'producto/update/retrieved',
-        updated: 'producto/update/updated',
-        violations: 'producto/update/violations'
+        retrieveError: 'user/update/retrieveError',
+        retrieveLoading: 'user/update/retrieveLoading',
+        updateError: 'user/update/updateError',
+        updateLoading: 'user/update/updateLoading',
+        deleteError: 'user/del/error',
+        deleteLoading: 'user/del/loading',
+        created: 'user/create/created',
+        deleted: 'user/del/deleted',
+        retrieved: 'user/update/retrieved',
+        updated: 'user/update/updated',
+        violations: 'user/update/violations'
       })
     },
     data: function() {
@@ -48,23 +48,23 @@
     },
     methods: {
       update (values) {
-        this.$store.dispatch('producto/update/update', {item: this.retrieved, values: values });
+        this.$store.dispatch('user/update/update', {item: this.retrieved, values: values });
       },
       del () {
-        if (window.confirm('Are you sure you want to delete this item?'))
-          this.$store.dispatch('producto/del/delete', this.retrieved);
+        if (window.confirm('¿Seguro quieres eliminar?'))
+          this.$store.dispatch('user/del/delete', this.retrieved);
       },
       reset () {
-        this.$store.dispatch('producto/update/reset');
-        this.$store.dispatch('producto/del/reset');
-        this.$store.dispatch('producto/create/reset');
+        this.$store.dispatch('user/update/reset');
+        this.$store.dispatch('user/del/reset');
+        this.$store.dispatch('user/create/reset');
 
       }
     },
     watch: {
       deleted: function (deleted) {
         if (deleted) {
-          this.$router.push({ name: 'ProductoList' });
+          this.$router.push({ name: 'UserList' });
         }
       }
     },

@@ -2,13 +2,12 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FileRepository")
- * @ORM\HasLifecycleCallbacks()
  */
 class File
 {
@@ -32,6 +31,7 @@ class File
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("read_pedido")
      */
     private $path;
 

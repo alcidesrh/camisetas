@@ -5,23 +5,25 @@
             <v-spacer></v-spacer>
             <v-tabs
                     color="primary"
-                    right
-
-            >
+                    right>
                 <v-tabs-slider color="white" style="height: 2px"></v-tabs-slider>
-                <v-tab id="h_t_c_tours" flat
-                       @click="">
-                    <v-icon class="mr-1">shopping_cart</v-icon>
-                     Pedido
-                </v-tab>
-                <v-tab id="l_s_tours" flat
-                       @click="">
-                    <v-icon class="mr-1">insert_chart</v-icon>
-                     Estadísticas
-                </v-tab>
-                <v-tab id="transfers" flat @click="">
+                <!--<v-tab id="h_t_c_tours" flat-->
+                       <!--@click="">-->
+                    <!--<v-icon class="mr-1">shopping_cart</v-icon>-->
+                     <!--Pedido-->
+                <!--</v-tab>-->
+                <!--<v-tab id="l_s_tours" flat-->
+                       <!--@click="">-->
+                    <!--<v-icon class="mr-1">insert_chart</v-icon>-->
+                     <!--Estadísticas-->
+                <!--</v-tab>-->
+                <v-tab id="usuarios" flat  @click="$router.push({name: 'UserList'})">
                     <v-icon class="mr-1">group</v-icon>
                     Usuarios
+                </v-tab>
+                <v-tab id="pedidos" flat  @click="$router.push({name: 'PedidoList'})">
+                    <v-icon class="mr-1">group</v-icon>
+                    Ventas
                 </v-tab>
                 <v-tab id="gestion_producto">
                     <v-menu bottom>
@@ -42,12 +44,12 @@
                                     Tallas
                                 </v-list-tile-title>
                             </v-list-tile>
-                            <v-list-tile @click="">
-                                <v-list-tile-title>
-                                    <v-icon>shopping_basket</v-icon>
-                                    Stock
-                                </v-list-tile-title>
-                            </v-list-tile>
+                            <!--<v-list-tile @click="">-->
+                                <!--<v-list-tile-title>-->
+                                    <!--<v-icon>shopping_basket</v-icon>-->
+                                    <!--Stock-->
+                                <!--</v-list-tile-title>-->
+                            <!--</v-list-tile>-->
                         </v-list>
                     </v-menu>
                 </v-tab>
@@ -67,9 +69,6 @@
     </v-app>
 </template>
 <script>
-    import {mapGetters} from 'vuex';
-    import {API_HOST, API_PATH} from '../vue-camisetas/config/_entrypoint';
-
     export default {
 
         data: () => ({
@@ -86,11 +85,11 @@
             this.$nextTick(function () {
                 if (typeof route_reload != typeof undefined) {
                     if (route_reload.length == 1) {
-                        if (route_reload[0] != 'h_t_c_tours' && route_reload[0] != 'l_s_tours' && route_reload[0] != 'transfers' && route_reload[0] != 'guides-shedule')
+                        if (route_reload[0] != 'pedidos' && route_reload[0] != 'l_s_tours' && route_reload[0] != 'transfers' && route_reload[0] != 'guides-shedule')
                             document.getElementById('gestion_producto').firstChild.click();
                         document.getElementById(route_reload[0]).firstChild.click();
                     } else {
-                        if (route_reload[0] == 'h_t_c_tours' || route_reload[0] == 'l_s_tours')
+                        if (route_reload[0] == 'pedidos')
                             document.getElementById(route_reload[0]).firstChild.click();
                         else
                             document.getElementById('gestion_producto').firstChild.click();

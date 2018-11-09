@@ -1,5 +1,9 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    encoders:
+            # Our user class and the algorithm we'll use to encode passwords
+            # https://symfony.com/doc/current/security.html#c-encoding-the-user-s-password
+            App\Entity\User: bcrypt
     providers:
         in_memory: { memory: ~ }
     firewalls:

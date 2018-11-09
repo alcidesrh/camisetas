@@ -1,24 +1,24 @@
 <template>
   <div>
-    <h1>New Talla</h1>
+    <h1>New User</h1>
 
     <div v-if="loading" class="alert alert-info" role="status">Loading...</div>
     <div v-if="error" class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
 
-    <TallaForm :handle-submit="create" :values="item" :errors="violations"></TallaForm>
-    <router-link :to="{ name: 'TallaList' }" class="btn btn-default">Back to list</router-link>
+    <UserForm :handle-submit="create" :values="item" :errors="violations"></UserForm>
+    <router-link :to="{ name: 'UserList' }" class="btn btn-default">Back to list</router-link>
   </div>
 </template>
 
 <script>
-  import TallaForm from './Form.vue';
+  import UserForm from './Form.vue';
   import { createNamespacedHelpers } from 'vuex';
 
-  const { mapActions, mapGetters } = createNamespacedHelpers('talla/create');
+  const { mapActions, mapGetters } = createNamespacedHelpers('user/create');
 
   export default {
     components: {
-      TallaForm
+      UserForm
     },
     data: function() {
       return {
@@ -33,13 +33,13 @@
     ]),
     methods: {
       create: function(item) {
-        this.$store.dispatch('talla/create/create', item);
+        this.$store.dispatch('user/create/create', item);
       }
     },
     watch: {
       created: function (created) {
         if (created) {
-          this.$router.push({ name: 'TallaUpdate', params: { id: created['@id']} });
+          this.$router.push({ name: 'UserUpdate', params: { id: created['@id']} });
         }
       }
     }

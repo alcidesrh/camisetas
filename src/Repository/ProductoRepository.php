@@ -18,23 +18,33 @@ class ProductoRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Producto::class);
     }
+    public function getProductosByIds($array = []){
+        $where = "";
+        foreach ($array as $value){
+            if($where)
+                $where .= " OR ";
+            $where .= "p.id = {$value['id']}";
+        }
+        $query = $this->getEntityManager()->createQuery( "SELECT p FROM App:Producto p WHERE $where" );
+        return $query->getResult();
+    }
 
 //    /**
 //     * @return Producto[] Returns an array of Producto objects
 //     */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+
+//    public function findByExampleField($value)
+//    {
+//        return $this->createQueryBuilder('p')
+//            ->andWhere('p.exampleField = :val')
+//            ->setParameter('val', $value)
+//            ->orderBy('p.id', 'ASC')
+//            ->setMaxResults(10)
+//            ->getQuery()
+//            ->getResult()
+//        ;
+//    }
+
 
     /*
     public function findOneBySomeField($value): ?Producto

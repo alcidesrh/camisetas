@@ -10,4 +10,10 @@ homepage:
 
 reload:
     path: /{any}
-    controller: App\Controller\ApiController::reloadAction
+    controller: App\Controller\SecurityController::reloadAction
+reload_level_1:
+    path: /{any}/create
+    controller: App\Controller\SecurityController::reloadAction
+reload_level_2:
+    path: /{any}/edit/{id}
+    controller: App\Controller\SecurityController::reloadAction

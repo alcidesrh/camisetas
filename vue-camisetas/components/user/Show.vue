@@ -16,12 +16,24 @@
         </thead>
         <tbody>
           <tr>
-            <td>imagen</td>
-            <td>{{ item['imagen'] }}</td>
+            <td>apellidos</td>
+            <td>{{ item['apellidos'] }}</td>
           </tr>
           <tr>
-            <td>accommodations</td>
-            <td>{{ item['accommodations'] }}</td>
+            <td>username</td>
+            <td>{{ item['username'] }}</td>
+          </tr>
+          <tr>
+            <td>password</td>
+            <td>{{ item['password'] }}</td>
+          </tr>
+          <tr>
+            <td>roles</td>
+            <td>{{ item['roles'] }}</td>
+          </tr>
+          <tr>
+            <td>salt</td>
+            <td>{{ item['salt'] }}</td>
           </tr>
           <tr>
             <td>nombre</td>
@@ -31,7 +43,7 @@
       </table>
     </div>
 
-    <router-link v-if="item" :to="{ name: 'ProductoList' }" class="btn btn-default">Back to list</router-link>
+    <router-link v-if="item" :to="{ name: 'UserList' }" class="btn btn-default">Back to list</router-link>
     <button @click="deleteItem(item)" class="btn btn-danger">Delete</button>
   </div>
 </template>
@@ -41,22 +53,22 @@
 
   export default {
     computed: mapGetters({
-      deleteError: 'producto/del/error',
-      error: 'producto/show/error',
-      loading: 'producto/show/loading',
-      item: 'producto/show/item',
+      deleteError: 'user/del/error',
+      error: 'user/show/error',
+      loading: 'user/show/loading',
+      item: 'user/show/item',
     }),
     methods: {
       deleteItem (item) {
-        if (window.confirm('Are you sure you want to delete this item?'))
-          this.$store.dispatch('producto/del/delete', item).then(response => this.$router.push({ name: 'ProductoList' }));
+        if (window.confirm('¿Seguro quieres eliminar?'))
+          this.$store.dispatch('user/del/delete', item).then(response => this.$router.push({ name: 'UserList' }));
       }
     },
     created () {
-      this.$store.dispatch('producto/show/retrieve', decodeURIComponent(this.$route.params.id));
+      this.$store.dispatch('user/show/retrieve', decodeURIComponent(this.$route.params.id));
     },
     beforeDestroy() {
-      this.$store.dispatch('producto/show/reset');
+      this.$store.dispatch('user/show/reset');
     }
   }
 </script>

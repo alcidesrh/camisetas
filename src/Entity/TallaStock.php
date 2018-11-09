@@ -19,6 +19,11 @@ class TallaStock
     /**
      * @ORM\Column(type="integer", options={"default": 0})
      */
+    private $vendidas = 0;
+
+    /**
+     * @ORM\Column(type="integer", options={"default": 0})
+     */
     private $cantidad = 0;
 
     /**
@@ -27,11 +32,34 @@ class TallaStock
      */
     private $talla;
 
+    public function __construct(Talla $talla = null)
+    {
+        $this->talla = $talla;
+    }
 
-    public function getId(): ?int
+
+    public function getId()
     {
         return $this->id;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getVendidas()
+    {
+        return $this->vendidas;
+    }
+
+    /**
+     * @param mixed $vendidas
+     */
+    public function setVendidas($vendidas): void
+    {
+        $this->vendidas = $vendidas;
+    }
+
+
 
     public function getCantidad()
     {
