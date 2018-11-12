@@ -17,11 +17,9 @@
       <file leaf-file-name="App.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/App.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="37" column="45" lean-forward="true" selection-start-line="37" selection-start-column="45" selection-end-line="37" selection-end-column="45" />
-              <folding>
-                <element signature="n#style#0;n#v-tabs-slider#0;n#v-tabs#0;n#v-toolbar#0;n#v-app#0;n#template#0;n#!!top" expanded="true" />
-              </folding>
+            <state relative-caret-position="1445">
+              <caret line="85" column="21" lean-forward="false" selection-start-line="85" selection-start-column="21" selection-end-line="85" selection-end-column="21" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -29,12 +27,24 @@
       <file leaf-file-name="List.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/components/pedido/List.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="262">
-              <caret line="72" column="61" lean-forward="false" selection-start-line="72" selection-start-column="61" selection-end-line="72" selection-end-column="61" />
+            <state relative-caret-position="3162">
+              <caret line="188" column="29" lean-forward="false" selection-start-line="188" selection-start-column="29" selection-end-line="188" selection-end-column="29" />
               <folding>
                 <element signature="n#style#0;n#v-container#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#v-alert#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-                <element signature="e#3878#3910#0" expanded="true" />
+                <element signature="e#3947#3979#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pedido.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes/pedido.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="7" column="47" lean-forward="false" selection-start-line="7" selection-start-column="47" selection-end-line="7" selection-end-column="50" />
+              <folding>
+                <element signature="e#0#55#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -43,19 +53,16 @@
       <file leaf-file-name="Update.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/components/pedido/Update.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="320" column="40" lean-forward="true" selection-start-line="320" selection-start-column="40" selection-end-line="320" selection-end-column="40" />
+            <state relative-caret-position="3927">
+              <caret line="241" column="14" lean-forward="false" selection-start-line="241" selection-start-column="14" selection-end-line="241" selection-end-column="14" />
               <folding>
                 <element signature="n#style#0;n#v-container#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-                <element signature="n#v-select#0;n#v-flex#0;n#v-layout#0;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="false" />
                 <element signature="n#style#0;n#div#0;n#v-checkbox#0;n#template#1;n#template#1;n#v-select#0;n#v-flex#0;n#v-layout#1;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#v-flex#1;n#v-layout#2;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#label#0;n#v-text-field#0;n#v-flex#1;n#v-layout#2;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#v-list-tile-sub-title#0;n#v-list-tile-content#0;n#v-list-tile#0;n#template#0;n#v-list#0;n#v-flex#1;n#v-layout#3;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#v-text-field#0;n#v-list-tile-sub-title#0;n#v-list-tile-content#0;n#v-list-tile#0;n#template#0;n#v-list#0;n#v-flex#1;n#v-layout#3;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#label#0;n#v-text-field#0;n#v-list-tile-sub-title#0;n#v-list-tile-content#0;n#v-list-tile#0;n#template#0;n#v-list#0;n#v-flex#1;n#v-layout#3;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-                <element signature="e#6233#6265#0" expanded="true" />
-                <element signature="e#8579#9162#0" expanded="false" />
+                <element signature="n#style#0;n#v-list-tile-sub-title#0;n#v-list-tile-content#0;n#v-list-tile#0;n#template#0;n#v-list#0;n#v-flex#1;n#v-layout#2;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#v-text-field#0;n#v-list-tile-sub-title#0;n#v-list-tile-content#0;n#v-list-tile#0;n#template#0;n#v-list#0;n#v-flex#1;n#v-layout#2;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#label#0;n#v-text-field#0;n#v-list-tile-sub-title#0;n#v-list-tile-content#0;n#v-list-tile#0;n#template#0;n#v-list#0;n#v-flex#1;n#v-layout#2;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="e#8324#8356#0" expanded="true" />
+                <element signature="e#9908#10491#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -74,8 +81,8 @@
       <file leaf-file-name="_entrypoint.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/config/_entrypoint.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+            <state relative-caret-position="17">
+              <caret line="1" column="44" lean-forward="false" selection-start-line="1" selection-start-column="44" selection-end-line="1" selection-end-column="60" />
               <folding />
             </state>
           </provider>
@@ -84,8 +91,8 @@
       <file leaf-file-name="Create.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/components/pedido/Create.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="109">
-              <caret line="101" column="31" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="339" selection-end-column="0" />
+            <state relative-caret-position="17">
+              <caret line="221" column="48" lean-forward="false" selection-start-line="221" selection-start-column="48" selection-end-line="221" selection-end-column="48" />
               <folding>
                 <element signature="n#style#0;n#v-container#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#v-select#0;n#v-flex#0;n#v-layout#0;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="false" />
@@ -95,8 +102,7 @@
                 <element signature="n#style#0;n#v-list-tile-sub-title#0;n#v-list-tile-content#0;n#v-list-tile#0;n#template#0;n#v-list#0;n#v-flex#1;n#v-layout#3;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#v-text-field#0;n#v-list-tile-sub-title#0;n#v-list-tile-content#0;n#v-list-tile#0;n#template#0;n#v-list#0;n#v-flex#1;n#v-layout#3;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#label#0;n#v-text-field#0;n#v-list-tile-sub-title#0;n#v-list-tile-content#0;n#v-list-tile#0;n#template#0;n#v-list#0;n#v-flex#1;n#v-layout#3;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-                <element signature="e#8337#8369#0" expanded="true" />
-                <element signature="e#10683#11266#0" expanded="false" />
+                <element signature="e#8448#8480#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -105,8 +111,8 @@
       <file leaf-file-name="create.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/store/modules/pedido/create.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="47" column="23" lean-forward="false" selection-start-line="47" selection-start-column="23" selection-end-line="47" selection-end-column="23" />
+            <state relative-caret-position="561">
+              <caret line="41" column="2" lean-forward="false" selection-start-line="41" selection-start-column="2" selection-end-line="41" selection-end-column="2" />
               <folding>
                 <element signature="e#0#61#0" expanded="true" />
               </folding>
@@ -114,11 +120,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="List-copy.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/components/producto/List-copy.vue">
+      <file leaf-file-name="update.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/store/modules/pedido/update.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="254" column="12" lean-forward="false" selection-start-line="254" selection-start-column="12" selection-end-line="264" selection-end-column="14" />
+            <state relative-caret-position="1020">
+              <caret line="71" column="13" lean-forward="true" selection-start-line="71" selection-start-column="13" selection-end-line="71" selection-end-column="13" />
+              <folding>
+                <element signature="e#0#61#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="fetch.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/utils/fetch.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -127,8 +145,8 @@
       <file leaf-file-name="List.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/components/producto/List.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-61">
-              <caret line="163" column="4" lean-forward="true" selection-start-line="163" selection-start-column="4" selection-end-line="163" selection-end-column="64" />
+            <state relative-caret-position="2992">
+              <caret line="178" column="33" lean-forward="true" selection-start-line="178" selection-start-column="33" selection-end-line="178" selection-end-column="33" />
               <folding>
                 <element signature="n#style#0;n#v-container#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#v-alert#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
@@ -136,6 +154,7 @@
                 <element signature="n#style#0;n#img#0;n#td#0;n#template#0;n#v-data-table#0;n#div#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#input#0;n#v-flex#0;n#v-layout#0;n#v-card-text#0;n#v-form#0;n#v-card#0;n#v-dialog#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#img#0;n#v-flex#0;n#v-layout#0;n#v-card-text#0;n#v-form#0;n#v-card#0;n#v-dialog#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="e#8167#8199#0" expanded="true" />
                 <element signature="e#10642#11327#0" expanded="false" />
                 <element signature="e#13238#13416#0" expanded="false" />
               </folding>
@@ -143,10 +162,20 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="List-copy.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/components/producto/List-copy.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="6375">
+              <caret line="377" column="20" lean-forward="false" selection-start-line="377" selection-start-column="20" selection-end-line="377" selection-end-column="59" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="List.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/components/user/List.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-588">
+            <state relative-caret-position="493">
               <caret line="42" column="41" lean-forward="false" selection-start-line="42" selection-start-column="41" selection-end-line="42" selection-end-column="41" />
               <folding>
                 <element signature="n#style#0;n#v-container#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
@@ -162,7 +191,7 @@
       <file leaf-file-name="list.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/store/modules/pedido/list.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
+            <state relative-caret-position="612">
               <caret line="43" column="13" lean-forward="false" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
@@ -174,7 +203,7 @@
       <file leaf-file-name="List.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/components/talla/List.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="67">
+            <state relative-caret-position="3349">
               <caret line="210" column="17" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="246" selection-end-column="0" />
               <folding>
                 <element signature="n#style#0;n#v-container#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
@@ -189,36 +218,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>user/list/getItems</find>
-      <find>user/list/</find>
-      <find>users</find>
-      <find>user/list/items</find>
-      <find>pedido</find>
-      <find>nameRule</find>
-      <find>fieldRules</find>
-      <find>xs12</find>
-      <find>producto</find>
-      <find>tallas</find>
-      <find>required</find>
-      <find>cleanStock</find>
-      <find>productos</find>
-      <find>index</find>
-      <find>validNumber</find>
-      <find>validNumber2</find>
-      <find>dido.stock</find>
-      <find>stock</find>
-      <find>$this</find>
-      <find>rout</find>
-      <find>cancel</find>
-      <find>router.push</find>
-      <find>loading</find>
-      <find>items</find>
-      <find>this.$router.push</find>
-      <find>getImageUrl</find>
-      <find>search</find>
-      <find>nar cantidad por producto</find>
-      <find>console</find>
+      <find>created</find>
+      <find>deletedItem</find>
+      <find>errorList</find>
+      <find>errorCreate</find>
+      <find>errorDelete</find>
+      <find>createLoading</find>
+      <find>retrieve</find>
+      <find>PedidoUpdate</find>
+      <find>create</find>
+      <find>crear pr</find>
+      <find>stock =</find>
+      <find>setPedido</find>
+      <find>this.retrieve</find>
+      <find>getItem</find>
+      <find>.getItem</find>
+      <find>stock.l</find>
+      <find>updateTable</find>
       <find>editi</find>
+      <find>formTitle</find>
+      <find>productosSelected</find>
+      <find>productosSelected.</find>
+      <find>getImageUrl</find>
+      <find>assin</find>
+      <find>ass</find>
+      <find>products</find>
+      <find>editedIndex</find>
+      <find>productos</find>
+      <find>validNumber</find>
+      <find>tallas</find>
+      <find>validNumber2</find>
     </findStrings>
     <replaceStrings>
       <replace>Producto</replace>
@@ -227,6 +256,7 @@
       <replace>¿Seguro quieres eliminar</replace>
       <replace>Usuario</replace>
       <replace>fieldRule</replace>
+      <replace>.getItem()</replace>
       <replace>Pedidos</replace>
     </replaceStrings>
     <dirStrings>
@@ -242,7 +272,6 @@
         <option value="$PROJECT_DIR$/store/modules/producto/list.js" />
         <option value="$PROJECT_DIR$/store/modules/talla/list.js" />
         <option value="$PROJECT_DIR$/routes/user.js" />
-        <option value="$PROJECT_DIR$/utils/fetch.js" />
         <option value="$PROJECT_DIR$/store/modules/user/create.js" />
         <option value="$PROJECT_DIR$/store/modules/user/list.js" />
         <option value="$PROJECT_DIR$/store/modules/user/update.js" />
@@ -252,18 +281,19 @@
         <option value="$PROJECT_DIR$/store/modules/talla/index.js" />
         <option value="$PROJECT_DIR$/store/modules/producto/index.js" />
         <option value="$PROJECT_DIR$/main.js" />
-        <option value="$PROJECT_DIR$/routes/pedido.js" />
         <option value="$PROJECT_DIR$/store/modules/pedido/index.js" />
         <option value="$PROJECT_DIR$/store/modules/pedido/list.js" />
-        <option value="$PROJECT_DIR$/components/producto/List.vue" />
-        <option value="$PROJECT_DIR$/store/modules/pedido/create.js" />
         <option value="$PROJECT_DIR$/store/modules/producto/create.js" />
-        <option value="$PROJECT_DIR$/components/pedido/Create.vue" />
         <option value="$PROJECT_DIR$/components/user/List.vue" />
-        <option value="$PROJECT_DIR$/components/pedido/Update.vue" />
-        <option value="$PROJECT_DIR$/config/_entrypoint.js" />
-        <option value="$PROJECT_DIR$/components/pedido/List.vue" />
+        <option value="$PROJECT_DIR$/utils/fetch.js" />
+        <option value="$PROJECT_DIR$/store/modules/pedido/create.js" />
         <option value="$PROJECT_DIR$/App.vue" />
+        <option value="$PROJECT_DIR$/routes/pedido.js" />
+        <option value="$PROJECT_DIR$/components/pedido/Update.vue" />
+        <option value="$PROJECT_DIR$/components/pedido/List.vue" />
+        <option value="$PROJECT_DIR$/components/producto/List.vue" />
+        <option value="$PROJECT_DIR$/components/pedido/Create.vue" />
+        <option value="$PROJECT_DIR$/config/_entrypoint.js" />
       </list>
     </option>
   </component>
@@ -350,7 +380,7 @@
               <item name="vue-camisetas" type="462c0819:PsiDirectoryNode" />
               <item name="store" type="462c0819:PsiDirectoryNode" />
               <item name="modules" type="462c0819:PsiDirectoryNode" />
-              <item name="producto" type="462c0819:PsiDirectoryNode" />
+              <item name="pedido" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -400,22 +430,22 @@
       <updated>1540929221252</updated>
       <workItem from="1540929222894" duration="25618000" />
       <workItem from="1541086146423" duration="52699000" />
-      <workItem from="1541516740082" duration="64049000" />
+      <workItem from="1541516740082" duration="77473000" />
+      <workItem from="1542028361771" duration="287000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="142366000" />
+    <option name="totallyTimeSpent" value="156077000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24627976" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24627976" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32991454" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -428,6 +458,7 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -442,13 +473,73 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/components/producto/List.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2992">
+          <caret line="178" column="33" lean-forward="true" selection-start-line="178" selection-start-column="33" selection-end-line="178" selection-end-column="33" />
+          <folding>
+            <element signature="n#style#0;n#v-container#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#v-alert#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#template#0;n#v-data-table#0;n#div#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#td#0;n#template#0;n#v-data-table#0;n#div#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#v-flex#0;n#v-layout#0;n#v-card-text#0;n#v-form#0;n#v-card#0;n#v-dialog#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#v-flex#0;n#v-layout#0;n#v-card-text#0;n#v-form#0;n#v-card#0;n#v-dialog#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="e#8167#8199#0" expanded="true" />
+            <element signature="e#10642#11327#0" expanded="false" />
+            <element signature="e#13238#13416#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/components/producto/List-copy.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6375">
+          <caret line="377" column="20" lean-forward="false" selection-start-line="377" selection-start-column="20" selection-end-line="377" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/components/user/List.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="42" column="41" lean-forward="false" selection-start-line="42" selection-start-column="41" selection-end-line="42" selection-end-column="41" />
+          <folding>
+            <element signature="n#style#0;n#v-container#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#v-tooltip#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#v-alert#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#v-dialog#0;n#v-container#0;n#template#0;n#!!top" expanded="false" />
+            <element signature="e#5662#5694#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/store/modules/pedido/list.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="43" column="13" lean-forward="false" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/components/talla/List.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3349">
+          <caret line="210" column="17" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="246" selection-end-column="0" />
+          <folding>
+            <element signature="n#style#0;n#v-container#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#v-tooltip#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#v-alert#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/App.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1598">
           <caret line="95" column="69" lean-forward="false" selection-start-line="95" selection-start-column="69" selection-end-line="95" selection-end-column="69" />
-          <folding>
-            <element signature="n#style#0;n#v-tabs-slider#0;n#v-tabs#0;n#v-toolbar#0;n#v-app#0;n#template#0;n#!!top" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -466,7 +557,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="12" column="33" lean-forward="false" selection-start-line="12" selection-start-column="33" selection-end-line="12" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -486,9 +576,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1207">
           <caret line="82" column="47" lean-forward="false" selection-start-line="82" selection-start-column="47" selection-end-line="82" selection-end-column="47" />
-          <folding>
-            <element signature="e#0#61#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -496,9 +583,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="612">
           <caret line="43" column="13" lean-forward="false" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -523,6 +607,7 @@
             <element signature="n#style#0;n#img#0;n#td#0;n#template#0;n#v-data-table#0;n#div#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#0;n#v-flex#0;n#v-layout#0;n#v-card-text#0;n#v-form#0;n#v-card#0;n#v-dialog#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#0;n#v-flex#0;n#v-layout#0;n#v-card-text#0;n#v-form#0;n#v-card#0;n#v-dialog#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="e#8167#8199#0" expanded="true" />
             <element signature="e#10642#11327#0" expanded="false" />
             <element signature="e#13238#13416#0" expanded="false" />
           </folding>
@@ -533,9 +618,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#style#0;n#v-tabs-slider#0;n#v-tabs#0;n#v-toolbar#0;n#v-app#0;n#template#0;n#!!top" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -550,6 +633,7 @@
             <element signature="n#style#0;n#img#0;n#td#0;n#template#0;n#v-data-table#0;n#div#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#0;n#v-flex#0;n#v-layout#0;n#v-card-text#0;n#v-form#0;n#v-card#0;n#v-dialog#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#0;n#v-flex#0;n#v-layout#0;n#v-card-text#0;n#v-form#0;n#v-card#0;n#v-dialog#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="e#8167#8199#0" expanded="true" />
             <element signature="e#10642#11327#0" expanded="false" />
             <element signature="e#13238#13416#0" expanded="false" />
           </folding>
@@ -572,9 +656,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1394">
           <caret line="82" column="47" lean-forward="false" selection-start-line="82" selection-start-column="47" selection-end-line="82" selection-end-column="47" />
-          <folding>
-            <element signature="e#0#61#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -582,9 +663,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="646">
           <caret line="45" column="23" lean-forward="false" selection-start-line="45" selection-start-column="23" selection-end-line="45" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -602,9 +680,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1207">
           <caret line="82" column="47" lean-forward="false" selection-start-line="82" selection-start-column="47" selection-end-line="82" selection-end-column="47" />
-          <folding>
-            <element signature="e#0#61#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -612,7 +687,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="12" column="33" lean-forward="false" selection-start-line="12" selection-start-column="33" selection-end-line="12" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -620,9 +694,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="43" column="13" lean-forward="false" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#41#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -644,14 +715,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/fetch.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="14" column="38" lean-forward="false" selection-start-line="14" selection-start-column="38" selection-end-line="14" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/store/modules/user/create.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
@@ -666,9 +729,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="151">
           <caret line="45" column="23" lean-forward="false" selection-start-line="45" selection-start-column="23" selection-end-line="45" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -676,7 +736,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
           <caret line="16" column="13" lean-forward="false" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -684,9 +743,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="833">
           <caret line="50" column="8" lean-forward="false" selection-start-line="50" selection-start-column="8" selection-end-line="53" selection-end-column="11" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -694,9 +750,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="168">
           <caret line="124" column="49" lean-forward="false" selection-start-line="124" selection-start-column="49" selection-end-line="124" selection-end-column="49" />
-          <folding>
-            <element signature="e#4#65#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -714,7 +767,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
           <caret line="2" column="30" lean-forward="false" selection-start-line="2" selection-start-column="30" selection-end-line="2" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -722,7 +774,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -738,7 +789,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/components/talla/List.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="67">
+        <state relative-caret-position="3349">
           <caret line="210" column="17" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="246" selection-end-column="0" />
           <folding>
             <element signature="n#style#0;n#v-container#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
@@ -766,51 +817,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/store/modules/pedido/list.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="43" column="13" lean-forward="false" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/components/producto/List.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-61">
-          <caret line="163" column="4" lean-forward="true" selection-start-line="163" selection-start-column="4" selection-end-line="163" selection-end-column="64" />
-          <folding>
-            <element signature="n#style#0;n#v-container#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#v-alert#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#0;n#template#0;n#v-data-table#0;n#div#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#td#0;n#template#0;n#v-data-table#0;n#div#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#v-flex#0;n#v-layout#0;n#v-card-text#0;n#v-form#0;n#v-card#0;n#v-dialog#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#v-flex#0;n#v-layout#0;n#v-card-text#0;n#v-form#0;n#v-card#0;n#v-dialog#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="e#10642#11327#0" expanded="false" />
-            <element signature="e#13238#13416#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/components/producto/List-copy.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="254" column="12" lean-forward="false" selection-start-line="254" selection-start-column="12" selection-end-line="264" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/store/modules/pedido/create.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="47" column="23" lean-forward="false" selection-start-line="47" selection-start-column="23" selection-end-line="47" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#61#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/store/modules/producto/create.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
@@ -823,7 +829,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/components/user/List.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-588">
+        <state relative-caret-position="493">
           <caret line="42" column="41" lean-forward="false" selection-start-line="42" selection-start-column="41" selection-end-line="42" selection-end-column="41" />
           <folding>
             <element signature="n#style#0;n#v-container#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
@@ -835,50 +841,102 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/pedido.js">
+    <entry file="file://$PROJECT_DIR$/store/modules/pedido/update.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="23" lean-forward="false" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="23" />
+        <state relative-caret-position="1020">
+          <caret line="71" column="13" lean-forward="true" selection-start-line="71" selection-start-column="13" selection-end-line="71" selection-end-column="13" />
           <folding>
-            <element signature="e#0#55#0" expanded="true" />
+            <element signature="e#0#61#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/components/pedido/Create.vue">
+    <entry file="file://$PROJECT_DIR$/utils/fetch.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="109">
-          <caret line="101" column="31" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="339" selection-end-column="0" />
+        <state relative-caret-position="374">
+          <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/store/modules/pedido/create.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="41" column="2" lean-forward="false" selection-start-line="41" selection-start-column="2" selection-end-line="41" selection-end-column="2" />
+          <folding>
+            <element signature="e#0#61#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1445">
+          <caret line="85" column="21" lean-forward="false" selection-start-line="85" selection-start-column="21" selection-end-line="85" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/store/modules/pedido/list.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="43" column="13" lean-forward="false" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/components/pedido/List.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3162">
+          <caret line="188" column="29" lean-forward="false" selection-start-line="188" selection-start-column="29" selection-end-line="188" selection-end-column="29" />
           <folding>
             <element signature="n#style#0;n#v-container#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#v-select#0;n#v-flex#0;n#v-layout#0;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#0;n#v-checkbox#0;n#template#1;n#template#1;n#v-select#0;n#v-flex#0;n#v-layout#1;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#v-flex#1;n#v-layout#2;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#label#0;n#v-text-field#0;n#v-flex#1;n#v-layout#2;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#v-list-tile-sub-title#0;n#v-list-tile-content#0;n#v-list-tile#0;n#template#0;n#v-list#0;n#v-flex#1;n#v-layout#3;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#v-text-field#0;n#v-list-tile-sub-title#0;n#v-list-tile-content#0;n#v-list-tile#0;n#template#0;n#v-list#0;n#v-flex#1;n#v-layout#3;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#label#0;n#v-text-field#0;n#v-list-tile-sub-title#0;n#v-list-tile-content#0;n#v-list-tile#0;n#template#0;n#v-list#0;n#v-flex#1;n#v-layout#3;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="e#8337#8369#0" expanded="true" />
-            <element signature="e#10683#11266#0" expanded="false" />
+            <element signature="n#style#0;n#v-alert#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="e#3947#3979#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/components/producto/List.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2992">
+          <caret line="178" column="33" lean-forward="true" selection-start-line="178" selection-start-column="33" selection-end-line="178" selection-end-column="33" />
+          <folding>
+            <element signature="n#style#0;n#v-container#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#v-alert#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#template#0;n#v-data-table#0;n#div#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#td#0;n#template#0;n#v-data-table#0;n#div#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#v-flex#0;n#v-layout#0;n#v-card-text#0;n#v-form#0;n#v-card#0;n#v-dialog#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#v-flex#0;n#v-layout#0;n#v-card-text#0;n#v-form#0;n#v-card#0;n#v-dialog#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="e#8167#8199#0" expanded="true" />
+            <element signature="e#10642#11327#0" expanded="false" />
+            <element signature="e#13238#13416#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/components/producto/List-copy.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6375">
+          <caret line="377" column="20" lean-forward="false" selection-start-line="377" selection-start-column="20" selection-end-line="377" selection-end-column="59" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/components/pedido/Update.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="320" column="40" lean-forward="true" selection-start-line="320" selection-start-column="40" selection-end-line="320" selection-end-column="40" />
+        <state relative-caret-position="3927">
+          <caret line="241" column="14" lean-forward="false" selection-start-line="241" selection-start-column="14" selection-end-line="241" selection-end-column="14" />
           <folding>
             <element signature="n#style#0;n#v-container#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#v-select#0;n#v-flex#0;n#v-layout#0;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="false" />
             <element signature="n#style#0;n#div#0;n#v-checkbox#0;n#template#1;n#template#1;n#v-select#0;n#v-flex#0;n#v-layout#1;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#v-flex#1;n#v-layout#2;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#label#0;n#v-text-field#0;n#v-flex#1;n#v-layout#2;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#v-list-tile-sub-title#0;n#v-list-tile-content#0;n#v-list-tile#0;n#template#0;n#v-list#0;n#v-flex#1;n#v-layout#3;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#v-text-field#0;n#v-list-tile-sub-title#0;n#v-list-tile-content#0;n#v-list-tile#0;n#template#0;n#v-list#0;n#v-flex#1;n#v-layout#3;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#label#0;n#v-text-field#0;n#v-list-tile-sub-title#0;n#v-list-tile-content#0;n#v-list-tile#0;n#template#0;n#v-list#0;n#v-flex#1;n#v-layout#3;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="e#6233#6265#0" expanded="true" />
-            <element signature="e#8579#9162#0" expanded="false" />
+            <element signature="n#style#0;n#v-list-tile-sub-title#0;n#v-list-tile-content#0;n#v-list-tile#0;n#template#0;n#v-list#0;n#v-flex#1;n#v-layout#2;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#v-text-field#0;n#v-list-tile-sub-title#0;n#v-list-tile-content#0;n#v-list-tile#0;n#template#0;n#v-list#0;n#v-flex#1;n#v-layout#2;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#label#0;n#v-text-field#0;n#v-list-tile-sub-title#0;n#v-list-tile-content#0;n#v-list-tile#0;n#template#0;n#v-list#0;n#v-flex#1;n#v-layout#2;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="e#8324#8356#0" expanded="true" />
+            <element signature="e#9908#10491#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -891,32 +949,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/components/pedido/List.vue">
+    <entry file="file://$PROJECT_DIR$/routes/pedido.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="262">
-          <caret line="72" column="61" lean-forward="false" selection-start-line="72" selection-start-column="61" selection-end-line="72" selection-end-column="61" />
+        <state relative-caret-position="85">
+          <caret line="7" column="47" lean-forward="false" selection-start-line="7" selection-start-column="47" selection-end-line="7" selection-end-column="50" />
           <folding>
-            <element signature="n#style#0;n#v-container#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#v-alert#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="e#3878#3910#0" expanded="true" />
+            <element signature="e#0#55#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/App.vue">
+    <entry file="file://$PROJECT_DIR$/components/pedido/Create.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="37" column="45" lean-forward="true" selection-start-line="37" selection-start-column="45" selection-end-line="37" selection-end-column="45" />
+        <state relative-caret-position="17">
+          <caret line="221" column="48" lean-forward="false" selection-start-line="221" selection-start-column="48" selection-end-line="221" selection-end-column="48" />
           <folding>
-            <element signature="n#style#0;n#v-tabs-slider#0;n#v-tabs#0;n#v-toolbar#0;n#v-app#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#v-container#0;n#v-card#0;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#v-select#0;n#v-flex#0;n#v-layout#0;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#0;n#v-checkbox#0;n#template#1;n#template#1;n#v-select#0;n#v-flex#0;n#v-layout#1;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#v-flex#1;n#v-layout#2;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#label#0;n#v-text-field#0;n#v-flex#1;n#v-layout#2;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#v-list-tile-sub-title#0;n#v-list-tile-content#0;n#v-list-tile#0;n#template#0;n#v-list#0;n#v-flex#1;n#v-layout#3;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#v-text-field#0;n#v-list-tile-sub-title#0;n#v-list-tile-content#0;n#v-list-tile#0;n#template#0;n#v-list#0;n#v-flex#1;n#v-layout#3;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#label#0;n#v-text-field#0;n#v-list-tile-sub-title#0;n#v-list-tile-content#0;n#v-list-tile#0;n#template#0;n#v-list#0;n#v-flex#1;n#v-layout#3;n#v-card-text#0;n#v-form#0;n#v-card#1;n#v-container#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="e#8448#8480#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/config/_entrypoint.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+        <state relative-caret-position="17">
+          <caret line="1" column="44" lean-forward="false" selection-start-line="1" selection-start-column="44" selection-end-line="1" selection-end-column="60" />
           <folding />
         </state>
       </provider>

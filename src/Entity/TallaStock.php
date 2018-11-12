@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductoTallaStockRepository")
@@ -23,14 +24,22 @@ class TallaStock
 
     /**
      * @ORM\Column(type="integer", options={"default": 0})
+     * @Groups("read_pedido")
      */
     private $cantidad = 0;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Talla", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Talla")
      * @ORM\JoinColumn(name="talla_id", referencedColumnName="id")
+     * @Groups("read_pedido")
      */
     private $talla;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ProductoPedido", inversedBy="tallas")
+     * @ORM\JoinColumn(name="producto_pedido_id", referencedColumnName="id")
+     */
+    private $producto;
 
     public function __construct(Talla $talla = null)
     {
@@ -84,5 +93,22 @@ class TallaStock
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getProducto()
+    {
+        return $this->producto;
+    }
+
+    /**
+     * @param mixed $producto
+     */
+    public function setProducto($producto): void
+    {
+        $this->producto = $producto;
+    }
+
 
 }

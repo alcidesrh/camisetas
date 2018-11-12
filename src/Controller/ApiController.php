@@ -161,17 +161,19 @@ class ApiController extends AbstractController
             $cont++;
             $productoPedido = new ProductoPedido();
             $productoPedido->setProducto($producto);
-
+            $productoPedido->setPedido($pedido);
+            $entityManager->persist($productoPedido);
             for($i = 0; $i < count($data['stock']); $i++) {
                 $value = $data['stock'][$i];
                 $talla = new TallaStock($entityManager->getRepository('App:Talla')->find($value['id']));
+                $talla->setProducto($productoPedido);
+                $entityManager->persist($talla);
                 if(!is_null($data['productos'][$cont]['stock'][$i]))
                     $talla->setCantidad($data['productos'][$cont]['stock'][$i]['stock'] ?? 0);
                 else
                     $talla->setCantidad($value['stock'] ?? 0);
                 $productoPedido->addTallas($talla);
             }
-            $pedido->addProductos($productoPedido);
         }
         $entityManager->persist($pedido);
         $entityManager->flush();

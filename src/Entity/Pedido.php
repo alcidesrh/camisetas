@@ -23,7 +23,7 @@ class Pedido
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", cascade={"persist"})
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * @Groups("read_pedido")
      */
@@ -31,12 +31,8 @@ class Pedido
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\ProductoPedido", cascade={"persist", "remove"})
-     * @ORM\JoinTable(name="pedido_producto",
-     *      joinColumns={@ORM\JoinColumn(name="pedido_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="producto_pedido_id", referencedColumnName="id", unique=true)}
-     *      )
-     * @Groups("read_pedido")
+     *@ORM\OneToMany(targetEntity="App\Entity\ProductoPedido", mappedBy="pedido", cascade={"persist", "remove"})
+     *@Groups("read_pedido")
      */
     private $productos;
 

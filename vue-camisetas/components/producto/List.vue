@@ -406,7 +406,26 @@
             }
         },
         created() {
-            this.$store.dispatch('producto/list/getItems');
+            this.$store.dispatch('producto/list/getItems').then(() => {console.log(this)
+                // this.$store.dispatch('talla/list/getItems').then(() => {
+                //     let $this = this;
+                //     this.tallas.forEach(item => {
+                //         $this.headers.push({text: item.nombre, value: item.nombre});
+                //         $this.productos.forEach(item2 => {
+                //             if (typeof item2.talla_stock == typeof undefined)
+                //                 item2.talla_stock = [];
+                //
+                //             let talla = item2.tallas.filter(item3 => item3.talla.id == item.id);
+                //             if (talla.length)
+                //                 item2.talla_stock.push(talla[0]);
+                //             else
+                //                 item2.talla_stock.push({talla: item, cantidad: 0});
+                //         });
+                //     });
+                //     this.headers.push({text: '', value: ''});
+                //     this.items = this.productos;
+                // });
+            });
         }
     }
 </script>

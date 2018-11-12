@@ -128,6 +128,7 @@
                                                               class="mx-3" v-for="(talla, index2) in tallas"
                                                               :key="talla.id"
                                                               v-model="productosSelected[index].tallas[index2].stock"
+                                                              v-on:keyup="validNumber2(index, index2, $event)"
                                                 >
                                                     <label slot="label" style="font-size: 14px">{{talla.nombre}}</label>
                                                 </v-text-field>
@@ -170,7 +171,6 @@
                     {text: '', value: ''}
                 ],
                 dialog: false,
-                editedIndex: -1,
                 snackbar: false,
                 snackbarText: '',
                 snackbarColor: 'success',
@@ -182,19 +182,11 @@
             }
         },
         computed: {
-            formTitle() {
-                return this.editedIndex === -1 ? 'Crear Pedido' : 'Editar Pedido'
-            },
             ...mapGetters({
                 deletedItem: 'pedido/del/deleted',
                 errorList: 'pedido/list/error',
-                errorCreate: 'pedido/create/error',
-                errorUpdate: 'pedido/update/updateError',
                 errorDelete: 'pedido/del/error',
-                view: 'pedido/list/view',
-                created: 'pedido/create/created',
                 deleteLoading: 'pedido/del/loading',
-                updateLoading: 'pedido/update/updateLoading',
                 createLoading: 'pedido/create/loading',
                 users: 'user/list/items',
                 productos: 'producto/list/items',
@@ -206,12 +198,6 @@
                 val || this.close()
             },
             errorList(message) {
-                this.error(message);
-            },
-            errorCreate(message) {
-                this.error(message);
-            },
-            errorUpdate(message) {
                 this.error(message);
             },
             errorDelete(message) {
@@ -233,6 +219,17 @@
                     this.stock = array;
                 }
             },
+            validNumber2(index, index2, event) {
+                if ((event.keyCode < 48 || (event.keyCode > 57 && event.keyCode < 96 || event.keyCode > 105)) && (event.keyCode != 8 && event.keyCode != 46 && event.keyCode != 37 && event.keyCode != 39 && event.keyCode != 13)) {
+                    let array = this.productosSelected[index].tallas;
+                    this.productosSelected[index].tallas = [];
+                    array.forEach(function (item, index3) {
+                        if (index2 == index3)
+                            array[index3] = {id: item.id, stock: null};
+                    });
+                    this.productosSelected[index].tallas = array;
+                }
+                },
             getImageUrl(path) {
                 return API_HOST + '/' + path;
             },
@@ -244,12 +241,10 @@
             },
             open() {
                 this.$refs.form.reset();
-                this.editedIndex = -1;
                 this.dialog = true;
             },
             close() {
                 this.dialog = false;
-                this.editedIndex = -1;
                 this.item = {};
             },
             setPedido() {
@@ -263,77 +258,49 @@
 
             },
             save() {
-                ;
                 if (!this.$refs.form.validate()) return;
                 if (!this.productosSelected.length) {
                     this.error('No ha elegido ningún producto');
                     return;
                 }
                 this.setPedido();
-                if (this.editedIndex > -1) {
-                    let editedIndex = this.editedIndex;
-                    this.$store.dispatch('pedido/update/update', {
-                        item: this.items[editedIndex],
-                        values: this.pedido
-                    }).then(
-                        () => {
-                            if (this.flag) {
-                                this.flag = false;
-                                return;
-                            }
-                            Object.assign(this.items[editedIndex], this.pedido);
-                            this.snackbarText = 'Se ha editado';
-                            this.snackbar = true;
-                            this.$store.dispatch('pedido/list/getItems');
-                        });
-                } else {
-                    this.$store.dispatch('pedido/create/create', this.pedido).then(
-                        () => {
-                            if (this.flag) {
-                                this.flag = false;
-                                return;
-                            }
-                            this.snackbarText = 'Se ha creado';
-                            this.snackbar = true;
-                            this.loading = true;
-                            this.$store.dispatch('pedido/list/getItems').then(() => {
-                                this.loading = false;
-                                this.$router.push({name: 'PedidoList'})
-                            })
+                this.$store.dispatch('pedido/create/create', this.pedido).then(
+                    () => {
+                        if (this.flag) {
+                            this.flag = false;
+                            return;
+                        }
+                        this.snackbarText = 'Se ha creado';
+                        this.snackbar = true;
+                        this.loading = true;
+                        this.$store.dispatch('pedido/list/getItems').then(() => {
+                            this.loading = false;
+                            this.$router.push({name: 'PedidoList'})
+                        })
 
-                        });
-                }
+                    });
                 this.close()
             }
         },
         created() {
             this.loading = true;
-            if (this.users.length == 0)
-                this.$store.dispatch('user/list/getItems');
-            else this.loading = false;
-            this.loading = true;
-            if (this.tallas.length == 0){
-                this.$store.dispatch('talla/list/getItems').then(() => {
-                    let $this = this;
-                    this.tallas.forEach((item) => {
-                        $this.stock.push({id: item.id, stock: null});
-                    })
-                    if (this.productos.length == 0){
-                        this.$store.dispatch('producto/list/getItems').then(() => {
-                            this.productos.forEach(item => {
-                                item.tallas = [];
-                                $this.tallas.forEach((item2) => {
-                                    item.tallas.push({id: item2.id, stock: null});
-                                })
-                            });
-                            this.loading = false;
+            this.$store.dispatch('user/list/getItems');
+            this.$store.dispatch('talla/list/getItems').then(() => {
+                let $this = this;
+                this.tallas.forEach((item) => {
+                    $this.stock.push({id: item.id, stock: null});
+                })
+                this.$store.dispatch('producto/list/getItems').then(() => {
+
+                    this.productos.forEach(item => {
+                        item.tallas = [];
+                        $this.tallas.forEach((item2) => {
+                            item.tallas.push({id: item2.id, stock: null});
                         })
-                    }
-                    else
-                        this.loading = false;
+                    });
+                    this.loading = false;
                 });
-            }
-            else this.loading = false;
+            });
         }
     }
 </script>

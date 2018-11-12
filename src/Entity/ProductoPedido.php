@@ -17,25 +17,30 @@ class ProductoPedido
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("read_pedido")
      */
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Producto", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Producto")
      * @ORM\JoinColumn(name="producto_id", referencedColumnName="id")
      * @Groups("read_pedido")
      */
     private $producto;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\TallaStock", orphanRemoval=true, cascade={"persist", "remove"} )
-     * @ORM\JoinTable(name="producto_pedido_talla_stock",
-     *      joinColumns={@ORM\JoinColumn(name="producto_id", referencedColumnName="id", onDelete="CASCADE")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="talla_id", referencedColumnName="id", unique=true)})
-     * @Groups("read_pedido")
+     *@ORM\OneToMany(targetEntity="App\Entity\TallaStock", mappedBy="producto", cascade={"persist", "remove"})
+     *@Groups("read_pedido")
      */
 
     private $tallas;
+
+    /**
+     * Many Features have One Product.
+     * @ORM\ManyToOne(targetEntity="App\Entity\Pedido", inversedBy="productos", cascade={"persist"})
+     * @ORM\JoinColumn(name="pedido_id", referencedColumnName="id")
+     */
+    private $pedido;
 
 
     private $stock;
@@ -103,6 +108,23 @@ class ProductoPedido
     {
         return $this->tallas;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getPedido()
+    {
+        return $this->pedido;
+    }
+
+    /**
+     * @param mixed $pedido
+     */
+    public function setPedido($pedido): void
+    {
+        $this->pedido = $pedido;
+    }
+
 
 
 }
