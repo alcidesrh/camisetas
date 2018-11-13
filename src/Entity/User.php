@@ -37,7 +37,7 @@ class User extends NombreAbstract implements UserInterface, \Serializable, \Json
     private $id;
 
     /**
-    * @ORM\Column(type="string", unique=true)
+    * @ORM\Column(type="string", nullable=true)
     */
      private $apiToken;
 
