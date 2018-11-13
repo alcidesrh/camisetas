@@ -229,7 +229,7 @@
                     });
                     this.productosSelected[index].tallas = array;
                 }
-                },
+            },
             getImageUrl(path) {
                 return API_HOST + '/' + path;
             },

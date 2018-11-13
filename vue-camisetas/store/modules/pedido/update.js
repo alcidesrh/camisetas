@@ -80,11 +80,11 @@ const actions = {
         commit(retrieveError(e.message));
       });
   },
-  update({ commit, state }, { item, values }) {
-    commit(updateError(null));
+  update({ commit, state }, { id, values }) {
+
     commit(updateLoading(true));
 
-    return fetch(item['@id'], {
+    return fetch('/edit-pedido/'+id, {
         method: 'PUT',
         headers: new Headers({'Content-Type': 'application/ld+json'}),
         body: JSON.stringify(values),
@@ -123,7 +123,7 @@ const mutations = {
       state.retrieved = payload.retrieved;
     },
     [PEDIDO_UPDATE_UPDATE_LOADING] (state, payload) {
-      state.updateLoading = payload.loading;
+      state.updateLoading = payload.updateLoading;
     },
     [PEDIDO_UPDATE_UPDATE_ERROR] (state, payload) {
       state.updateError = payload.updateError;

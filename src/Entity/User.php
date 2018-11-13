@@ -37,6 +37,11 @@ class User extends NombreAbstract implements UserInterface, \Serializable, \Json
     private $id;
 
     /**
+    * @ORM\Column(type="string", unique=true)
+    */
+     private $apiToken;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
@@ -91,6 +96,23 @@ class User extends NombreAbstract implements UserInterface, \Serializable, \Json
     {
         return $this->id;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getApiToken()
+    {
+        return $this->apiToken;
+    }
+
+    /**
+     * @param mixed $apiToken
+     */
+    public function setApiToken($apiToken): void
+    {
+        $this->apiToken = $apiToken;
+    }
+
 
     /**
      * @return string

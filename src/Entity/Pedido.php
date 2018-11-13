@@ -31,7 +31,7 @@ class Pedido
 
 
     /**
-     *@ORM\OneToMany(targetEntity="App\Entity\ProductoPedido", mappedBy="pedido", cascade={"persist", "remove"})
+     *@ORM\OneToMany(targetEntity="App\Entity\ProductoPedido", mappedBy="pedido", cascade={"persist", "remove"}, orphanRemoval=true)
      *@Groups("read_pedido")
      */
     private $productos;
@@ -45,6 +45,34 @@ class Pedido
      *
      */
     private $createAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\DateTime
+     *
+     */
+    private $lastUpdate;
+
+    /**
+     *
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $active;
+
+    /**
+     *
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $close;
+
+    /**
+     *
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $edited;
+
 
     /**
      * @Groups("read_pedido")
@@ -108,6 +136,10 @@ class Pedido
         }
     }
 
+    public function removeProduct(ProductoPedido $productoPedido){
+        unset($this->productos[$this->productos->indexOf($productoPedido)]);
+    }
+
     public function removeProducto($producto)
     {
         $this->productos->removeElement($producto);
@@ -135,6 +167,72 @@ class Pedido
     {
         $this->createAt = $createAt;
     }
+
+    /**
+     * @return \DateTime
+     */
+    public function getLastUpdate(): \DateTime
+    {
+        return $this->lastUpdate;
+    }
+
+    /**
+     * @param \DateTime $lastUpdate
+     */
+    public function setLastUpdate(\DateTime $lastUpdate): void
+    {
+        $this->lastUpdate = $lastUpdate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param mixed $active
+     */
+    public function setActive($active): void
+    {
+        $this->active = $active;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getClose()
+    {
+        return $this->close;
+    }
+
+    /**
+     * @param mixed $close
+     */
+    public function setClose($close): void
+    {
+        $this->close = $close;
+        $this->active = $close;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEdited()
+    {
+        return $this->edited;
+    }
+
+    /**
+     * @param mixed $edited
+     */
+    public function setEdited($edited): void
+    {
+        $this->edited = $edited;
+    }
+
 
 
 

@@ -11,7 +11,7 @@
         </v-snackbar>
         <v-card>
             <v-container style="position: fixed; z-index: 2001" fill-height justify-center
-                         v-show="loading">
+                         v-show="loading || updateLoading">
                 <v-progress-circular indeterminate :size="70" :width="3" color="success"></v-progress-circular>
             </v-container>
         </v-card>
@@ -24,29 +24,9 @@
             </v-card-title>
             <v-form v-model="valid" ref="form" lazy-validation v-on:submit.prevent="save" class="ml-3">
                 <v-card-text>
-                    <v-layout row wrap>
-                        <v-flex md4>
-                            <v-select
-                                    v-model="pedido.user"
-                                    :items="users"
-                                    :rules="fieldRule"
-                                    item-value="id"
-                                    label="Sleccionar usuario"
-                                    prepend-icon="person"
-                                    required
-                            >
-                                <template slot="selection" slot-scope="data">
-                                    <label>{{ data.item.nombre}} {{ data.item.apellidos }}</label>
-                                </template>
-                                <template slot="item" slot-scope="data">
-                                    <template v-if="typeof data.item !== 'object'">
-                                        No hay datos disponibles
-                                    </template>
-                                    <template v-else>
-                                        <label>{{ data.item.nombre}} {{ data.item.apellidos }}</label>
-                                    </template>
-                                </template>
-                            </v-select>
+                    <v-layout row wrap v-if="retrieved && retrieved.user" class="my-4">
+                        <v-flex xs12>
+                            <strong>Usuario:</strong> {{this.retrieved.user.fullName}}
                         </v-flex>
                     </v-layout>
                     <v-layout row wrap>
@@ -72,7 +52,9 @@
                                         No hay datos disponibles
                                     </template>
                                     <template v-else>
-                                        <v-checkbox>
+                                        <v-checkbox
+                                                :value="productosSelected[productosSelected.indexOf(data.item)]"
+                                        >
                                             <div slot="label"
                                                  style="display: flex;align-items: center; justify-content: center">
                                                 <div class="d-inline ml-2">{{data.item.nombre}}</div>
@@ -87,19 +69,19 @@
                             </v-select>
                         </v-flex>
                     </v-layout>
-                    <!--<v-layout row wrap class="mt-3" v-if="tallas.length">-->
-                    <!--<v-flex xs12>-->
-                    <!--Asignar cantidad por talla para todos los productos:-->
-                    <!--</v-flex>-->
-                    <!--<v-flex style="max-width: 50px" class="mx-3" v-for="(item, index) in tallas" :key="item.id">-->
-                    <!--<v-text-field-->
-                    <!--v-model="stock[index].stock"-->
-                    <!--v-on:keyup="validNumber(index, $event)"-->
-                    <!--&gt;-->
-                    <!--<label slot="label" style="font-size: 14px">{{item.nombre}}</label>-->
-                    <!--</v-text-field>-->
-                    <!--</v-flex>-->
-                    <!--</v-layout>-->
+                    <v-layout row wrap class="mt-3" v-if="stock.length">
+                        <v-flex xs12>
+                            Asignar cantidad por talla para todos los productos:
+                        </v-flex>
+                        <v-flex style="max-width: 50px" class="mx-3" v-for="(item, index) in tallas" :key="item.id">
+                            <v-text-field
+                                    v-model="stock[index].stock"
+                                    v-on:keyup="validNumber(index, $event)"
+                            >
+                                <label slot="label" style="font-size: 14px">{{item.nombre}}</label>
+                            </v-text-field>
+                        </v-flex>
+                    </v-layout>
                     <v-layout row wrap class="mt-3" v-if="productosSelected.length">
                         <v-flex lg12>
                             Asignar cantidad por talla por producto:
@@ -128,6 +110,7 @@
                                                               class="mx-3" v-for="(talla, index2) in tallas"
                                                               :key="talla.id"
                                                               v-model="productosSelected[index].tallas[index2].stock"
+                                                              v-on:keyup="validNumber2(index, index2, $event)"
                                                 >
                                                     <label slot="label" style="font-size: 14px">{{talla.nombre}}</label>
                                                 </v-text-field>
@@ -185,7 +168,6 @@
                 errorUpdate: 'pedido/update/updateError',
                 retrieved: 'pedido/update/retrieved',
                 updateLoading: 'pedido/update/updateLoading',
-                users: 'user/list/items',
                 productos: 'producto/list/items',
                 tallas: 'talla/list/items'
             })
@@ -213,6 +195,17 @@
                     this.stock = array;
                 }
             },
+            validNumber2(index, index2, event) {
+                if ((event.keyCode < 48 || (event.keyCode > 57 && event.keyCode < 96 || event.keyCode > 105)) && (event.keyCode != 8 && event.keyCode != 46 && event.keyCode != 37 && event.keyCode != 39 && event.keyCode != 13)) {
+                    let array = this.productosSelected[index].tallas;
+                    this.productosSelected[index].tallas = [];
+                    array.forEach(function (item, index3) {
+                        if (index2 == index3)
+                            array[index3] = {id: item.id, stock: null};
+                    });
+                    this.productosSelected[index].tallas = array;
+                }
+            },
             getImageUrl(path) {
                 return API_HOST + '/' + path;
             },
@@ -234,7 +227,10 @@
                 this.pedido.productos = [];
                 let $this = this;
                 this.productosSelected.forEach(item => {
-                    $this.pedido.productos.push({id: item.id, stock: item.tallas});
+                    let producto = {id: item.id, stock: item.tallas};
+                    if (typeof item.producto_pedido != typeof undefined)
+                        producto.producto_pedido = item.producto_pedido;
+                    $this.pedido.productos.push(producto);
                 });
                 this.pedido.stock = this.stock
 
@@ -247,14 +243,16 @@
                     return;
                 }
                 this.setPedido();
-                console.log(this.pedido);return;
-                this.$store.dispatch('pedido/create/create', this.pedido).then(
+                this.$store.dispatch('pedido/update/update', {
+                    id: this.pedido.id,
+                    values: this.pedido
+                }).then(
                     () => {
                         if (this.flag) {
                             this.flag = false;
                             return;
                         }
-                        this.snackbarText = 'Se ha creado';
+                        this.snackbarText = 'Se ha editado';
                         this.snackbar = true;
                         this.loading = true;
                         this.$store.dispatch('pedido/list/getItems').then(() => {
@@ -267,13 +265,26 @@
             },
             getItem() {
                 this.$store.dispatch('pedido/update/retrieve', '/pedidos/' + decodeURIComponent(this.$route.params.id)).then(() => {
-                    this.pedido.user = this.retrieved.user.id;
+                    this.pedido.id = this.retrieved.id;
                     let productos = [], $this = this;
+
+                    this.tallas.forEach((item) => {
+                        $this.stock.push({id: item.id, stock: null});
+                    })
+
+                    this.productos.forEach(item => {
+                        item.tallas = [];
+                        $this.tallas.forEach((item2) => {
+                            item.tallas.push({id: item2.id, stock: null});
+                        })
+                    });
+
                     this.retrieved.productos.forEach(item => {
                         let result = $this.productos.filter(item2 => item2.id == item.producto.id);
                         result[0].tallas.forEach((talla, index) => {
                             talla.stock = item.tallas[index].cantidad;
-                        })
+                        });
+                        result[0].producto_pedido = item.id;
                         productos.push(result[0]);
                     });
                     this.productosSelected = productos;
@@ -283,38 +294,11 @@
         },
         created() {
             this.loading = true;
-            if (this.users.length == 0)
-                this.$store.dispatch('user/list/getItems');
-
-            if (this.tallas.length == 0){
-                this.$store.dispatch('talla/list/getItems').then(() => {
-                    let $this = this;
-                    this.tallas.forEach((item) => {
-                        $this.stock.push({id: item.id, stock: null});
-                    })
-            if (this.productos.length == 0) {
+            this.$store.dispatch('talla/list/getItems').then(() => {
                 this.$store.dispatch('producto/list/getItems').then(() => {
-                    this.productos.forEach(item => {
-                        item.tallas = [];
-                        $this.tallas.forEach((item2) => {
-                            item.tallas.push({id: item2.id, stock: null});
-                        })
-                    });
                     this.getItem();
                 })
-            }
-            else {
-                this.getItem();
-            }
-
-                });
-            }
-            else{
-                this.loading = true;
-                this.getItem();
-
-            }
-
+            });
         }
     }
 </script>

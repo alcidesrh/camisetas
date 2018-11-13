@@ -240,9 +240,7 @@
         },
         created() {
             if (this.items.length == 0) {
-                this.$store.dispatch('pedido/list/getItems').then(() => {
-
-                });
+                this.$store.dispatch('pedido/list/getItems');
             }
         }
     }

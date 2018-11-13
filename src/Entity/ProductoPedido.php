@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -10,6 +11,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity()
  * @ORM\Entity(repositoryClass="App\Repository\ProductoPedidoRepository")
+ * @ApiResource()
  */
 class ProductoPedido
 {
@@ -107,6 +109,10 @@ class ProductoPedido
     public function getTallas( )
     {
         return $this->tallas;
+    }
+    public function getTalla($index)
+    {
+        return $this->tallas->get($index);
     }
 
     /**

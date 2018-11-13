@@ -386,7 +386,7 @@
                 }
                 data.append('producto', JSON.stringify(producto));
                 this.updateLoading = true;
-                axios.post(API_HOST + API_PATH + '/guardar-producto', data).then(function (response) {
+                axios.post(API_HOST + API_PATH + '/save-producto', data).then(function (response) {
                     $this.updateLoading = false;
                     // $this.cleanProduct();
                     if ($this.flag) {
