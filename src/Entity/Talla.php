@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Entity\AbstractClasses\NombreAbstract;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -26,7 +25,7 @@ class Talla
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
-     *  @Groups("read_pedido")
+     * @Groups("read_pedido")
      */
 
     private $nombre;
@@ -48,6 +47,6 @@ class Talla
     {
         return $this->nombre;
     }
-    
+
 
 }
