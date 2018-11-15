@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\ProductoRepository")
  */
-class Producto
+class Producto implements \JsonSerializable
 {
     /**
      * @ORM\Id()
@@ -74,22 +74,9 @@ class Producto
         return $this;
     }
 
-//    public function addTallas( Talla ...$tallas ): void
-//    {
-//        foreach ( $tallas as $talla ) {
-//            if ( !$this->tallas->contains( $talla ) ) {
-//                $this->tallas->add( $talla );
-//            }
-//        }
-//    }
-//
-//    public function removeTallas($talla)
-//    {
-//        $this->tallas->removeElement($talla);
-//    }
-//
-//    public function getTallas( )
-//    {
-//        return $this->tallas;
-//    }
+
+    public function jsonSerialize(): array
+    {
+        return [ 'id' => $this->id, 'nombre' => $this->nombre, 'imagen' => $this->getImagen()->getPath() ];
+    }
 }

@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass="App\Repository\ProductoTallaStockRepository")
  * @ApiResource()
  */
-class TallaStock
+class TallaStock implements \JsonSerializable
 {
     /**
      * @ORM\Id()
@@ -112,5 +112,8 @@ class TallaStock
         $this->producto = $producto;
     }
 
-
+    public function jsonSerialize(): array
+    {
+        return [ 'id' => $this->id, 'talla' => $this->talla->getNombre(), 'stock' => $this->cantidad ];
+    }
 }

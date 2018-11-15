@@ -8,12 +8,15 @@ homepage:
     defaults:
         template: homepage.html.twig
 
+#api_login_check:
+#    path: /login_check
+
 reload:
     path: /{any}
-    controller: App\Controller\SecurityController::reloadAction
+    controller: App\Controller\Security\SecurityController::reloadAction
 reload_level_1:
     path: /{any}/create
-    controller: App\Controller\SecurityController::reloadAction
+    controller: App\Controller\Security\SecurityController::reloadAction
 reload_level_2:
     path: /{any}/edit/{id}
-    controller: App\Controller\SecurityController::reloadAction
+    controller: App\Controller\Security\SecurityController::reloadAction

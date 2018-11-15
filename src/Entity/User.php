@@ -13,6 +13,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\AbstractClasses\NombreAbstract;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -36,9 +37,9 @@ class User extends NombreAbstract implements UserInterface, \Serializable, \Json
      */
     private $id;
 
-    /**
-    * @ORM\Column(type="string", nullable=true)
-    */
+//    /**
+//    * @ORM\Column(type="string", nullable=true)
+//    */
      private $apiToken;
 
     /**
@@ -82,6 +83,17 @@ class User extends NombreAbstract implements UserInterface, \Serializable, \Json
      * @ORM\Column(type="array")
      */
     private $roles = [];
+
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Pedido", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $pedidos;
+
+    public function __construct()
+    {
+        $this->pedidos = new ArrayCollection();
+    }
 
     /**
      * @Groups("read_pedido")

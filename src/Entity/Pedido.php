@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource( attributes={"order"={"createAt": "DESC"}}, normalizationContext={"groups"={"read_pedido"}})
  * @ORM\Entity(repositoryClass="App\Repository\PedidoRepository")
  */
-class Pedido
+class Pedido implements \JsonSerializable
 {
     /**
      * @ORM\Id()
@@ -23,7 +23,7 @@ class Pedido
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="pedidos", cascade={"persist"})
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * @Groups("read_pedido")
      */
@@ -233,7 +233,9 @@ class Pedido
         $this->edited = $edited;
     }
 
-
-
+    public function jsonSerialize(): array
+    {
+        return [ 'id' => $this->id, 'productos' => $this->productos->toArray() ];
+    }
 
 }
