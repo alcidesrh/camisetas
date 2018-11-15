@@ -22,19 +22,18 @@ class PedidoRepository extends ServiceEntityRepository
 //    /**
 //     * @return Pedido[] Returns an array of Pedido objects
 //     */
-    /*
-    public function findByExampleField($value)
+
+    public function checkPedidos($user)
     {
-        return $this->createQueryBuilder('v')
-            ->andWhere('v.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('v.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.user = :user')
+            ->andWhere('p.active IS NULL OR p.edited != 0')
+            ->setParameter('user', $user)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Pedido

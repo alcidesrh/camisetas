@@ -71,7 +71,7 @@ class Pedido implements \JsonSerializable
      *
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $edited;
+    private $edited = 0;
 
 
     /**

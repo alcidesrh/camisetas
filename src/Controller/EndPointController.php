@@ -33,9 +33,10 @@ class EndPointController extends AbstractController
      */
     public function checkFeria(EntityManagerInterface $entityManager)
     {
-        if($pedidos = $entityManager->getRepository('App:Pedido')->findBy(['user' => $this->getUser(), 'active' => null])){
+        if($pedidos = $entityManager->getRepository('App:Pedido')->checkPedidos($this->getUser())){
             foreach ($pedidos as $pedido){
                 $pedido->setActive(true);
+                $pedido->setEdited(false);
                 $entityManager->persist($pedido);
             }
             $entityManager->flush();
