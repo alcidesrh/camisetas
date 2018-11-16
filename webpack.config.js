@@ -17,6 +17,7 @@ Encore
      * and one CSS file (e.g. app.css) if you JavaScript imports CSS.
      */
     .addEntry('app', './vue-camisetas/main.js')
+    .addEntry('login', './vue-camisetas/login.js')
     .enableVueLoader()
     .enableStylusLoader()
     //.addEntry('page1', './assets/js/page1.js')

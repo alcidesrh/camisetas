@@ -1,6 +1,8 @@
 {
-  "build/app.js": "/build/app.73cf58d7.js",
+  "build/app.js": "/build/app.d6bc2f6e.js",
   "build/app.css": "/build/app.54fc4280.css",
+  "build/login.js": "/build/login.0a266cd2.js",
+  "build/login.css": "/build/login.54fc4280.css",
   "build/fonts/MaterialIcons-Regular.eot": "/build/fonts/MaterialIcons-Regular.016c14ad.eot",
   "build/fonts/MaterialIcons-Regular.woff": "/build/fonts/MaterialIcons-Regular.c38ebd3c.woff",
   "build/fonts/MaterialIcons-Regular.woff2": "/build/fonts/MaterialIcons-Regular.8a9a261c.woff2",
