@@ -66,7 +66,6 @@ security:
                         # The name of the route to redirect to after logging out
                  target: app_login
 
-
     access_control:
         # this is a catch-all for the admin area
         # additional security lives in the controllers IS_AUTHENTICATED_FULLY
