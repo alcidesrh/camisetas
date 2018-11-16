@@ -55,6 +55,10 @@ DirectoryIndex index.php
 
     # Rewrite all other queries to the front controller.
     RewriteRule ^ %{ENV:BASE}/index.php [L]
+
+    # Added a rewrite to respond with a 200 SUCCESS on every OPTIONS request
+    RewriteCond %{REQUEST_METHOD} OPTIONS
+    RewriteRule ^(.*)$ $1 [R=200,L]
 </IfModule>
 
 <IfModule !mod_rewrite.c>
