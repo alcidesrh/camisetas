@@ -81,6 +81,7 @@ class User extends NombreAbstract implements UserInterface, \Serializable, \Json
      * @var array
      *
      * @ORM\Column(type="array")
+     * @Groups({"read"})
      */
     private $roles = [];
 

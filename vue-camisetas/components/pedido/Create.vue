@@ -183,10 +183,8 @@
         },
         computed: {
             ...mapGetters({
-                deletedItem: 'pedido/del/deleted',
                 errorList: 'pedido/list/error',
-                errorDelete: 'pedido/del/error',
-                deleteLoading: 'pedido/del/loading',
+                errorCreate: 'pedido/create/error',
                 createLoading: 'pedido/create/loading',
                 users: 'user/list/items',
                 productos: 'producto/list/items',
@@ -200,7 +198,7 @@
             errorList(message) {
                 this.error(message);
             },
-            errorDelete(message) {
+            errorCreate(message) {
                 this.error(message);
             },
             snackbar(val) {

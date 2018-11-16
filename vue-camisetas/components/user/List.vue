@@ -61,6 +61,7 @@
                         <td>{{ props.item.nombre }}</td>
                         <td>{{ props.item.apellidos }}</td>
                         <td>{{ props.item.username }}</td>
+                        <td>{{ props.item.roles[0] == 'ROLE_USER'?'Trabajador':'Administrador' }}</td>
                         <td class="justify-center layout px-0">
                             <v-btn icon class="mx-0" @click="editItem(props.item)">
                                 <v-icon color="teal">edit</v-icon>
@@ -115,6 +116,7 @@
                                       :rules="fieldRule"
                                       required
                         ></v-text-field>
+                        <v-checkbox label="Administrador" v-model="isAdmin"></v-checkbox>
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
@@ -139,10 +141,12 @@
                     {text: 'Nombre', value: 'nombre'},
                     {text: 'Apellidos', value: 'apellidos'},
                     {text: 'Usuario', value: 'usuario'},
+                    {text: 'Role', value: 'roles'},
                     {text: '', value: ''}
                 ],
                 dialog: false,
                 editedIndex: -1,
+                isAdmin: false,
                 snackbar: false,
                 snackbarText: '',
                 snackbarColor: 'success',
@@ -206,8 +210,10 @@
                 this.dialog = true;
             },
             editItem(item) {
-                this.open()
+                this.open();
                 this.item = Object.assign({}, item)
+                if(this.item.roles[0] == 'ROLE_ADMIN')
+                    this.isAdmin = true;
                 this.editedIndex = this.items.indexOf(item);
             },
             deleteItem(item) {
@@ -236,6 +242,7 @@
                 if (!this.$refs.form.validate()) return;
                 let itemAux = {};
                 Object.assign(itemAux, this.item);
+                itemAux.roles = this.isAdmin?['ROLE_ADMIN']:['ROLE_USER']
                 if (this.editedIndex > -1) {
                     let editedIndex = this.editedIndex;
                     itemAux.id = this.items[editedIndex].id;
@@ -295,7 +302,9 @@
         },
         created() {
             if (this.items.length == 0) {
-                this.$store.dispatch('user/list/getItems');
+                this.$store.dispatch('user/list/getItems').then(() => {
+                    console.log(this.items);
+                })
             }
         }
     }

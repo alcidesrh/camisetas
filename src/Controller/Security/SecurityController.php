@@ -16,6 +16,9 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils, Request $request): Response
     {
+        if($user = $this->getUser() && !$this->isGranted('ROLE_ADMIN')){
+            return $this->redirect($this->generateUrl('security_logout'));
+        }
         return $this->render('security/login.html.twig', [
             // last username entered by the user (if any)
             'last_username' => $authenticationUtils->getLastUsername(),

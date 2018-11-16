@@ -53,6 +53,12 @@
                         </v-list>
                     </v-menu>
                 </v-tab>
+                <v-tab id="close" flat>
+                    <a href="logout" class="v-tabs__item">
+                        <v-icon class="mr-1">group</v-icon>
+                        Cerrar Sesión
+                    </a>
+                </v-tab>
             </v-tabs>
         </v-toolbar>
         <v-content>
@@ -102,7 +108,9 @@
                 }
                 else
                     document.getElementById('usuarios').firstChild.click();
+//----------------------------------------------------------
 
+//---------------------------------------------------------------------------
             })
         }
     }

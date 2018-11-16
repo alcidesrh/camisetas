@@ -24,7 +24,7 @@
             </v-card-title>
             <v-form v-model="valid" ref="form" lazy-validation v-on:submit.prevent="save" class="ml-3">
                 <v-card-text>
-                    <v-layout row wrap v-if="retrieved && retrieved.user" class="my-4">
+                    <v-layout row wrap v-show="!loading && retrieved && retrieved.user" class="my-4">
                         <v-flex xs12>
                             <strong>Usuario:</strong> {{this.retrieved.user.fullName}}
                         </v-flex>

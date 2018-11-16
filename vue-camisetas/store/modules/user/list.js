@@ -41,7 +41,7 @@ const actions = {
     getItems({ commit }, page = '/users') {
       commit(loading(true));
 
-      fetch(page)
+      return fetch(page)
         .then(response => response.json())
         .then(data => {
           commit(loading(false));
