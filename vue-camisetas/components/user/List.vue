@@ -97,8 +97,6 @@
                         <v-text-field
                                 label="Apellidos"
                                 v-model="item.apellidos"
-                                :rules="fieldRule"
-                                required
                         ></v-text-field>
                         <v-text-field
                                 label="Usuario"
@@ -242,7 +240,9 @@
                 if (!this.$refs.form.validate()) return;
                 let itemAux = {};
                 Object.assign(itemAux, this.item);
-                itemAux.roles = this.isAdmin?['ROLE_ADMIN']:['ROLE_USER']
+                itemAux.roles = this.isAdmin?['ROLE_ADMIN']:['ROLE_USER'];
+                if(typeof itemAux.apellidos == typeof undefined)
+                    itemAux.apellidos = "";
                 if (this.editedIndex > -1) {
                     let editedIndex = this.editedIndex;
                     itemAux.id = this.items[editedIndex].id;
@@ -302,9 +302,7 @@
         },
         created() {
             if (this.items.length == 0) {
-                this.$store.dispatch('user/list/getItems').then(() => {
-                    console.log(this.items);
-                })
+                this.$store.dispatch('user/list/getItems')
             }
         }
     }
