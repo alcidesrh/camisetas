@@ -17,7 +17,7 @@ security:
 
     role_hierarchy:
             ROLE_ADMIN:       ROLE_USER
-            
+
     firewalls:
         login_api:
             pattern:  ^/endpoint/login
