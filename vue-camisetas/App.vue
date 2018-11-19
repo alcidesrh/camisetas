@@ -22,7 +22,7 @@
                     Usuarios
                 </v-tab>
                 <v-tab id="pedidos" flat  @click="$router.push({name: 'PedidoList'})">
-                    <v-icon class="mr-1">group</v-icon>
+                    <v-icon class="mr-1">shopping_basket</v-icon>
                     Ventas
                 </v-tab>
                 <v-tab id="gestion_producto">
@@ -55,7 +55,7 @@
                 </v-tab>
                 <v-tab id="close" flat>
                     <a href="logout" class="v-tabs__item">
-                        <v-icon class="mr-1">group</v-icon>
+                        <v-icon class="mr-1">highlight_off</v-icon>
                         Cerrar Sesión
                     </a>
                 </v-tab>
