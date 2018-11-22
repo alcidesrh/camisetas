@@ -22,7 +22,7 @@
                     <v-icon>close</v-icon>
                 </v-btn>
             </v-card-title>
-            <v-form v-model="valid" ref="form" lazy-validation v-on:submit.prevent="save" class="ml-3">
+            <v-form v-model="valid" ref="form" lazy-validation v-on:submit.prevent="save" class="ml-3" v-if="retrieved">
                 <v-card-text>
                     <v-layout row wrap v-if="!loading && retrieved" class="my-4">
                         <v-flex xs12>
