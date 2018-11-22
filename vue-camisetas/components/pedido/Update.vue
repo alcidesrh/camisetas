@@ -18,15 +18,15 @@
         <v-card>
             <v-card-title>
                 <span class="headline">Editar Pedido</span>
-                <v-btn icon flat @click.native="$router.push({name: 'PedidoList'})" class="modal-btn-close">
+                <v-btn icon flat @click.native="closeUpdate" class="modal-btn-close">
                     <v-icon>close</v-icon>
                 </v-btn>
             </v-card-title>
             <v-form v-model="valid" ref="form" lazy-validation v-on:submit.prevent="save" class="ml-3">
                 <v-card-text>
-                    <v-layout row wrap v-show="!loading && retrieved && retrieved.user" class="my-4">
+                    <v-layout row wrap v-if="!loading && retrieved" class="my-4">
                         <v-flex xs12>
-                            <strong>Usuario:</strong> {{this.retrieved.user.fullName}}
+                            <strong>Usuario:</strong> {{retrieved.user.fullName}}
                         </v-flex>
                     </v-layout>
                     <v-layout row wrap>
@@ -53,7 +53,7 @@
                                     </template>
                                     <template v-else>
                                         <v-checkbox
-                                                :value="productosSelected[productosSelected.indexOf(data.item)]"
+                                                v-model="productosCheckBox[productos.indexOf(data.item)]"
                                         >
                                             <div slot="label"
                                                  style="display: flex;align-items: center; justify-content: center">
@@ -124,7 +124,7 @@
                     </v-layout>
                     <div class="text-xs-center mt-5 mb2">
                         <v-spacer></v-spacer>
-                        <v-btn color="primary darken-1" flat @click.native="$router.push({name: 'PedidoList'})">
+                        <v-btn color="primary darken-1" flat @click.native="closeUpdate">
                             Cancelar
                         </v-btn>
                         <v-btn color="primary darken-1" flat type="submit">Guardar</v-btn>
@@ -144,7 +144,9 @@
             return {
                 pedido: {user: false, productos: [], stock: []},
                 productosSelected: [],
+                productosCheckBox: [],
                 stock: [],
+                fromUser: false,
                 loading: false,
                 valid: true,
                 search: '',
@@ -184,6 +186,12 @@
             }
         },
         methods: {
+            closeUpdate() {
+                if (this.fromUser)
+                    this.$router.push({name: 'ListPedido', params: {id: this.fromUser}})
+                else
+                    this.$router.push({name: 'PedidoList'})
+            },
             validNumber(index, event) {
                 if ((event.keyCode < 48 || (event.keyCode > 57 && event.keyCode < 96 || event.keyCode > 105)) && (event.keyCode != 8 && event.keyCode != 46 && event.keyCode != 37 && event.keyCode != 39 && event.keyCode != 13)) {
                     let array = this.stock;
@@ -257,7 +265,7 @@
                         this.loading = true;
                         this.$store.dispatch('pedido/list/getItems').then(() => {
                             this.loading = false;
-                            this.$router.push({name: 'PedidoList'})
+                            this.closeUpdate()
                         })
 
                     });
@@ -277,10 +285,12 @@
                         $this.tallas.forEach((item2) => {
                             item.tallas.push({id: item2.id, stock: null});
                         })
+                        $this.productosCheckBox.push(false);
                     });
 
                     this.retrieved.productos.forEach(item => {
                         let result = $this.productos.filter(item2 => item2.id == item.producto.id);
+                        $this.productosCheckBox[$this.productos.indexOf(result[0])] = true
                         result[0].tallas.forEach((talla, index) => {
                             talla.stock = item.tallas[index].cantidad;
                         });
@@ -294,6 +304,9 @@
         },
         created() {
             this.loading = true;
+
+            if (typeof this.$route.params.fromUser != typeof undefined )
+                this.fromUser = decodeURIComponent(this.$route.params.fromUser);
             this.$store.dispatch('talla/list/getItems').then(() => {
                 this.$store.dispatch('producto/list/getItems').then(() => {
                     this.getItem();

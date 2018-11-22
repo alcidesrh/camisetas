@@ -239,4 +239,16 @@ class ApiController extends AbstractController
         $entityManager->flush();
         return new JsonResponse(['save']);
     }
+
+    /**
+     * @Route("/pedidos-user/{id}", name="pedidos_user")
+     *
+     */
+    public function userPedidos(User $user, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $result = [];
+        foreach ($entityManager->getRepository('App:Pedido')->findBy(['user' => $user], ['createAt' => 'DESC']) as $value)
+            $result[] = $value->userPedido();
+        return new JsonResponse($result);
+    }
 }

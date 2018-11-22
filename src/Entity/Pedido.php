@@ -233,6 +233,11 @@ class Pedido implements \JsonSerializable
         $this->edited = $edited;
     }
 
+    public function userPedido(): array
+    {
+        return [ 'id' => $this->id, 'productos' => $this->productos->toArray(), 'createAt' => $this->createAt, 'stock' => $this->getStock(), 'venta' => $this->getVenta() ];
+    }
+
     public function jsonSerialize(): array
     {
         return [ 'id' => $this->id, 'productos' => $this->productos->toArray() ];

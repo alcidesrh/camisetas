@@ -33,8 +33,8 @@
             </v-alert>
             <div v-show="items.length != 0">
                 <v-card-title>
-                    <v-flex headline>
-                        Pedidos
+                    <v-flex headline v-if="user">
+                        Pedidos de {{user.nombre + ' ' + user.apellidos}}
                     </v-flex>
                     <v-spacer></v-spacer>
                     <v-spacer></v-spacer>
@@ -59,10 +59,9 @@
                 >
                     <template slot="items" slot-scope="props">
                         <td>{{ formatDate(props.item.createAt) }}</td>
-                        <td>{{ props.item.user.fullName }}</td>
                         <td>
                             <v-chip v-for="producto in props.item.productos" :key="producto.id">
-                                <img height="35" v-bind:src="getImageUrl(producto.producto.imagen.path)"
+                                <img height="35" v-bind:src="getImageUrl(producto.producto.imagen)"
                                      class="py-1"/>
                                 <label class="pl-2 d-inline">{{ producto.producto.nombre }}</label>
                             </v-chip>
@@ -70,7 +69,8 @@
                         <td>{{ props.item.stock }}</td>
                         <td>{{ props.item.venta }}</td>
                         <td class="justify-center layout px-0">
-                            <v-btn icon class="mx-0" @click="$router.push({name: 'PedidoUpdate', params: {id: props.item['id']} })">
+                            <v-btn icon class="mx-0"
+                                   @click="$router.push({name: 'PedidoUpdate', params: {id: props.item['id'], fromUser: user.id} })">
                                 <v-icon color="teal">edit</v-icon>
                             </v-btn>
                             <v-btn icon class="mx-0" @click="deleteItem(props.item)">
@@ -95,11 +95,12 @@
         data() {
             return {
                 pedido: {user: false, productos: [], stock: []},
+                items: [],
+                loading: false,
                 valid: true,
                 search: '',
                 headers: [
                     {text: 'Creado', value: 'createAt'},
-                    {text: 'Usuario', value: 'user.fullName'},
                     {text: 'Productos', value: 'producto.nombre'},
                     {text: 'Stock', value: 'stock'},
                     {text: 'Vendido', value: 'venta'},
@@ -127,14 +128,14 @@
                 errorCreate: 'pedido/create/error',
                 errorUpdate: 'pedido/update/updateError',
                 errorDelete: 'pedido/del/error',
-                items: 'pedido/list/items',
-                loading: 'pedido/list/loading',
+                // items: 'pedido/list/items',
+                // loading: 'pedido/list/loading',
                 view: 'pedido/list/view',
                 created: 'pedido/create/created',
                 deleteLoading: 'pedido/del/loading',
                 updateLoading: 'pedido/update/updateLoading',
                 createLoading: 'pedido/create/loading',
-                users: 'user/list/items',
+                user: 'user/update/retrieved',
                 productos: 'producto/list/items',
                 tallas: 'talla/list/items'
             })
@@ -160,7 +161,7 @@
             }
         },
         methods: {
-            formatDate(date){
+            formatDate(date) {
                 return moment(date.date).format('DD/MM/YYYY');
             },
             getImageUrl(path) {
@@ -198,9 +199,10 @@
                 this.editedIndex = -1;
                 this.item = {};
             },
-            save() {;
+            save() {
+                ;
                 if (!this.$refs.form.validate()) return;
-                if(!this.pedido.productos.length){
+                if (!this.pedido.productos.length) {
                     this.error('No ha elegido ningún producto');
                     return;
                 }
@@ -239,9 +241,22 @@
             }
         },
         created() {
-            if (this.items.length == 0) {
-                this.$store.dispatch('pedido/list/getItems');
-            }
+            let id = decodeURIComponent(this.$route.params.id);
+            this.$store.dispatch('user/update/retrieve', '/users/' + id)
+            let link = API_HOST + API_PATH + '/pedidos-user/' + id;
+            this.loading = true;
+            fetch(link, {
+                method: 'GET',
+                credentials: "same-origin"
+            })
+                .then(response => response.json())
+                .then(response => {
+                    this.items = response;
+                    this.loading = false;
+                    console.log(response);
+                }).catch(e => {
+                this.error(e.message)
+            });
         }
     }
 </script>

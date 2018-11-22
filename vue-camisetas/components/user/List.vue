@@ -63,6 +63,13 @@
                         <td>{{ props.item.username }}</td>
                         <td>{{ props.item.roles[0] == 'ROLE_USER'?'Trabajador':'Administrador' }}</td>
                         <td class="justify-center layout px-0">
+                            <v-tooltip top>
+                                <v-btn icon class="mx-0"  @click="$router.push({name: 'ListPedido', params: {id: props.item['id']} })" slot="activator">
+                                    <v-icon color="orange">visibility</v-icon>
+                                </v-btn>
+                                <span>Mostrar Pedidos</span>
+                            </v-tooltip>
+
                             <v-btn icon class="mx-0" @click="editItem(props.item)">
                                 <v-icon color="teal">edit</v-icon>
                             </v-btn>
