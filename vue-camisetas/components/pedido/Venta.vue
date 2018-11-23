@@ -60,7 +60,7 @@
                         <td v-for="talla in props.item.tallas_table">
                             <v-tooltip top v-if="talla">
                                 <label slot="activator" v-bind:style="{color: talla.vendidas == talla.cantidad ? 'teal' : 'orange'}">
-                                    {{talla.vendidas+' de '+talla.cantidad}}
+                                    {{talla.cantidad != 0 ? talla.vendidas+' de '+talla.cantidad : '-----'}}
                                 </label>
                                 <span>{{ talla.lastUpdate ? 'Actualizado: ' + formatDate(talla.lastUpdate) : '0 venta' }}</span>
                             </v-tooltip>
