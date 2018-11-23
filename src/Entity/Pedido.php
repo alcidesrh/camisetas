@@ -176,7 +176,7 @@ class Pedido implements \JsonSerializable
     /**
      * @return \DateTime
      */
-    public function getLastUpdate(): \DateTime
+    public function getLastUpdate()
     {
         return $this->lastUpdate;
     }
