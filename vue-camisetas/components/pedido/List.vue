@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <div class="pa-5">
         <v-snackbar
                 :color="snackbarColor"
                 :timeout="3000"
@@ -11,7 +11,7 @@
         </v-snackbar>
         <v-card>
             <v-container style="position: fixed; z-index: 2001" fill-height justify-center
-                         v-show="loading || deleteLoading || updateLoading || createLoading">
+                         v-show="loading || deleteLoading || userLoading">
                 <v-progress-circular indeterminate :size="70" :width="3" color="success"></v-progress-circular>
             </v-container>
             <v-tooltip top>
@@ -33,21 +33,30 @@
             </v-alert>
             <div v-show="items.length != 0">
                 <v-card-title>
-                    <v-flex headline>
+
+                    <v-flex headline v-if="user">
+                        Pedidos de {{user.fullName}}
+                    </v-flex>
+                    <v-flex v-else headline>
                         Pedidos
                     </v-flex>
-                    <v-spacer></v-spacer>
-                    <v-spacer></v-spacer>
-                    <v-spacer></v-spacer>
-                    <v-spacer></v-spacer>
-                    <v-spacer></v-spacer>
-                    <v-text-field
-                            append-icon="search"
-                            label="Buscar"
-                            single-line
-                            hide-details
-                            v-model="search"
-                    ></v-text-field>
+                    <v-flex style="max-width: 350px; text-align: right">
+                        <v-select
+                                v-model="selectUser"
+                                :items="users"
+                                label="Filtrar por usuario"
+                                prepend-inner-icon="person"
+                                item-text="fullName"
+                                item-value="id"
+                                @change="filterByUser"
+                        ></v-select>
+
+                    </v-flex>
+                    <v-flex style="max-width: 30px;">
+                        <v-btn icon class="mx-0 d-inline-block"  @click="resetList" slot="activator">
+                            <v-icon>refresh</v-icon>
+                        </v-btn>
+                    </v-flex>
                 </v-card-title>
                 <v-data-table
                         :headers="headers"
@@ -59,6 +68,7 @@
                 >
                     <template slot="items" slot-scope="props">
                         <td>{{ formatDate(props.item.createAt) }}</td>
+                        <td>{{ formatDate(props.item.lastUpdate) }}</td>
                         <td>{{ props.item.user.fullName }}</td>
                         <td>
                             <v-chip v-for="producto in props.item.productos" :key="producto.id">
@@ -70,7 +80,13 @@
                         <td>{{ props.item.stock }}</td>
                         <td>{{ props.item.venta }}</td>
                         <td class="justify-center layout px-0">
-                            <v-btn icon class="mx-0" @click="$router.push({name: 'PedidoUpdate', params: {id: props.item['id']} })">
+                            <v-tooltip top>
+                                <v-btn icon class="mx-0"  @click="ventaUrl(props.item)" slot="activator">
+                                    <v-icon color="orange">shopping_basket</v-icon>
+                                </v-btn>
+                                <span>Ver Venta</span>
+                            </v-tooltip>
+                            <v-btn icon class="mx-0" @click="editUrl(props.item)">
                                 <v-icon color="teal">edit</v-icon>
                             </v-btn>
                             <v-btn icon class="mx-0" @click="deleteItem(props.item)">
@@ -84,21 +100,23 @@
                 </v-data-table>
             </div>
         </v-card>
-    </v-container>
+    </div>
 </template>
 <script>
     import {mapGetters} from 'vuex';
-    import {API_HOST, API_PATH} from '../../config/_entrypoint';
+    import {API_HOST} from '../../config/_entrypoint';
     import moment from 'moment';
 
     export default {
         data() {
             return {
+                selectUser: false,
                 pedido: {user: false, productos: [], stock: []},
                 valid: true,
                 search: '',
                 headers: [
                     {text: 'Creado', value: 'createAt'},
+                    {text: 'Última actualización', value: 'lastUpdate'},
                     {text: 'Usuario', value: 'user.fullName'},
                     {text: 'Productos', value: 'producto.nombre'},
                     {text: 'Stock', value: 'stock'},
@@ -111,45 +129,25 @@
                 snackbarText: '',
                 snackbarColor: 'success',
                 flag: false,
-                item: {name: ''},
-                fieldRule: [
-                    v => !!v || 'Este campo es requerido'
-                ]
             }
         },
         computed: {
-            formTitle() {
-                return this.editedIndex === -1 ? 'Crear Pedido' : 'Editar Pedido'
-            },
             ...mapGetters({
                 deletedItem: 'pedido/del/deleted',
                 errorList: 'pedido/list/error',
-                errorCreate: 'pedido/create/error',
-                errorUpdate: 'pedido/update/updateError',
                 errorDelete: 'pedido/del/error',
                 items: 'pedido/list/items',
                 loading: 'pedido/list/loading',
-                view: 'pedido/list/view',
-                created: 'pedido/create/created',
                 deleteLoading: 'pedido/del/loading',
-                updateLoading: 'pedido/update/updateLoading',
-                createLoading: 'pedido/create/loading',
-                users: 'user/list/items',
+                user: 'user/update/retrieved',
                 productos: 'producto/list/items',
-                tallas: 'talla/list/items'
+                tallas: 'talla/list/items',
+                userLoading: 'user/update/retrieveLoading',
+                users: 'user/list/items',
             })
         },
         watch: {
-            dialog(val) {
-                val || this.close()
-            },
             errorList(message) {
-                this.error(message);
-            },
-            errorCreate(message) {
-                this.error(message);
-            },
-            errorUpdate(message) {
                 this.error(message);
             },
             errorDelete(message) {
@@ -160,8 +158,25 @@
             }
         },
         methods: {
+            resetList(){
+                this.selectUser = false;
+                this.$store.dispatch('user/update/reset');
+                this.getItems();
+
+            },
+            filterByUser(){
+                this.$store.dispatch('user/update/retrieve', '/users/' + this.selectUser).then(() =>{
+                    this.getItems();
+                })
+            },
+            ventaUrl(item){
+                return this.user?this.$router.push({name: 'PedidoVenta', params: {id: item['id'], user: this.user.id} }):this.$router.push({name: 'PedidoVenta', params: {id: item['id']} })
+            },
+            editUrl(item){
+                return this.user?this.$router.push({name: 'PedidoUpdate', params: {id: item['id'], user: this.user.id} }):this.$router.push({name: 'PedidoUpdate', params: {id: item['id']} })
+            },
             formatDate(date){
-                return moment(date.date).format('DD/MM/YYYY');
+                return date?moment(date).format('DD/MM/YYYY'):"";
             },
             getImageUrl(path) {
                 return API_HOST + '/' + path;
@@ -172,13 +187,7 @@
                 this.snackbarText = message;
                 this.snackbar = true;
             },
-            open() {
-                this.$refs.form.reset();
-                this.editedIndex = -1;
-                this.dialog = true;
-            },
             deleteItem(item) {
-                const index = this.items.indexOf(item)
                 if (confirm('Seguro quieres eliminar este elemento?')) {
 
                     this.$store.dispatch('pedido/del/delete', item).then(
@@ -189,7 +198,7 @@
                             }
                             this.snackbarText = 'Se ha eliminado';
                             this.snackbar = true;
-                            this.$store.dispatch('pedido/list/getItems');
+                            this.getItems();
                         })
                 }
             },
@@ -198,49 +207,25 @@
                 this.editedIndex = -1;
                 this.item = {};
             },
-            save() {;
-                if (!this.$refs.form.validate()) return;
-                if(!this.pedido.productos.length){
-                    this.error('No ha elegido ningún producto');
-                    return;
-                }
-                let itemAux = {};
-                Object.assign(itemAux, this.pedido);
-                if (this.editedIndex > -1) {
-                    let editedIndex = this.editedIndex;
-                    this.$store.dispatch('pedido/update/update', {
-                        item: this.items[editedIndex],
-                        values: itemAux
-                    }).then(
-                        () => {
-                            if (this.flag) {
-                                this.flag = false;
-                                return;
-                            }
-                            Object.assign(this.items[editedIndex], itemAux);
-                            this.snackbarText = 'Se ha editado';
-                            this.snackbar = true;
-                            this.$store.dispatch('pedido/list/getItems');
-                        });
-                } else {
-                    this.$store.dispatch('pedido/create/create', itemAux).then(
-                        () => {
-                            if (this.flag) {
-                                this.flag = false;
-                                return;
-                            }
-                            this.items.unshift(this.created);
-                            this.snackbarText = 'Se ha creado';
-                            this.snackbar = true;
-                            this.$store.dispatch('pedido/list/getItems');
-                        });
-                }
-                this.close()
-            }
+            getItems(){
+                if(this.user)
+                    this.$store.dispatch('pedido/list/getItems', '/pedidos?user=' + this.user.id);
+                else
+                    this.$store.dispatch('pedido/list/getItems');
+            },
         },
         created() {
-            if (this.items.length == 0) {
-                this.$store.dispatch('pedido/list/getItems');
+            this.$store.dispatch('user/update/reset');
+            if (this.users.length == 0) {
+                this.$store.dispatch('user/list/getItems');
+            }
+            if(typeof this.$route.params.user != typeof undefined){
+                this.$store.dispatch('user/update/retrieve', '/users/' + decodeURIComponent(this.$route.params.user)).then(() =>{
+                    this.getItems();
+                })
+            }
+            else{
+                this.getItems();
             }
         }
     }

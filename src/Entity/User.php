@@ -43,7 +43,6 @@ class User extends NombreAbstract implements UserInterface, \Serializable, \Json
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
-     * @Groups({"read"})
      */
     protected $nombre;
 
@@ -52,7 +51,6 @@ class User extends NombreAbstract implements UserInterface, \Serializable, \Json
      *
      * @ORM\Column(type="string", nullable=true)
      * @Assert\NotBlank()
-     * @Groups({"read"})
      */
     private $apellidos;
 
@@ -95,6 +93,7 @@ class User extends NombreAbstract implements UserInterface, \Serializable, \Json
 
     /**
      * @Groups("read_pedido")
+     * @Groups({"read"})
      */
     private $fullName = 0;
 

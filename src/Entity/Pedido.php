@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use App\Filter\PropertyFilter;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -10,6 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource( attributes={"order"={"createAt": "DESC"}}, normalizationContext={"groups"={"read_pedido"}})
+ * @ApiFilter(PropertyFilter::class)
  * @ORM\Entity(repositoryClass="App\Repository\PedidoRepository")
  */
 class Pedido implements \JsonSerializable
@@ -51,6 +55,7 @@ class Pedido implements \JsonSerializable
      *
      * @ORM\Column(type="datetime", nullable=true)
      * @Assert\DateTime
+     * @Groups("read_pedido")
      *
      */
     private $lastUpdate;
@@ -233,10 +238,6 @@ class Pedido implements \JsonSerializable
         $this->edited = $edited;
     }
 
-    public function userPedido(): array
-    {
-        return [ 'id' => $this->id, 'productos' => $this->productos->toArray(), 'createAt' => $this->createAt, 'stock' => $this->getStock(), 'venta' => $this->getVenta() ];
-    }
 
     public function jsonSerialize(): array
     {

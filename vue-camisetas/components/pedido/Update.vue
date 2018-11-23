@@ -106,6 +106,7 @@
                                                 {{producto.nombre}}
                                             </v-list-tile-title>
                                             <v-list-tile-sub-title style="overflow: initial">
+
                                                 <v-text-field style="max-width: 50px; display: inline-block"
                                                               class="mx-3" v-for="(talla, index2) in tallas"
                                                               :key="talla.id"
@@ -188,7 +189,7 @@
         methods: {
             closeUpdate() {
                 if (this.fromUser)
-                    this.$router.push({name: 'ListPedido', params: {id: this.fromUser}})
+                    this.$router.push({name: 'PedidoList', params: {user: this.fromUser}})
                 else
                     this.$router.push({name: 'PedidoList'})
             },
@@ -262,11 +263,7 @@
                         }
                         this.snackbarText = 'Se ha editado';
                         this.snackbar = true;
-                        this.loading = true;
-                        this.$store.dispatch('pedido/list/getItems').then(() => {
-                            this.loading = false;
-                            this.closeUpdate()
-                        })
+                        this.closeUpdate();
 
                     });
                 this.close()
@@ -292,7 +289,10 @@
                         let result = $this.productos.filter(item2 => item2.id == item.producto.id);
                         $this.productosCheckBox[$this.productos.indexOf(result[0])] = true
                         result[0].tallas.forEach((talla, index) => {
-                            talla.stock = item.tallas[index].cantidad;
+                            if (typeof item.tallas[index] != typeof undefined)
+                                talla.stock = item.tallas[index].cantidad;
+                            else
+                                talla.stock = "";
                         });
                         result[0].producto_pedido = item.id;
                         productos.push(result[0]);
@@ -305,8 +305,8 @@
         created() {
             this.loading = true;
 
-            if (typeof this.$route.params.fromUser != typeof undefined )
-                this.fromUser = decodeURIComponent(this.$route.params.fromUser);
+            if (typeof this.$route.params.user != typeof undefined)
+                this.fromUser = decodeURIComponent(this.$route.params.user);
             this.$store.dispatch('talla/list/getItems').then(() => {
                 this.$store.dispatch('producto/list/getItems').then(() => {
                     this.getItem();

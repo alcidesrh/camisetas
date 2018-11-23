@@ -11,7 +11,7 @@
         </v-snackbar>
         <v-card>
             <v-container style="position: fixed; z-index: 2001" fill-height justify-center
-                         v-show="loading || deleteLoading || updateLoading || createLoading">
+                         v-show="loading || deleteLoading">
                 <v-progress-circular indeterminate :size="70" :width="3" color="success"></v-progress-circular>
             </v-container>
             <v-tooltip top>
@@ -61,7 +61,7 @@
                         <td>{{ formatDate(props.item.createAt) }}</td>
                         <td>
                             <v-chip v-for="producto in props.item.productos" :key="producto.id">
-                                <img height="35" v-bind:src="getImageUrl(producto.producto.imagen)"
+                                <img height="35" v-bind:src="getImageUrl(producto.producto.imagen.path)"
                                      class="py-1"/>
                                 <label class="pl-2 d-inline">{{ producto.producto.nombre }}</label>
                             </v-chip>
@@ -69,6 +69,12 @@
                         <td>{{ props.item.stock }}</td>
                         <td>{{ props.item.venta }}</td>
                         <td class="justify-center layout px-0">
+                            <v-tooltip top>
+                                <v-btn icon class="mx-0"  @click="$router.push({name: 'ListPedido', params: {id: props.item['id']} })" slot="activator">
+                                    <v-icon color="orange">visibility</v-icon>
+                                </v-btn>
+                                <span>Ver Pedidos</span>
+                            </v-tooltip>
                             <v-btn icon class="mx-0"
                                    @click="$router.push({name: 'PedidoUpdate', params: {id: props.item['id'], fromUser: user.id} })">
                                 <v-icon color="teal">edit</v-icon>
@@ -119,22 +125,10 @@
             }
         },
         computed: {
-            formTitle() {
-                return this.editedIndex === -1 ? 'Crear Pedido' : 'Editar Pedido'
-            },
             ...mapGetters({
                 deletedItem: 'pedido/del/deleted',
-                errorList: 'pedido/list/error',
-                errorCreate: 'pedido/create/error',
-                errorUpdate: 'pedido/update/updateError',
                 errorDelete: 'pedido/del/error',
-                // items: 'pedido/list/items',
-                // loading: 'pedido/list/loading',
-                view: 'pedido/list/view',
-                created: 'pedido/create/created',
                 deleteLoading: 'pedido/del/loading',
-                updateLoading: 'pedido/update/updateLoading',
-                createLoading: 'pedido/create/loading',
                 user: 'user/update/retrieved',
                 productos: 'producto/list/items',
                 tallas: 'talla/list/items'
@@ -143,15 +137,6 @@
         watch: {
             dialog(val) {
                 val || this.close()
-            },
-            errorList(message) {
-                this.error(message);
-            },
-            errorCreate(message) {
-                this.error(message);
-            },
-            errorUpdate(message) {
-                this.error(message);
             },
             errorDelete(message) {
                 this.error(message);
@@ -179,7 +164,6 @@
                 this.dialog = true;
             },
             deleteItem(item) {
-                const index = this.items.indexOf(item)
                 if (confirm('Seguro quieres eliminar este elemento?')) {
 
                     this.$store.dispatch('pedido/del/delete', item).then(
@@ -190,73 +174,37 @@
                             }
                             this.snackbarText = 'Se ha eliminado';
                             this.snackbar = true;
-                            this.$store.dispatch('pedido/list/getItems');
+                            this.getItems();
                         })
                 }
+            },
+            getItems(){
+                let link = API_HOST + API_PATH + '/pedidos-user/' + this.user.id;
+                this.loading = true;
+                fetch(link, {
+                    method: 'POST',
+                    credentials: "same-origin"
+                })
+                    .then(response => response.json())
+                    .then(response => {
+                        this.items = response['hydra:member'];
+                        this.loading = false;
+                    }).catch(e => {
+                    this.error(e.message)
+                });
             },
             close() {
                 this.dialog = false;
                 this.editedIndex = -1;
                 this.item = {};
             },
-            save() {
-                ;
-                if (!this.$refs.form.validate()) return;
-                if (!this.pedido.productos.length) {
-                    this.error('No ha elegido ningún producto');
-                    return;
-                }
-                let itemAux = {};
-                Object.assign(itemAux, this.pedido);
-                if (this.editedIndex > -1) {
-                    let editedIndex = this.editedIndex;
-                    this.$store.dispatch('pedido/update/update', {
-                        item: this.items[editedIndex],
-                        values: itemAux
-                    }).then(
-                        () => {
-                            if (this.flag) {
-                                this.flag = false;
-                                return;
-                            }
-                            Object.assign(this.items[editedIndex], itemAux);
-                            this.snackbarText = 'Se ha editado';
-                            this.snackbar = true;
-                            this.$store.dispatch('pedido/list/getItems');
-                        });
-                } else {
-                    this.$store.dispatch('pedido/create/create', itemAux).then(
-                        () => {
-                            if (this.flag) {
-                                this.flag = false;
-                                return;
-                            }
-                            this.items.unshift(this.created);
-                            this.snackbarText = 'Se ha creado';
-                            this.snackbar = true;
-                            this.$store.dispatch('pedido/list/getItems');
-                        });
-                }
-                this.close()
-            }
         },
         created() {
-            let id = decodeURIComponent(this.$route.params.id);
-            this.$store.dispatch('user/update/retrieve', '/users/' + id)
-            let link = API_HOST + API_PATH + '/pedidos-user/' + id;
             this.loading = true;
-            fetch(link, {
-                method: 'GET',
-                credentials: "same-origin"
+            let id = decodeURIComponent(this.$route.params.id);
+            this.$store.dispatch('user/update/retrieve', '/users/' + id).then(() =>{
+                this.getItems();
             })
-                .then(response => response.json())
-                .then(response => {
-                    this.items = response;
-                    this.loading = false;
-                    console.log(response);
-                }).catch(e => {
-                this.error(e.message)
-            });
         }
     }
 </script>

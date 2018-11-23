@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductoTallaStockRepository")
@@ -21,6 +22,7 @@ class TallaStock implements \JsonSerializable
 
     /**
      * @ORM\Column(type="integer", options={"default": 0})
+     * @Groups("read_pedido")
      */
     private $vendidas = 0;
 
@@ -40,8 +42,19 @@ class TallaStock implements \JsonSerializable
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\ProductoPedido", inversedBy="tallas")
      * @ORM\JoinColumn(name="producto_pedido_id", referencedColumnName="id")
+     *
      */
     private $producto;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\DateTime
+     * @Groups("read_pedido")
+     *
+     */
+    private $lastUpdate;
 
     public function __construct(Talla $talla = null)
     {
@@ -110,6 +123,22 @@ class TallaStock implements \JsonSerializable
     public function setProducto($producto): void
     {
         $this->producto = $producto;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getLastUpdate()
+    {
+        return $this->lastUpdate;
+    }
+
+    /**
+     * @param \DateTime $lastUpdate
+     */
+    public function setLastUpdate(\DateTime $lastUpdate): void
+    {
+        $this->lastUpdate = $lastUpdate;
     }
 
     public function jsonSerialize(): array

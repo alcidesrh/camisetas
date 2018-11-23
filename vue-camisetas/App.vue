@@ -38,7 +38,7 @@
                     </v-menu>
                 </v-tab>
                 <v-tab id="close" flat>
-                    <a href="logout" class="v-tabs__item">
+                    <a v-bind:href="logoutRoute()" class="v-tabs__item">
                         <v-icon class="mr-1">highlight_off</v-icon>
                         Cerrar Sesión
                     </a>
@@ -46,26 +46,29 @@
             </v-tabs>
         </v-toolbar>
         <v-content>
-            <v-container>
                 <v-layout>
                     <v-flex>
-                        <transition name="fade">
+                        <transition name="fade" class="pa-5">
                             <router-view></router-view>
                         </transition>
                     </v-flex>
                 </v-layout>
-            </v-container>
         </v-content>
     </v-app>
 </template>
 <script>
+    import {API_HOST} from './config/_entrypoint';
     export default {
 
         data: () => ({
             loading: false,
             host: false,
         }),
-        methods: {},
+        methods: {
+            logoutRoute(){
+                return API_HOST + '/logout'
+            }
+        },
         computed: {},
         watch: {},
         created() {

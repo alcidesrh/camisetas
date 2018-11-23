@@ -57,6 +57,7 @@ class EndPointController extends AbstractController
             foreach ($tallas as $value){
                 $talla = $entityManager->getRepository('App:TallaStock')->find($value['id']);
                 $talla->setVendidas($value['vendida']);
+                $talla->setLastUpdate(new \DateTime());
                 $entityManager->persist($talla);
             }
             $entityManager->flush();

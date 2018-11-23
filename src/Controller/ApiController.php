@@ -110,7 +110,7 @@ class ApiController extends AbstractController
      *         "_api_collection_operation_name"="insert_user"
      *     }
      * )
-     * * @Route(
+     * @Route(
      *     name="edit_user",
      *     path="/users/{id}",
      *     methods={"PUT"},
@@ -200,12 +200,16 @@ class ApiController extends AbstractController
                 $array->add($productoPedido);
                 for ($i = 0; $i < count($data['stock']); $i++) {
                     $value = $data['stock'][$i];
-                    $talla = $productoPedido->getTalla($i);
+                    if (!($talla = $productoPedido->getTalla($i))) {
+                        $talla = new TallaStock($entityManager->getRepository('App:Talla')->find($value['id']));
+                        $talla->setProducto($productoPedido);
+                    }
                     if ($item['stock'][$i]['stock']) {
-                        $talla->setCantidad( $item['stock'][$i]['stock'] );
+                        $talla->setCantidad($item['stock'][$i]['stock']);
                     } else {
                         $talla->setCantidad($value['stock'] ?? 0);
                     }
+
                     $entityManager->persist($talla);
                 }
             } else {
@@ -219,7 +223,7 @@ class ApiController extends AbstractController
                     $talla = new TallaStock($entityManager->getRepository('App:Talla')->find($value['id']));
                     $talla->setProducto($productoPedido);
                     $entityManager->persist($talla);
-                    if ( $item['stock'][$i]['stock'] ) {
+                    if ($item['stock'][$i]['stock']) {
                         $talla->setCantidad($item['stock'][$i]['stock']);
                     } else {
                         $talla->setCantidad($value['stock'] ?? 0);
@@ -229,26 +233,35 @@ class ApiController extends AbstractController
             }
 
         }
-        foreach ($pedido->getProductos() as $value){
-            if(!$array->contains($value))
+        foreach ($pedido->getProductos() as $value) {
+            if (!$array->contains($value)) {
                 $pedido->removeProduct($value);
+            }
         }
         $pedido->setLastUpdate(new \DateTime());
         $pedido->setEdited(true);
         $entityManager->persist($pedido);
         $entityManager->flush();
+
         return new JsonResponse(['save']);
     }
 
     /**
-     * @Route("/pedidos-user/{id}", name="pedidos_user")
-     *
+     * @Route(
+     *     name="pedidos_user",
+     *     path="/pedidos-user/{id}",
+     *     methods={"POST"},
+     *     defaults={
+     *         "_api_resource_class"=Pedido::class,
+     *         "_api_collection_operation_name"="pedidos_user"
+     *     }
+     * )
      */
-    public function userPedidos(User $user, EntityManagerInterface $entityManager): JsonResponse
+    public function userPedidos(EntityManagerInterface $entityManager, $id)
     {
-        $result = [];
-        foreach ($entityManager->getRepository('App:Pedido')->findBy(['user' => $user], ['createAt' => 'DESC']) as $value)
-            $result[] = $value->userPedido();
-        return new JsonResponse($result);
+        return $entityManager->getRepository('App:Pedido')->findBy(
+            ['user' => $entityManager->find('App:User', $id)],
+            ['createAt' => 'DESC']
+        );
     }
 }

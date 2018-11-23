@@ -18,5 +18,5 @@ reload_level_1:
     path: /{any}/create
     controller: App\Controller\Security\SecurityController::reloadAction
 reload_level_2:
-    path: /{any}/edit/{id}
+    path: /{any}/{any2}/{id}
     controller: App\Controller\Security\SecurityController::reloadAction
