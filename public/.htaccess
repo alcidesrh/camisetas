@@ -67,6 +67,11 @@ DirectoryIndex index.php
     </IfModule>
 </IfModule>
 
+# Remove www from any URLs that have them:
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^www\.
+RewriteRule ^(.*)$ http://example.com/$1 [R=301,L]
+
 # Add these three lines to CORSify your server for everyone.
 
 Header set Access-Control-Allow-Origin "*"
