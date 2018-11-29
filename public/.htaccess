@@ -19,6 +19,10 @@ DirectoryIndex index.php
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
+	
+	# Remove www from any URLs that have them:
+    RewriteCond %{HTTP_HOST} ^www\.
+    RewriteRule ^(.*)$ http://camiseteando.es/$1 [R=301,L]
 
     # Determine the RewriteBase automatically and set it as environment variable.
     # If you are using Apache aliases to do mass virtual hosting or installed the
@@ -67,10 +71,7 @@ DirectoryIndex index.php
     </IfModule>
 </IfModule>
 
-# Remove www from any URLs that have them:
-RewriteEngine on
-RewriteCond %{HTTP_HOST} ^www\.
-RewriteRule ^(.*)$ http://example.com/$1 [R=301,L]
+
 
 # Add these three lines to CORSify your server for everyone.
 
