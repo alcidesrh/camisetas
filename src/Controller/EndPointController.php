@@ -120,7 +120,13 @@ class EndPointController extends AbstractController
                 $tallaVenta->setVendidas($value['vendida']);
                 $tallaVenta->setLastUpdate(new \DateTime());
                 $entityManager->persist($talla, $tallaVenta);
+                if(!isset($venta))
+                    $venta = $tallaVenta->getProducto()->getVenta();
             }
+            if(isset($venta)){
+                $venta->setLastUpdate(new \DateTime());
+                $entityManager->persist($venta);
+            };
             $entityManager->flush();
 
             return new JsonResponse(['updated']);
