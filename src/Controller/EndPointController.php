@@ -19,6 +19,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * @Route("/endpoint")
@@ -117,6 +118,7 @@ class EndPointController extends AbstractController
                 $talla->setLastUpdate(new \DateTime());
                 $tallaVenta = $entityManager->getRepository('App:Venta')->findTallaByTallaStock($talla);
                 $tallaVenta->setVendidas($value['vendida']);
+                $talla->setLastUpdate(new DateTime());
                 $entityManager->persist($talla, $tallaVenta);
             }
             $entityManager->flush();
