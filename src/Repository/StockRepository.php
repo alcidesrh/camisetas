@@ -2,28 +2,28 @@
 
 namespace App\Repository;
 
-use App\Entity\Pedido;
+use App\Entity\Stock;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method Pedido|null find($id, $lockMode = null, $lockVersion = null)
- * @method Pedido|null findOneBy(array $criteria, array $orderBy = null)
- * @method Pedido[]    findAll()
- * @method Pedido[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Stock|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Stock|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Stock[]    findAll()
+ * @method Stock[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PedidoRepository extends ServiceEntityRepository
+class StockRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Pedido::class);
+        parent::__construct($registry, Stock::class);
     }
 
 //    /**
-//     * @return Pedido[] Returns an array of Pedido objects
+//     * @return Stock[] Returns an array of Stock objects
 //     */
 
-    public function checkPedidos($user)
+    public function checkStocks($user)
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.user = :user')
@@ -31,12 +31,12 @@ class PedidoRepository extends ServiceEntityRepository
             ->setParameter('user', $user)
             ->getQuery()
             ->getResult()
-        ;
+            ;
     }
 
 
     /*
-    public function findOneBySomeField($value): ?Pedido
+    public function findOneBySomeField($value): ?Stock
     {
         return $this->createQueryBuilder('v')
             ->andWhere('v.exampleField = :val')

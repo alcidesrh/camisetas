@@ -22,29 +22,12 @@ class UserRepository extends ServiceEntityRepository
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?User
+    public function findUserNoStock()
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $this->getEntityManager()->createQuery('
+        SELECT u FROM App:User u WHERE u NOT IN (SELECT IDENTITY(st.user) FROM App:Stock st)')->getResult();
+
     }
-    */
+
 }

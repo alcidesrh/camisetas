@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\ProductoPedido;
+use App\Entity\ProductoStock;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method ProductoPedido|null find($id, $lockMode = null, $lockVersion = null)
- * @method ProductoPedido|null findOneBy(array $criteria, array $orderBy = null)
- * @method ProductoPedido[]    findAll()
- * @method ProductoPedido[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ProductoStock|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ProductoStock|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ProductoStock[]    findAll()
+ * @method ProductoStock[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProductoPedidoRepository extends ServiceEntityRepository
+class ProductoStockRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, ProductoPedido::class);
+        parent::__construct($registry, ProductoStock::class);
     }
 
 //    /**
-//     * @return ProductoPedido[] Returns an array of ProductoPedido objects
+//     * @return ProductoStock[] Returns an array of ProductoStock objects
 //     */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class ProductoPedidoRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?ProductoPedido
+    public function findOneBySomeField($value): ?ProductoStock
     {
         return $this->createQueryBuilder('v')
             ->andWhere('v.exampleField = :val')

@@ -12,11 +12,14 @@
 namespace App\Controller;
 
 use App\Entity\File;
-use App\Entity\Pedido;
+use App\Entity\ProductoVenta;
+use App\Entity\Stock;
 use App\Entity\Producto;
-use App\Entity\ProductoPedido;
+use App\Entity\ProductoStock;
 use App\Entity\TallaStock;
+use App\Entity\TallaVenta;
 use App\Entity\User;
+use App\Repository\UserRepository;
 use App\Utils\Util;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -132,6 +135,22 @@ class ApiController extends AbstractController
     }
 
     /**
+     * @Route(
+     *     name="user_no_stock",
+     *     path="/users/no-stock",
+     *     methods={"GET"},
+     *     defaults={
+     *         "_api_resource_class"=User::class,
+     *         "_api_collection_operation_name"="no-stock"
+     *     }
+     * )
+     */
+    public function getUserNoStock(UserRepository $repository)
+    {
+        return $repository->findUserNoStock();
+    }
+
+    /**
      * @Route("/change-password", name="change_password")
      */
     public function changepassword(
@@ -148,99 +167,141 @@ class ApiController extends AbstractController
     }
 
     /**
-     * @Route("/save-pedido", name="save_pedido")
+     * @Route("/save-stock", name="save_stock")
      *
      */
-    public function savePedido(EntityManagerInterface $entityManager): JsonResponse
+    public function saveStock(EntityManagerInterface $entityManager): JsonResponse
     {
         $data = Util::decodeBody();
-        $pedido = new Pedido();
-        $pedido->setUser($entityManager->getRepository('App:User')->find($data['user']));
+        $stock = new Stock();
+        $stock->setUser($entityManager->getRepository('App:User')->find($data['user']));
         $productos = $entityManager->getRepository('App:Producto')->getProductosByIds($data['productos']);
         $cont = -1;
         foreach ($productos as $producto) {
             $cont++;
-            $productoPedido = new ProductoPedido();
-            $productoPedido->setProducto($producto);
-            $productoPedido->setPedido($pedido);
-            $entityManager->persist($productoPedido);
+            $productoStock = new ProductoStock();
+            $productoStock->setProducto($producto);
+            $productoStock->setStock($stock);
+            $entityManager->persist($productoStock);
             for ($i = 0; $i < count($data['stock']); $i++) {
                 $value = $data['stock'][$i];
                 $talla = new TallaStock($entityManager->getRepository('App:Talla')->find($value['id']));
-                $talla->setProducto($productoPedido);
+                $talla->setProducto($productoStock);
                 $entityManager->persist($talla);
                 if (!is_null($data['productos'][$cont]['stock'][$i]['stock'])) {
                     $talla->setCantidad($data['productos'][$cont]['stock'][$i]['stock'] ?? 0);
                 } else {
                     $talla->setCantidad($value['stock'] ?? 0);
                 }
-                $productoPedido->addTallas($talla);
+                $productoStock->addTallas($talla);
             }
         }
-        $entityManager->persist($pedido);
+        $entityManager->persist($stock);
         $entityManager->flush();
 
         return new JsonResponse(['save']);
     }
 
     /**
-     * @Route("/edit-pedido/{id}", name="edit_pedido")
+     * @Route("/edit-stock/{id}", name="edit_stock")
      *
      */
-    public function editPedido(Pedido $pedido, EntityManagerInterface $entityManager): JsonResponse
+    public function editStock(Stock $stock, EntityManagerInterface $entityManager): JsonResponse
     {
         $data = Util::decodeBody();
 
         $array = new ArrayCollection();
+        $arrayVenta = new ArrayCollection();
+        $venta = $entityManager->getRepository('App:Venta')->findOneBy(['open' => true]);
         foreach ($data['productos'] as $item) {
-            if (isset($item['producto_pedido'])) {
-                $productoPedido = $entityManager->getRepository('App:ProductoPedido')->find(
-                    $item['producto_pedido']
+            if (isset($item['producto_stock'])) {
+                $productoStock = $entityManager->getRepository('App:ProductoStock')->find(
+                    $item['producto_stock']
                 );
-                $array->add($productoPedido);
+                if($productoVenta = $entityManager->getRepository('App:Venta')->findProductoVentaByProductoStock($productoStock)){
+                    $productoVenta = $entityManager->getRepository('App:ProductoVenta')->find(intval(array_values($productoVenta)[0]));
+                    $arrayVenta->add($productoVenta);
+                }
+                $array->add($productoStock);
                 for ($i = 0; $i < count($data['stock']); $i++) {
                     $value = $data['stock'][$i];
-                    if (!($talla = $productoPedido->getTalla($i))) {
+                    if (!($talla = $productoStock->getTalla($i))) {
                         $talla = new TallaStock($entityManager->getRepository('App:Talla')->find($value['id']));
-                        $talla->setProducto($productoPedido);
+                        $talla->setProducto($productoStock);
+                        $productoStock->addTallas($talla);
+                        $tallaVenta = new TallaVenta($talla->getTalla());
+                        $tallaVenta->setProducto($productoVenta);
+                        $productoVenta->addTallas($tallaVenta);
+                    }
+                    else{
+                        $tallaVenta = $entityManager->getRepository('App:Venta')->findTallaByTallaStock($talla);
                     }
                     if ($item['stock'][$i]['stock']) {
                         $talla->setCantidad($item['stock'][$i]['stock']);
+                        $tallaVenta->setCantidad($item['stock'][$i]['stock']);
                     } else {
                         $talla->setCantidad($value['stock'] ?? 0);
+                        $tallaVenta->setCantidad($value['stock'] ?? 0);
                     }
 
-                    $entityManager->persist($talla);
+                    $entityManager->persist($talla, $tallaVenta);
                 }
             } else {
                 $producto = $entityManager->getRepository('App:Producto')->find($item['id']);
-                $productoPedido = new ProductoPedido();
-                $productoPedido->setProducto($producto);
-                $productoPedido->setPedido($pedido);
-                $entityManager->persist($productoPedido);
+                $productoStock = new ProductoStock();
+                $productoStock->setProducto($producto);
+                $productoStock->setStock($stock);
+                $entityManager->persist($productoStock);
+                if($venta){
+                    $productoVenta = new ProductoVenta();
+                    $productoVenta->setVenta($venta);
+                    $productoVenta->setProducto($producto);
+                    $entityManager->persist($productoVenta);
+                }
+
                 for ($i = 0; $i < count($data['stock']); $i++) {
                     $value = $data['stock'][$i];
                     $talla = new TallaStock($entityManager->getRepository('App:Talla')->find($value['id']));
-                    $talla->setProducto($productoPedido);
-                    $entityManager->persist($talla);
+                    $talla->setProducto($productoStock);
                     if ($item['stock'][$i]['stock']) {
                         $talla->setCantidad($item['stock'][$i]['stock']);
                     } else {
                         $talla->setCantidad($value['stock'] ?? 0);
                     }
-                    $productoPedido->addTallas($talla);
+                    $entityManager->persist($talla);
+                    if($venta){
+                        $tallaVenta = new TallaVenta($talla->getTalla());
+                        $tallaVenta->setProducto($productoVenta);
+                        $tallaVenta->setTallaStock($talla);
+                        if ($item['stock'][$i]['stock']) {
+                            $tallaVenta->setCantidad($item['stock'][$i]['stock']);
+                        } else {
+                            $tallaVenta->setCantidad($value['stock'] ?? 0);
+                        }
+                        $entityManager->persist($tallaVenta);
+                    }
                 }
             }
 
         }
-        foreach ($pedido->getProductos() as $value) {
+        foreach ($stock->getProductos() as $value) {
             if (!$array->contains($value)) {
-                $pedido->removeProduct($value);
+                $stock->removeProduct($value);
             }
         }
-        $pedido->setLastUpdate(new \DateTime());
-        $pedido->setEdited(true);
-        $entityManager->persist($pedido);
+        $stock->setLastUpdate(new \DateTime());
+        $stock->setRefresh(true);
+        $entityManager->persist($stock);
+
+        if($venta){
+            foreach ($venta->getProductos() as $value) {
+                if (!$arrayVenta->contains($value) && !$value->getVenta()) {
+                    $venta->removeProduct($value);
+                }
+            }
+            $stock->setLastUpdate(new \DateTime());
+            $entityManager->persist($venta);
+        }
         $entityManager->flush();
 
         return new JsonResponse(['save']);
@@ -248,18 +309,18 @@ class ApiController extends AbstractController
 
     /**
      * @Route(
-     *     name="pedidos_user",
-     *     path="/pedidos-user/{id}",
+     *     name="stocks_user",
+     *     path="/stocks-user/{id}",
      *     methods={"POST"},
      *     defaults={
-     *         "_api_resource_class"=Pedido::class,
-     *         "_api_collection_operation_name"="pedidos_user"
+     *         "_api_resource_class"=Stock::class,
+     *         "_api_collection_operation_name"="stocks_user"
      *     }
      * )
      */
-    public function userPedidos(EntityManagerInterface $entityManager, $id)
+    public function userStocks(EntityManagerInterface $entityManager, $id)
     {
-        return $entityManager->getRepository('App:Pedido')->findBy(
+        return $entityManager->getRepository('App:Stock')->findBy(
             ['user' => $entityManager->find('App:User', $id)],
             ['createAt' => 'DESC']
         );

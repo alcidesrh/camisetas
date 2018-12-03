@@ -17,7 +17,7 @@ class Talla
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups("read_pedido")
+     * @Groups({"read_stock", "read_venta"})
      */
     private $id;
 
@@ -25,7 +25,7 @@ class Talla
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
-     * @Groups("read_pedido")
+     * @Groups({"read_stock", "read_venta"})
      */
 
     private $nombre;

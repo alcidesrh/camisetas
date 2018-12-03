@@ -15,8 +15,11 @@ import tallaRoutes from './routes/talla';
 import user from './store/modules/user/';
 import userRoutes from './routes/user';
 
-import pedido from './store/modules/pedido/';
-import pedidoRoutes from './routes/pedido';
+import stock from './store/modules/stock/';
+import stockRoutes from './routes/stock';
+
+import venta from './store/modules/venta/';
+import ventaRoutes from './routes/venta';
 
 Vue.use(Vuex);
 Vue.use(VueRouter);
@@ -35,7 +38,8 @@ const store = new Vuex.Store({
         producto,
         talla,
         user,
-        pedido
+        stock,
+        venta
     }
 });
 
@@ -45,7 +49,8 @@ const router = new VueRouter({
         ...productoRoutes,
         ...tallaRoutes,
         ...userRoutes,
-        ...pedidoRoutes
+        ...stockRoutes,
+        ...ventaRoutes
     ]
 });
 

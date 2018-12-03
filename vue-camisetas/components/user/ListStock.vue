@@ -22,11 +22,11 @@
                        fixed
                        bottom
                        right
-                       @click="$router.push({name: 'PedidoCreate'})"
+                       @click="$router.push({name: 'StockCreate'})"
                 >
                     <v-icon>add</v-icon>
                 </v-btn>
-                <span>Añadir Pedido</span>
+                <span>Añadir Stock</span>
             </v-tooltip>
             <v-alert type="info" :value="true" v-show="items.length == 0" class="mt-2" style="width: 100%">
                 No hay elementos para mostrar
@@ -34,7 +34,7 @@
             <div v-show="items.length != 0">
                 <v-card-title>
                     <v-flex headline v-if="user">
-                        Pedidos de {{user.nombre + ' ' + user.apellidos}}
+                        Stocks de {{user.nombre + ' ' + user.apellidos}}
                     </v-flex>
                     <v-spacer></v-spacer>
                     <v-spacer></v-spacer>
@@ -70,13 +70,13 @@
                         <td>{{ props.item.venta }}</td>
                         <td class="justify-center layout px-0">
                             <v-tooltip top>
-                                <v-btn icon class="mx-0"  @click="$router.push({name: 'ListPedido', params: {id: props.item['id']} })" slot="activator">
+                                <v-btn icon class="mx-0"  @click="$router.push({name: 'ListStock', params: {id: props.item['id']} })" slot="activator">
                                     <v-icon color="orange">visibility</v-icon>
                                 </v-btn>
-                                <span>Ver Pedidos</span>
+                                <span>Ver Stocks</span>
                             </v-tooltip>
                             <v-btn icon class="mx-0"
-                                   @click="$router.push({name: 'PedidoUpdate', params: {id: props.item['id'], fromUser: user.id} })">
+                                   @click="$router.push({name: 'StockUpdate', params: {id: props.item['id'], fromUser: user.id} })">
                                 <v-icon color="teal">edit</v-icon>
                             </v-btn>
                             <v-btn icon class="mx-0" @click="deleteItem(props.item)">
@@ -100,7 +100,7 @@
     export default {
         data() {
             return {
-                pedido: {user: false, productos: [], stock: []},
+                stock: {user: false, productos: [], stock: []},
                 items: [],
                 loading: false,
                 valid: true,
@@ -126,9 +126,9 @@
         },
         computed: {
             ...mapGetters({
-                deletedItem: 'pedido/del/deleted',
-                errorDelete: 'pedido/del/error',
-                deleteLoading: 'pedido/del/loading',
+                deletedItem: 'stock/del/deleted',
+                errorDelete: 'stock/del/error',
+                deleteLoading: 'stock/del/loading',
                 user: 'user/update/retrieved',
                 productos: 'producto/list/items',
                 tallas: 'talla/list/items'
@@ -166,7 +166,7 @@
             deleteItem(item) {
                 if (confirm('Seguro quieres eliminar este elemento?')) {
 
-                    this.$store.dispatch('pedido/del/delete', item).then(
+                    this.$store.dispatch('stock/del/delete', item).then(
                         () => {
                             if (this.flag) {
                                 this.flag = false;
@@ -179,7 +179,7 @@
                 }
             },
             getItems(){
-                let link = API_HOST + API_PATH + '/pedidos-user/' + this.user.id;
+                let link = API_HOST + API_PATH + '/stocks-user/' + this.user.id;
                 this.loading = true;
                 fetch(link, {
                     method: 'POST',

@@ -17,8 +17,8 @@
         </v-card>
         <v-card>
             <v-card-title>
-                <span class="headline">Crear Pedido</span>
-                <v-btn icon flat @click.native="$router.push({name: 'PedidoList'})" class="modal-btn-close">
+                <span class="headline">Crear Stock</span>
+                <v-btn icon flat @click.native="$router.push({name: 'StockList'})" class="modal-btn-close">
                     <v-icon>close</v-icon>
                 </v-btn>
             </v-card-title>
@@ -27,7 +27,7 @@
                     <v-layout row wrap>
                         <v-flex md4>
                             <v-select
-                                    v-model="pedido.user"
+                                    v-model="item.user"
                                     :items="users"
                                     :rules="fieldRule"
                                     item-value="id"
@@ -36,14 +36,14 @@
                                     required
                             >
                                 <template slot="selection" slot-scope="data">
-                                    <label>{{ data.item.nombre}} {{ data.item.apellidos }}</label>
+                                    <label>{{ data.item.fullName}}</label>
                                 </template>
                                 <template slot="item" slot-scope="data">
                                     <template v-if="typeof data.item !== 'object'">
                                         No hay datos disponibles
                                     </template>
                                     <template v-else>
-                                        <label>{{ data.item.nombre}} {{ data.item.apellidos }}</label>
+                                        <label>{{ data.item.fullName}}</label>
                                     </template>
                                 </template>
                             </v-select>
@@ -142,7 +142,7 @@
                     </v-layout>
                     <div class="text-xs-center mt-5 mb2">
                         <v-spacer></v-spacer>
-                        <v-btn color="primary darken-1" flat @click.native="$router.push({name: 'PedidoList'})">
+                        <v-btn color="primary darken-1" flat @click.native="$router.push({name: 'StockList'})">
                             Cancelar
                         </v-btn>
                         <v-btn color="primary darken-1" flat type="submit">Guardar</v-btn>
@@ -155,13 +155,16 @@
 </template>
 <script>
     import {mapGetters} from 'vuex';
-    import {API_HOST, API_PATH} from '../../config/_entrypoint';
+    import {API_HOST} from '../../config/_entrypoint';
+    import fetch from '../../utils/fetch';
+
 
     export default {
         data() {
             return {
-                pedido: {user: false, productos: [], stock: []},
+                item: {user: false, productos: [], stock: []},
                 productosSelected: [],
+                users: [],
                 stock: [],
                 loading: false,
                 valid: true,
@@ -170,12 +173,10 @@
                     {text: 'Nombre', value: 'nombre'},
                     {text: '', value: ''}
                 ],
-                dialog: false,
                 snackbar: false,
                 snackbarText: '',
                 snackbarColor: 'success',
                 flag: false,
-                item: {name: ''},
                 fieldRule: [
                     v => !!v || 'Este campo es requerido'
                 ]
@@ -183,18 +184,14 @@
         },
         computed: {
             ...mapGetters({
-                errorList: 'pedido/list/error',
-                errorCreate: 'pedido/create/error',
-                createLoading: 'pedido/create/loading',
-                users: 'user/list/items',
+                errorList: 'stock/list/error',
+                errorCreate: 'stock/create/error',
+                createLoading: 'stock/create/loading',
                 productos: 'producto/list/items',
                 tallas: 'talla/list/items'
             })
         },
         watch: {
-            dialog(val) {
-                val || this.close()
-            },
             errorList(message) {
                 this.error(message);
             },
@@ -237,21 +234,13 @@
                 this.snackbarText = message;
                 this.snackbar = true;
             },
-            open() {
-                this.$refs.form.reset();
-                this.dialog = true;
-            },
-            close() {
-                this.dialog = false;
-                this.item = {};
-            },
-            setPedido() {
-                this.pedido.productos = [];
+            setStock() {
+                this.item.productos = [];
                 let $this = this;
                 this.productosSelected.forEach(item => {
-                    $this.pedido.productos.push({id: item.id, stock: item.tallas});
+                    $this.item.productos.push({id: item.id, stock: item.tallas});
                 });
-                this.pedido.stock = this.stock
+                this.item.stock = this.stock
 
 
             },
@@ -261,8 +250,10 @@
                     this.error('No ha elegido ningún producto');
                     return;
                 }
-                this.setPedido();
-                this.$store.dispatch('pedido/create/create', this.pedido).then(
+
+                this.setStock();
+
+                this.$store.dispatch('stock/create/create', this.item).then(
                     () => {
                         if (this.flag) {
                             this.flag = false;
@@ -271,18 +262,28 @@
                         this.snackbarText = 'Se ha creado';
                         this.snackbar = true;
                         this.loading = true;
-                        this.$store.dispatch('pedido/list/getItems').then(() => {
+                        this.$store.dispatch('stock/list/getItems').then(() => {
                             this.loading = false;
-                            this.$router.push({name: 'PedidoList'})
+                            this.$router.push({name: 'StockList'})
                         })
 
                     });
-                this.close()
             }
         },
         created() {
             this.loading = true;
-            this.$store.dispatch('user/list/getItems');
+
+            fetch('/users/no-stock',{
+                method: 'GET',
+                credentials: "same-origin",
+            })
+                .then(response => response.json())
+                .then(data => {
+                    this.users =  data['hydra:member'];
+                })
+                .catch(e => {
+                    this.error(e.message)
+                });
             this.$store.dispatch('talla/list/getItems').then(() => {
                 let $this = this;
                 this.tallas.forEach((item) => {

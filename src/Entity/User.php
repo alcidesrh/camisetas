@@ -11,7 +11,11 @@
 
 namespace App\Entity;
 
+
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;;
+
 use App\Entity\AbstractClasses\NombreAbstract;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -24,6 +28,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiResource(
  *     attributes={"order"={"nombre": "ASC"},"normalization_context"={"groups"={"read"}}}
  *     )
+ * @ApiFilter(BooleanFilter::class, properties={"stock"})
  */
 class User extends NombreAbstract implements UserInterface, \Serializable, \JsonSerializable
 {
@@ -33,7 +38,7 @@ class User extends NombreAbstract implements UserInterface, \Serializable, \Json
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"read", "read_pedido"})
+     * @Groups({"read", "read_stock"})
      */
     private $id;
 
@@ -84,20 +89,30 @@ class User extends NombreAbstract implements UserInterface, \Serializable, \Json
 
     /**
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Pedido", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Stock", mappedBy="user", cascade={"persist", "remove"})
      */
-    private $pedidos;
+    private $stock;
+
+    /**
+     * @Groups({"read", "read_stock", "read_venta"})
+     */
+    private $fullName;
+
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Venta", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $ventas;
 
     public function __construct()
     {
-        $this->pedidos = new ArrayCollection();
+        $this->ventas = new ArrayCollection();
     }
 
-    /**
-     * @Groups("read_pedido")
-     * @Groups({"read"})
-     */
-    private $fullName = 0;
+    public function getStock(){
+        return $this->stock;
+    }
+
 
     public function getFullName(){
         return $this->nombre.' '. $this->apellidos;

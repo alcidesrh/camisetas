@@ -10,41 +10,38 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity()
- * @ORM\Entity(repositoryClass="App\Repository\ProductoPedidoRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ProductoStockRepository")
  * @ApiResource()
  */
-class ProductoPedido implements \JsonSerializable
+class ProductoStock implements \JsonSerializable
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups("read_pedido")
+     * @Groups("read_stock")
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Producto")
      * @ORM\JoinColumn(name="producto_id", referencedColumnName="id")
-     * @Groups("read_pedido")
+     * @Groups("read_stock")
      */
     private $producto;
 
     /**
      *@ORM\OneToMany(targetEntity="App\Entity\TallaStock", mappedBy="producto", cascade={"persist", "remove"})
-     *@Groups("read_pedido")
+     *@Groups("read_stock")
      */
 
     private $tallas;
 
     /**
      * Many Features have One Product.
-     * @ORM\ManyToOne(targetEntity="App\Entity\Pedido", inversedBy="productos", cascade={"persist"})
-     * @ORM\JoinColumn(name="pedido_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Stock", inversedBy="productos", cascade={"persist"})
+     * @ORM\JoinColumn(name="stock_id", referencedColumnName="id")
      */
-    private $pedido;
-
-
     private $stock;
 
 
@@ -116,19 +113,11 @@ class ProductoPedido implements \JsonSerializable
     }
 
     /**
-     * @return mixed
+     * @param mixed $stock
      */
-    public function getPedido()
+    public function setStock($stock): void
     {
-        return $this->pedido;
-    }
-
-    /**
-     * @param mixed $pedido
-     */
-    public function setPedido($pedido): void
-    {
-        $this->pedido = $pedido;
+        $this->stock = $stock;
     }
 
     public function jsonSerialize(): array

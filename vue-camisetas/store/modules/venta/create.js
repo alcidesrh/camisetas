@@ -1,11 +1,11 @@
 import SubmissionError from '../../../error/SubmissionError';
 import fetch from '../../../utils/fetch';
 import {
-  PEDIDO_CREATE_ERROR,
-  PEDIDO_CREATE_LOADING,
-  PEDIDO_CREATE_SUCCESS,
-  PEDIDO_CREATE_VIOLATIONS,
-  PEDIDO_CREATE_RESET
+  VENTA_CREATE_ERROR,
+  VENTA_CREATE_LOADING,
+  VENTA_CREATE_SUCCESS,
+  VENTA_CREATE_VIOLATIONS,
+  VENTA_CREATE_RESET
 } from './mutation-types';
 
 const state = {
@@ -15,23 +15,23 @@ const state = {
 };
 
 function error(error) {
-  return {type: PEDIDO_CREATE_ERROR, error};
+  return {type: VENTA_CREATE_ERROR, error};
 }
 
 function loading(loading) {
-  return {type: PEDIDO_CREATE_LOADING, loading};
+  return {type: VENTA_CREATE_LOADING, loading};
 }
 
 function success(created) {
-  return {type: PEDIDO_CREATE_SUCCESS, created};
+  return {type: VENTA_CREATE_SUCCESS, created};
 }
 
 function violations(violations) {
-  return {type: PEDIDO_CREATE_VIOLATIONS, violations};
+  return {type: VENTA_CREATE_VIOLATIONS, violations};
 }
 
 function reset() {
-  return {type: PEDIDO_CREATE_RESET};
+  return {type: VENTA_CREATE_RESET};
 }
 
 const getters = {
@@ -45,7 +45,7 @@ const actions = {
   create({ commit }, values) {
     commit(loading(true));
 
-    return fetch('/save-pedido', {method: 'POST', body: JSON.stringify(values)})
+    return fetch('/ventas', {method: 'POST', body: JSON.stringify(values)})
       .then(response => {
         commit(loading(false));
 
@@ -72,19 +72,19 @@ const actions = {
 };
 
 const mutations = {
-    [PEDIDO_CREATE_ERROR] (state, payload) {
+    [VENTA_CREATE_ERROR] (state, payload) {
       state.error = payload.error;
     },
-    [PEDIDO_CREATE_LOADING] (state, payload) {
+    [VENTA_CREATE_LOADING] (state, payload) {
       state.loading = payload.loading;
     },
-    [PEDIDO_CREATE_SUCCESS] (state, payload) {
+    [VENTA_CREATE_SUCCESS] (state, payload) {
       state.created = payload.created;
     },
-    [PEDIDO_CREATE_VIOLATIONS] (state, payload) {
+    [VENTA_CREATE_VIOLATIONS] (state, payload) {
       state.violations = payload.violations;
     },
-    [PEDIDO_CREATE_RESET] (state) {
+    [VENTA_CREATE_RESET] (state) {
       state.loading = false;
       state.error = '';
       state.created = null;

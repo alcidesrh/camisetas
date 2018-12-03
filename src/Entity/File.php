@@ -31,7 +31,7 @@ class File
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("read_pedido")
+     * @Groups({"read_stock", "read_venta"})
      */
     private $path;
 

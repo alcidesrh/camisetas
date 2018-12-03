@@ -58,15 +58,16 @@
                         :disable-initial-sort="true"
                 >
                     <template slot="items" slot-scope="props">
-                        <td>{{ props.item.fullName }}</td>
+                        <td>{{ props.item.nombre }}</td>
+                        <td>{{ props.item.apellidos }}</td>
                         <td>{{ props.item.username }}</td>
                         <td>{{ props.item.roles[0] == 'ROLE_USER'?'Trabajador':'Administrador' }}</td>
                         <td class="justify-center layout px-0">
                             <v-tooltip top>
-                                <v-btn icon class="mx-0"  @click="$router.push({name: 'PedidoList', params: {user: props.item['id']} })" slot="activator">
+                                <v-btn icon class="mx-0"  @click="stockUrl(props.item)" slot="activator">
                                     <v-icon color="orange">visibility</v-icon>
                                 </v-btn>
-                                <span>Ver Pedidos</span>
+                                <span>Ver Stocks</span>
                             </v-tooltip>
 
                             <v-btn icon class="mx-0" @click="editItem(props.item)">
@@ -202,6 +203,10 @@
             }
         },
         methods: {
+            stockUrl(item){
+                this.$router.push({name: 'StockList', params: {user: item['id']} });
+                document.getElementById('stocks').click();
+            },
             error(message) {
                 this.flag = true;
                 this.snackbarColor = 'error';

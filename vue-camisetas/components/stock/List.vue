@@ -22,23 +22,21 @@
                        fixed
                        bottom
                        right
-                       @click="$router.push({name: 'PedidoCreate'})"
+                       @click="$router.push({name: 'StockCreate'})"
                 >
                     <v-icon>add</v-icon>
                 </v-btn>
-                <span>Añadir Pedido</span>
+                <span>Añadir Stock</span>
             </v-tooltip>
-            <v-alert type="info" :value="true" v-show="items.length == 0" class="mt-2" style="width: 100%">
-                No hay elementos para mostrar
-            </v-alert>
-            <div v-show="items.length != 0">
+
+            <div>
                 <v-card-title>
 
                     <v-flex headline v-if="user">
-                        Pedidos de {{user.fullName}}
+                        Stock de {{user.fullName}}
                     </v-flex>
                     <v-flex v-else headline>
-                        Pedidos
+                        Stocks
                     </v-flex>
                     <v-flex style="max-width: 350px; text-align: right">
                         <v-select
@@ -58,7 +56,10 @@
                         </v-btn>
                     </v-flex>
                 </v-card-title>
-                <v-data-table
+                <v-alert type="info" :value="true" v-show="items.length == 0" class="mt-2" style="width: 100%">
+                No hay elementos para mostrar
+                </v-alert>
+                <v-data-table  v-show="items.length != 0"
                         :headers="headers"
                         :items="items"
                         :search="search"
@@ -79,12 +80,12 @@
                         </td>
                         <td>{{ props.item.stock }}</td>
                         <td>{{ props.item.venta }}</td>
-                        <td class="justify-center layout px-0">
+                        <td class="justify-center align-center layout px-0">
                             <v-tooltip top>
                                 <v-btn icon class="mx-0"  @click="ventaUrl(props.item)" slot="activator">
-                                    <v-icon color="orange">shopping_basket</v-icon>
+                                    <v-icon color="orange">remove_red_eye</v-icon>
                                 </v-btn>
-                                <span>Ver Venta</span>
+                                <span>Ver Ventas de {{props.item.user.fullName}} </span>
                             </v-tooltip>
                             <v-btn icon class="mx-0" @click="editUrl(props.item)">
                                 <v-icon color="teal">edit</v-icon>
@@ -111,12 +112,12 @@
         data() {
             return {
                 selectUser: false,
-                pedido: {user: false, productos: [], stock: []},
+                stock: {user: false, productos: [], stock: []},
                 valid: true,
                 search: '',
                 headers: [
                     {text: 'Creado', value: 'createAt'},
-                    {text: 'Última actualización', value: 'lastUpdate'},
+                    {text: 'Actualizado', value: 'lastUpdate'},
                     {text: 'Usuario', value: 'user.fullName'},
                     {text: 'Productos', value: 'producto.nombre'},
                     {text: 'Stock', value: 'stock'},
@@ -133,12 +134,12 @@
         },
         computed: {
             ...mapGetters({
-                deletedItem: 'pedido/del/deleted',
-                errorList: 'pedido/list/error',
-                errorDelete: 'pedido/del/error',
-                items: 'pedido/list/items',
-                loading: 'pedido/list/loading',
-                deleteLoading: 'pedido/del/loading',
+                deletedItem: 'stock/del/deleted',
+                errorList: 'stock/list/error',
+                errorDelete: 'stock/del/error',
+                items: 'stock/list/items',
+                loading: 'stock/list/loading',
+                deleteLoading: 'stock/del/loading',
                 user: 'user/update/retrieved',
                 productos: 'producto/list/items',
                 tallas: 'talla/list/items',
@@ -155,6 +156,9 @@
             },
             snackbar(val) {
                 val || (this.snackbarColor = 'success')
+            },
+            user(){
+                this.selectUser = this.user;
             }
         },
         methods: {
@@ -170,10 +174,11 @@
                 })
             },
             ventaUrl(item){
-                return this.user?this.$router.push({name: 'PedidoVenta', params: {id: item['id'], user: this.user.id} }):this.$router.push({name: 'PedidoVenta', params: {id: item['id']} })
+                this.user?this.$router.push({name: 'VentaList', params: {id: item['id'], user: item['user'].id} }):this.$router.push({name: 'VentaList', params: {id: item['id']} })
+                document.getElementById('ventas').click();
             },
             editUrl(item){
-                return this.user?this.$router.push({name: 'PedidoUpdate', params: {id: item['id'], user: this.user.id} }):this.$router.push({name: 'PedidoUpdate', params: {id: item['id']} })
+                return this.user?this.$router.push({name: 'StockUpdate', params: {id: item['id'], user: this.user.id} }):this.$router.push({name: 'StockUpdate', params: {id: item['id']} })
             },
             formatDate(date){
                 return date?moment(date).format('DD/MM/YYYY'):"";
@@ -190,7 +195,7 @@
             deleteItem(item) {
                 if (confirm('Seguro quieres eliminar este elemento?')) {
 
-                    this.$store.dispatch('pedido/del/delete', item).then(
+                    this.$store.dispatch('stock/del/delete', item).then(
                         () => {
                             if (this.flag) {
                                 this.flag = false;
@@ -209,9 +214,9 @@
             },
             getItems(){
                 if(this.user)
-                    this.$store.dispatch('pedido/list/getItems', '/pedidos?user=' + this.user.id);
+                    this.$store.dispatch('stock/list/getItems', '/stocks?user=' + this.user.id);
                 else
-                    this.$store.dispatch('pedido/list/getItems');
+                    this.$store.dispatch('stock/list/getItems');
             },
         },
         created() {

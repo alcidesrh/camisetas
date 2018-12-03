@@ -1,7 +1,7 @@
 import UserList from '../components/user/List.vue';
-import ListPedido from '../components/user/ListPedido.vue';
+import ListStock from '../components/user/ListStock.vue';
 
 export default [
     { name: 'UserList', path: '/usuarios/', component: UserList },
-    { name: 'ListPedido', path: '/pedidos-user/', component: ListPedido }
+    { name: 'ListStock', path: '/stocks-user/', component: ListStock }
 ];

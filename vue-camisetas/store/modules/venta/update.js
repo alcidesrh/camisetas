@@ -1,14 +1,14 @@
 import SubmissionError from '../../../error/SubmissionError';
 import fetch from '../../../utils/fetch';
 import {
-  PEDIDO_UPDATE_RESET,
-  PEDIDO_UPDATE_UPDATE_ERROR,
-  PEDIDO_UPDATE_UPDATE_LOADING,
-  PEDIDO_UPDATE_UPDATE_SUCCESS,
-  PEDIDO_UPDATE_RETRIEVE_ERROR,
-  PEDIDO_UPDATE_RETRIEVE_LOADING,
-  PEDIDO_UPDATE_RETRIEVE_SUCCESS,
-  PEDIDO_UPDATE_UPDATE_VIOLATIONS
+  VENTA_UPDATE_RESET,
+  VENTA_UPDATE_UPDATE_ERROR,
+  VENTA_UPDATE_UPDATE_LOADING,
+  VENTA_UPDATE_UPDATE_SUCCESS,
+  VENTA_UPDATE_RETRIEVE_ERROR,
+  VENTA_UPDATE_RETRIEVE_LOADING,
+  VENTA_UPDATE_RETRIEVE_SUCCESS,
+  VENTA_UPDATE_UPDATE_VIOLATIONS
 } from './mutation-types';
 
 const state = {
@@ -23,35 +23,35 @@ const state = {
 };
 
 function retrieveError(retrieveError) {
-  return {type: PEDIDO_UPDATE_RETRIEVE_ERROR, retrieveError};
+  return {type: VENTA_UPDATE_RETRIEVE_ERROR, retrieveError};
 }
 
 function retrieveLoading(retrieveLoading) {
-  return {type: PEDIDO_UPDATE_RETRIEVE_LOADING, retrieveLoading};
+  return {type: VENTA_UPDATE_RETRIEVE_LOADING, retrieveLoading};
 }
 
 function retrieveSuccess(retrieved) {
-  return {type: PEDIDO_UPDATE_RETRIEVE_SUCCESS, retrieved};
+  return {type: VENTA_UPDATE_RETRIEVE_SUCCESS, retrieved};
 }
 
 function updateError(updateError) {
-  return {type: PEDIDO_UPDATE_UPDATE_ERROR, updateError};
+  return {type: VENTA_UPDATE_UPDATE_ERROR, updateError};
 }
 
 function updateLoading(updateLoading) {
-  return {type: PEDIDO_UPDATE_UPDATE_LOADING, updateLoading};
+  return {type: VENTA_UPDATE_UPDATE_LOADING, updateLoading};
 }
 
 function updateSuccess(updated) {
-  return {type: PEDIDO_UPDATE_UPDATE_SUCCESS, updated};
+  return {type: VENTA_UPDATE_UPDATE_SUCCESS, updated};
 }
 
 function violations(violations) {
-  return {type: PEDIDO_UPDATE_UPDATE_VIOLATIONS, violations};
+  return {type: VENTA_UPDATE_UPDATE_VIOLATIONS, violations};
 }
 
 function reset() {
-  return {type: PEDIDO_UPDATE_RESET};
+  return {type: VENTA_UPDATE_RESET};
 }
 
 const getters = {
@@ -80,11 +80,11 @@ const actions = {
         commit(retrieveError(e.message));
       });
   },
-  update({ commit, state }, { id, values }) {
-
+  update({ commit, state }, { item, values }) {
+    commit(updateError(null));
     commit(updateLoading(true));
 
-    return fetch('/edit-pedido/'+id, {
+    return fetch(item['@id'], {
         method: 'PUT',
         headers: new Headers({'Content-Type': 'application/ld+json'}),
         body: JSON.stringify(values),
@@ -113,29 +113,29 @@ const actions = {
 };
 
 const mutations = {
-    [PEDIDO_UPDATE_RETRIEVE_ERROR] (state, payload) {
+    [VENTA_UPDATE_RETRIEVE_ERROR] (state, payload) {
       state.retrieveError = payload.retrieveError;
     },
-    [PEDIDO_UPDATE_RETRIEVE_LOADING] (state, payload) {
+    [VENTA_UPDATE_RETRIEVE_LOADING] (state, payload) {
       state.retrieveLoading = payload.retrieveLoading;
     },
-    [PEDIDO_UPDATE_RETRIEVE_SUCCESS] (state, payload) {
+    [VENTA_UPDATE_RETRIEVE_SUCCESS] (state, payload) {
       state.retrieved = payload.retrieved;
     },
-    [PEDIDO_UPDATE_UPDATE_LOADING] (state, payload) {
-      state.updateLoading = payload.updateLoading;
+    [VENTA_UPDATE_UPDATE_LOADING] (state, payload) {
+      state.updateLoading = payload.loading;
     },
-    [PEDIDO_UPDATE_UPDATE_ERROR] (state, payload) {
+    [VENTA_UPDATE_UPDATE_ERROR] (state, payload) {
       state.updateError = payload.updateError;
     },
-    [PEDIDO_UPDATE_UPDATE_SUCCESS] (state, payload) {
+    [VENTA_UPDATE_UPDATE_SUCCESS] (state, payload) {
       state.updated = payload.updated;
       state.violations = null;
     },
-    [PEDIDO_UPDATE_UPDATE_VIOLATIONS] (state, payload) {
+    [VENTA_UPDATE_UPDATE_VIOLATIONS] (state, payload) {
       state.violations = payload.violations;
     },
-    [PEDIDO_UPDATE_RESET] (state) {
+    [VENTA_UPDATE_RESET] (state) {
       state.loading = false;
       state.retrieveError = '';
       state.retrieveLoading = false;

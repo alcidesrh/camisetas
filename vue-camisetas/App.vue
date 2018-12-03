@@ -11,7 +11,11 @@
                     <v-icon class="mr-1">group</v-icon>
                     Usuarios
                 </v-tab>
-                <v-tab id="pedidos" flat @click="$router.push({name: 'PedidoList'})">
+                <v-tab id="stocks" flat @click="$router.push({name: 'StockList'})">
+                    <v-icon class="mr-1">account_box</v-icon>
+                    Stocks
+                </v-tab>
+                <v-tab id="ventas" flat @click="$router.push({name: 'VentaList'})">
                     <v-icon class="mr-1">shopping_basket</v-icon>
                     Ventas
                 </v-tab>
@@ -37,6 +41,7 @@
                         </v-list>
                     </v-menu>
                 </v-tab>
+
                 <v-tab id="close" flat>
                     <a v-bind:href="logoutRoute()" class="v-tabs__item">
                         <v-icon class="mr-1">highlight_off</v-icon>
@@ -46,18 +51,19 @@
             </v-tabs>
         </v-toolbar>
         <v-content>
-                <v-layout>
-                    <v-flex>
-                        <transition name="fade" class="pa-5">
-                            <router-view></router-view>
-                        </transition>
-                    </v-flex>
-                </v-layout>
+            <v-layout>
+                <v-flex>
+                    <transition name="fade" class="pa-5">
+                        <router-view></router-view>
+                    </transition>
+                </v-flex>
+            </v-layout>
         </v-content>
     </v-app>
 </template>
 <script>
     import {API_HOST} from './config/_entrypoint';
+
     export default {
 
         data: () => ({
@@ -65,7 +71,7 @@
             host: false,
         }),
         methods: {
-            logoutRoute(){
+            logoutRoute() {
                 return API_HOST + '/logout'
             }
         },
@@ -75,15 +81,17 @@
             this.$nextTick(function () {
                 if (typeof route_reload != typeof undefined) {
                     if (route_reload.length == 1) {
-                        if (route_reload[0] != 'pedidos' && route_reload[0] != 'l_s_tours' && route_reload[0] != 'transfers' && route_reload[0] != 'guides-shedule') {
-                            if (route_reload[0] == 'pedidos-user')
+                        if (route_reload[0] != 'stocks' && route_reload[0] != 'ventas') {
+                            if (route_reload[0] == 'stocks-user')
                                 document.getElementById('usuarios').firstChild.click();
                             else
                                 document.getElementById('gestion_producto').firstChild.click();
                         }
                         document.getElementById(route_reload[0]).firstChild.click();
                     } else {
-                        if (route_reload[0] == 'pedidos')
+                        if (route_reload[0] == 'stocks')
+                            document.getElementById(route_reload[0]).firstChild.click();
+                        else if (route_reload[0] == 'ventas')
                             document.getElementById(route_reload[0]).firstChild.click();
                         else
                             document.getElementById('gestion_producto').firstChild.click();

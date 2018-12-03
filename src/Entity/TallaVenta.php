@@ -8,10 +8,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ProductoTallaStockRepository")
+ * @ORM\Entity()
  * @ApiResource()
  */
-class TallaStock implements \JsonSerializable
+class TallaVenta implements \JsonSerializable
 {
     /**
      * @ORM\Id()
@@ -22,26 +22,32 @@ class TallaStock implements \JsonSerializable
 
     /**
      * @ORM\Column(type="integer", options={"default": 0})
-     * @Groups("read_stock")
+     * @Groups("read_venta")
      */
     private $vendidas = 0;
 
     /**
      * @ORM\Column(type="integer", options={"default": 0})
-     * @Groups("read_stock")
+     * @Groups("read_venta")
      */
     private $cantidad = 0;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Talla")
-     * @ORM\JoinColumn(name="talla_id", referencedColumnName="id")
-     * @Groups("read_stock")
-     */
+ * @ORM\ManyToOne(targetEntity="App\Entity\Talla")
+ * @ORM\JoinColumn(name="talla_id", referencedColumnName="id")
+ * @Groups("read_venta")
+ */
     private $talla;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ProductoStock", inversedBy="tallas")
-     * @ORM\JoinColumn(name="producto_stock_id", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="App\Entity\TallaStock")
+     * @ORM\JoinColumn(name="talla_stock_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private $tallaStock;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ProductoVenta", inversedBy="tallas")
+     * @ORM\JoinColumn(name="producto_venta_id", referencedColumnName="id")
      *
      */
     private $producto;
@@ -51,7 +57,7 @@ class TallaStock implements \JsonSerializable
      *
      * @ORM\Column(type="datetime", nullable=true)
      * @Assert\DateTime
-     * @Groups("read_stock")
+     * @Groups("read_venta")
      *
      */
     private $lastUpdate;
@@ -60,6 +66,7 @@ class TallaStock implements \JsonSerializable
     {
         $this->talla = $talla;
         $this->vendidas = 0;
+
     }
 
 
@@ -82,7 +89,7 @@ class TallaStock implements \JsonSerializable
     public function setVendidas($vendidas): void
     {
         $this->cantidad -= $vendidas;
-        $this->vendidas = $vendidas;
+        $this->vendidas += $vendidas;
     }
 
 
@@ -92,7 +99,7 @@ class TallaStock implements \JsonSerializable
         return $this->cantidad;
     }
 
-    public function setCantidad(?int $cantidad): self
+    public function setCantidad($cantidad): self
     {
         $this->cantidad = $cantidad ?? 0;
 
@@ -142,6 +149,24 @@ class TallaStock implements \JsonSerializable
     {
         $this->lastUpdate = $lastUpdate;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getTallaStock()
+    {
+        return $this->tallaStock;
+    }
+
+    /**
+     * @param mixed $tallaStock
+     */
+    public function setTallaStock($tallaStock): void
+    {
+        $this->tallaStock = $tallaStock;
+    }
+
+
 
     public function jsonSerialize(): array
     {

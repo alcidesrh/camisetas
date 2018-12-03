@@ -12,31 +12,31 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource( attributes={"order"={"createAt": "DESC"}}, normalizationContext={"groups"={"read_pedido"}})
+ * @ApiResource( attributes={"order"={"createAt": "DESC"}}, normalizationContext={"groups"={"read_stock"}})
  * @ApiFilter(PropertyFilter::class)
- * @ORM\Entity(repositoryClass="App\Repository\PedidoRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\StockRepository")
  */
-class Pedido implements \JsonSerializable
+class Stock implements \JsonSerializable
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups("read_pedido")
+     * @Groups("read_stock")
      */
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="pedidos", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="stock", cascade={"persist"})
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     * @Groups("read_pedido")
+     * @Groups("read_stock")
      */
     private $user;
 
 
     /**
-     *@ORM\OneToMany(targetEntity="App\Entity\ProductoPedido", mappedBy="pedido", cascade={"persist", "remove"}, orphanRemoval=true)
-     *@Groups("read_pedido")
+     *@ORM\OneToMany(targetEntity="App\Entity\ProductoStock", mappedBy="stock", cascade={"persist", "remove"}, orphanRemoval=true)
+     *@Groups("read_stock")
      */
     private $productos;
 
@@ -45,7 +45,7 @@ class Pedido implements \JsonSerializable
      *
      * @ORM\Column(type="datetime")
      * @Assert\DateTime
-     * @Groups("read_pedido")
+     * @Groups("read_stock")
      *
      */
     private $createAt;
@@ -55,7 +55,7 @@ class Pedido implements \JsonSerializable
      *
      * @ORM\Column(type="datetime", nullable=true)
      * @Assert\DateTime
-     * @Groups("read_pedido")
+     * @Groups("read_stock")
      *
      */
     private $lastUpdate;
@@ -64,28 +64,16 @@ class Pedido implements \JsonSerializable
      *
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $active;
-
-    /**
-     *
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $close;
-
-    /**
-     *
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $edited = 0;
+    private $refresh;
 
 
     /**
-     * @Groups("read_pedido")
+     * @Groups("read_stock")
      */
     private $stock = 0;
 
     /**
-     * @Groups("read_pedido")
+     * @Groups("read_stock")
      */
     private $venta = 0;
 
@@ -108,6 +96,7 @@ class Pedido implements \JsonSerializable
     {
         $this->productos = new ArrayCollection();
         $this->createAt = new \DateTime();
+        $this->refresh = true;
     }
 
     public function getId(): ?int
@@ -132,7 +121,7 @@ class Pedido implements \JsonSerializable
         return $this;
     }
 
-    public function addProductos( ProductoPedido ...$productos ): void
+    public function addProductos( ProductoStock ...$productos ): void
     {
         foreach ( $productos as $producto ) {
             if ( !$this->productos->contains( $producto ) ) {
@@ -141,8 +130,8 @@ class Pedido implements \JsonSerializable
         }
     }
 
-    public function removeProduct(ProductoPedido $productoPedido){
-        unset($this->productos[$this->productos->indexOf($productoPedido)]);
+    public function removeProduct(ProductoStock $productoStock){
+        unset($this->productos[$this->productos->indexOf($productoStock)]);
     }
 
     public function removeProducto($producto)
@@ -192,51 +181,20 @@ class Pedido implements \JsonSerializable
     /**
      * @return mixed
      */
-    public function getActive()
+    public function getRefresh()
     {
-        return $this->active;
+        return $this->refresh;
     }
 
     /**
-     * @param mixed $active
+     * @param mixed $refresh
      */
-    public function setActive($active): void
+    public function setRefresh($refresh): void
     {
-        $this->active = $active;
+        $this->refresh = $refresh;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getClose()
-    {
-        return $this->close;
-    }
 
-    /**
-     * @param mixed $close
-     */
-    public function setClose($close): void
-    {
-        $this->close = $close;
-        $this->active = $close;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEdited()
-    {
-        return $this->edited;
-    }
-
-    /**
-     * @param mixed $edited
-     */
-    public function setEdited($edited): void
-    {
-        $this->edited = $edited;
-    }
 
 
     public function jsonSerialize(): array

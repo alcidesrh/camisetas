@@ -1,10 +1,10 @@
 import fetch from '../../../utils/fetch';
 import {
-  PEDIDO_LIST_ERROR,
-  PEDIDO_LIST_LOADING,
-  PEDIDO_LIST_RESET,
-  PEDIDO_LIST_VIEW,
-  PEDIDO_LIST_SUCCESS
+  VENTA_LIST_ERROR,
+  VENTA_LIST_LOADING,
+  VENTA_LIST_RESET,
+  VENTA_LIST_VIEW,
+  VENTA_LIST_SUCCESS
 } from './mutation-types';
 
 const state = {
@@ -15,19 +15,19 @@ const state = {
 };
 
 function error(error) {
-  return {type: PEDIDO_LIST_ERROR, error};
+  return {type: VENTA_LIST_ERROR, error};
 }
 
 function loading(loading) {
-  return {type: PEDIDO_LIST_LOADING, loading};
+  return {type: VENTA_LIST_LOADING, loading};
 }
 
 function success(items) {
-  return {type: PEDIDO_LIST_SUCCESS, items};
+  return {type: VENTA_LIST_SUCCESS, items};
 }
 
 function view(items) {
-  return { type: PEDIDO_LIST_VIEW, items};
+  return { type: VENTA_LIST_VIEW, items};
 }
 
 const getters = {
@@ -38,10 +38,10 @@ const getters = {
 };
 
 const actions = {
-    getItems({ commit }, page = '/pedidos') {
+    getItems({ commit }, page = '/ventas') {
       commit(loading(true));
 
-      return fetch(page)
+        return fetch(page)
         .then(response => response.json())
         .then(data => {
           commit(loading(false));
@@ -56,19 +56,19 @@ const actions = {
 };
 
 const mutations = {
-    [PEDIDO_LIST_ERROR] (state, payload) {
+    [VENTA_LIST_ERROR] (state, payload) {
       state.error = payload.error;
     },
-    [PEDIDO_LIST_LOADING] (state, payload) {
+    [VENTA_LIST_LOADING] (state, payload) {
       state.loading = payload.loading;
     },
-    [PEDIDO_LIST_VIEW] (state, payload) {
+    [VENTA_LIST_VIEW] (state, payload) {
       state.view = payload.items;
     },
-    [PEDIDO_LIST_SUCCESS] (state, payload) {
+    [VENTA_LIST_SUCCESS] (state, payload) {
       state.items = payload.items;
     },
-    [PEDIDO_LIST_RESET] (state) {
+    [VENTA_LIST_RESET] (state) {
       state.items = [];
     }
 };

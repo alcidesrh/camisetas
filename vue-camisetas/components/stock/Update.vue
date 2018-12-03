@@ -17,7 +17,7 @@
         </v-card>
         <v-card>
             <v-card-title>
-                <span class="headline">Editar Pedido</span>
+                <span class="headline">Editar Stock</span>
                 <v-btn icon flat @click.native="closeUpdate" class="modal-btn-close">
                     <v-icon>close</v-icon>
                 </v-btn>
@@ -143,7 +143,7 @@
     export default {
         data() {
             return {
-                pedido: {user: false, productos: [], stock: []},
+                item: {user: false, productos: [], stock: []},
                 productosSelected: [],
                 productosCheckBox: [],
                 stock: [],
@@ -155,12 +155,10 @@
                     {text: 'Nombre', value: 'nombre'},
                     {text: '', value: ''}
                 ],
-                dialog: false,
                 snackbar: false,
                 snackbarText: '',
                 snackbarColor: 'success',
                 flag: false,
-                item: {name: ''},
                 fieldRule: [
                     v => !!v || 'Este campo es requerido'
                 ]
@@ -168,17 +166,14 @@
         },
         computed: {
             ...mapGetters({
-                errorUpdate: 'pedido/update/updateError',
-                retrieved: 'pedido/update/retrieved',
-                updateLoading: 'pedido/update/updateLoading',
+                errorUpdate: 'stock/update/updateError',
+                retrieved: 'stock/update/retrieved',
+                updateLoading: 'stock/update/updateLoading',
                 productos: 'producto/list/items',
                 tallas: 'talla/list/items'
             })
         },
         watch: {
-            dialog(val) {
-                val || this.close()
-            },
             errorUpdate(message) {
                 this.error(message);
             },
@@ -189,9 +184,9 @@
         methods: {
             closeUpdate() {
                 if (this.fromUser)
-                    this.$router.push({name: 'PedidoList', params: {user: this.fromUser}})
+                    this.$router.push({name: 'StockList', params: {user: this.fromUser}})
                 else
-                    this.$router.push({name: 'PedidoList'})
+                    this.$router.push({name: 'StockList'})
             },
             validNumber(index, event) {
                 if ((event.keyCode < 48 || (event.keyCode > 57 && event.keyCode < 96 || event.keyCode > 105)) && (event.keyCode != 8 && event.keyCode != 46 && event.keyCode != 37 && event.keyCode != 39 && event.keyCode != 13)) {
@@ -224,24 +219,16 @@
                 this.snackbarText = message;
                 this.snackbar = true;
             },
-            open() {
-                this.$refs.form.reset();
-                this.dialog = true;
-            },
-            close() {
-                this.dialog = false;
-                this.item = {};
-            },
-            setPedido() {
-                this.pedido.productos = [];
+            setStock() {
+                this.item.productos = [];
                 let $this = this;
                 this.productosSelected.forEach(item => {
                     let producto = {id: item.id, stock: item.tallas};
-                    if (typeof item.producto_pedido != typeof undefined)
-                        producto.producto_pedido = item.producto_pedido;
-                    $this.pedido.productos.push(producto);
+                    if (typeof item.producto_stock != typeof undefined)
+                        producto.producto_stock = item.producto_stock;
+                    $this.item.productos.push(producto);
                 });
-                this.pedido.stock = this.stock
+                this.item.stock = this.stock
 
 
             },
@@ -251,10 +238,10 @@
                     this.error('No ha elegido ningún producto');
                     return;
                 }
-                this.setPedido();
-                this.$store.dispatch('pedido/update/update', {
-                    id: this.pedido.id,
-                    values: this.pedido
+                this.setStock();
+                this.$store.dispatch('stock/update/update', {
+                    id: this.item.id,
+                    values: this.item
                 }).then(
                     () => {
                         if (this.flag) {
@@ -266,11 +253,10 @@
                         this.closeUpdate();
 
                     });
-                this.close()
             },
             getItem() {
-                this.$store.dispatch('pedido/update/retrieve', '/pedidos/' + decodeURIComponent(this.$route.params.id)).then(() => {
-                    this.pedido.id = this.retrieved.id;
+                this.$store.dispatch('stock/update/retrieve', '/stocks/' + decodeURIComponent(this.$route.params.id)).then(() => {
+                    this.item.id = this.retrieved.id;
                     let productos = [], $this = this;
 
                     this.tallas.forEach((item) => {
@@ -294,7 +280,7 @@
                             else
                                 talla.stock = "";
                         });
-                        result[0].producto_pedido = item.id;
+                        result[0].producto_stock = item.id;
                         productos.push(result[0]);
                     });
                     this.productosSelected = productos;

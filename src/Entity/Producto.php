@@ -17,7 +17,7 @@ class Producto implements \JsonSerializable
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     *  @Groups("read_pedido")
+     * @Groups({"read_stock", "read_venta"})
      */
     private $id;
 
@@ -25,7 +25,7 @@ class Producto implements \JsonSerializable
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
-     *  @Groups("read_pedido")
+     * @Groups({"read_stock", "read_venta"})
      */
 
     private $nombre;
@@ -33,7 +33,7 @@ class Producto implements \JsonSerializable
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\File", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\JoinColumn(name="image_id", referencedColumnName="id")
-     * @Groups("read_pedido")
+     * @Groups({"read_stock", "read_venta"})
      */
     private $imagen;
 
