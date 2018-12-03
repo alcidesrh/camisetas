@@ -203,6 +203,25 @@ class ApiController extends AbstractController
     }
 
     /**
+     * @Route("/clean-sale-stock", name="clean_sale_stock")
+     *
+     */
+    public function cleanSaleStock(EntityManagerInterface $entityManager): JsonResponse
+    {
+        if ($stock = $this->getUser()->getStock()) {
+            foreach ($stock->getProductos() as $producto) {
+                foreach ($producto->getTallas() as $talla) {
+                    $talla->setVendidas(0);
+                    $entityManager->persist($talla);
+                }
+            }
+            $entityManager->flush();
+        }
+
+        return new JsonResponse(['save']);
+    }
+
+    /**
      * @Route("/edit-stock/{id}", name="edit_stock")
      *
      */
@@ -218,8 +237,12 @@ class ApiController extends AbstractController
                 $productoStock = $entityManager->getRepository('App:ProductoStock')->find(
                     $item['producto_stock']
                 );
-                if($productoVenta = $entityManager->getRepository('App:Venta')->findProductoVentaByProductoStock($productoStock)){
-                    $productoVenta = $entityManager->getRepository('App:ProductoVenta')->find(intval(array_values($productoVenta)[0]));
+                if ($productoVenta = $entityManager->getRepository('App:Venta')->findProductoVentaByProductoStock(
+                    $productoStock
+                )) {
+                    $productoVenta = $entityManager->getRepository('App:ProductoVenta')->find(
+                        intval(array_values($productoVenta)[0])
+                    );
                     $arrayVenta->add($productoVenta);
                 }
                 $array->add($productoStock);
@@ -229,23 +252,26 @@ class ApiController extends AbstractController
                         $talla = new TallaStock($entityManager->getRepository('App:Talla')->find($value['id']));
                         $talla->setProducto($productoStock);
                         $productoStock->addTallas($talla);
-                        if($venta){
+                        if ($venta) {
                             $tallaVenta = new TallaVenta($talla->getTalla());
                             $tallaVenta->setProducto($productoVenta);
                             $productoVenta->addTallas($tallaVenta);
                         }
-                    }
-                    else if($venta){
-                        $tallaVenta = $entityManager->getRepository('App:Venta')->findTallaByTallaStock($talla);
+                    } else {
+                        if ($venta) {
+                            $tallaVenta = $entityManager->getRepository('App:Venta')->findTallaByTallaStock($talla);
+                        }
                     }
                     if ($item['stock'][$i]['stock']) {
                         $talla->setCantidad($item['stock'][$i]['stock']);
-                        if($venta)
-                        $tallaVenta->setCantidad($item['stock'][$i]['stock']);
+                        if ($venta) {
+                            $tallaVenta->setCantidad($item['stock'][$i]['stock']);
+                        }
                     } else {
                         $talla->setCantidad($value['stock'] ?? 0);
-                        if($venta)
-                        $tallaVenta->setCantidad($value['stock'] ?? 0);
+                        if ($venta) {
+                            $tallaVenta->setCantidad($value['stock'] ?? 0);
+                        }
                     }
 
                     $entityManager->persist($talla, $tallaVenta);
@@ -256,7 +282,7 @@ class ApiController extends AbstractController
                 $productoStock->setProducto($producto);
                 $productoStock->setStock($stock);
                 $entityManager->persist($productoStock);
-                if($venta){
+                if ($venta) {
                     $productoVenta = new ProductoVenta();
                     $productoVenta->setVenta($venta);
                     $productoVenta->setProducto($producto);
@@ -273,7 +299,7 @@ class ApiController extends AbstractController
                         $talla->setCantidad($value['stock'] ?? 0);
                     }
                     $entityManager->persist($talla);
-                    if($venta){
+                    if ($venta) {
                         $tallaVenta = new TallaVenta($talla->getTalla());
                         $tallaVenta->setProducto($productoVenta);
                         $tallaVenta->setTallaStock($talla);
@@ -297,7 +323,7 @@ class ApiController extends AbstractController
         $stock->setRefresh(true);
         $entityManager->persist($stock);
 
-        if($venta){
+        if ($venta) {
             foreach ($venta->getProductos() as $value) {
                 if (!$arrayVenta->contains($value) && !$value->getVenta()) {
                     $venta->removeProduct($value);
