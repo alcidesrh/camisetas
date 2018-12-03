@@ -33,6 +33,11 @@ class TallaVenta implements \JsonSerializable
     private $cantidad = 0;
 
     /**
+     * @Groups("read_venta")
+     */
+    private $stock;
+
+    /**
  * @ORM\ManyToOne(targetEntity="App\Entity\Talla")
  * @ORM\JoinColumn(name="talla_id", referencedColumnName="id")
  * @Groups("read_venta")
@@ -69,6 +74,9 @@ class TallaVenta implements \JsonSerializable
 
     }
 
+    public function getStock(){
+        return $this->cantidad + $this->vendidas;
+    }
 
     public function getId()
     {
