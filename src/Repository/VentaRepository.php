@@ -31,7 +31,8 @@ class VentaRepository extends ServiceEntityRepository
         SELECT tv FROM App:TallaVenta tv
          JOIN tv.tallaStock ts
          JOIN tv.producto pv
-         WHERE tv.talla = :talla AND ts = :tallaStock')->setParameters(['talla' => $talla->getTalla(), 'tallaStock' => $talla])->getOneOrNullResult();
+         JOIN pv.venta v
+         WHERE v.open = :open AND tv.talla = :talla AND ts = :tallaStock')->setParameters(['open' => true, 'talla' => $talla->getTalla(), 'tallaStock' => $talla])->getOneOrNullResult();
 
     }
     public function findProductoVentaByProductoStock(ProductoStock $productoStock)

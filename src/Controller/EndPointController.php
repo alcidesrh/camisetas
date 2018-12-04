@@ -62,7 +62,7 @@ class EndPointController extends AbstractController
     {
         if ($data = Util::decodeBody()) {
 
-            if (isset($data['name'])) {
+            if (!$entityManager->getRepository('App:Venta')->findBy(['open' => true]) && isset($data['name'])) {
                 $venta = new Venta();
                 $venta->setUser($this->getUser());
                 $venta->setFeria($data['name']);
@@ -83,8 +83,8 @@ class EndPointController extends AbstractController
                 }
                 $entityManager->persist($venta);
                 $entityManager->flush();
-                return new JsonResponse($data);
             }
+            return new JsonResponse($data);
         }
         if($venta = $entityManager->getRepository('App:Venta')->findOneBy(['open' => true])){
             $venta->setOpen(false);
@@ -113,7 +113,7 @@ class EndPointController extends AbstractController
     {
         if ($tallas = Util::decodeBody()) {
             foreach ($tallas as $value) {
-                $talla = $entityManager->getRepository('App:TallaStock')->find($value['id']);
+                if(!($talla = $entityManager->getRepository('App:TallaStock')->find($value['id'])))continue;
                 $talla->setVendidas($value['vendida']);
                 $talla->setLastUpdate(new \DateTime());
                 $tallaVenta = $entityManager->getRepository('App:Venta')->findTallaByTallaStock($talla);
@@ -121,7 +121,7 @@ class EndPointController extends AbstractController
                 $tallaVenta->setLastUpdate(new \DateTime());
                 $entityManager->persist($talla, $tallaVenta);
                 if(!isset($venta))
-                    $venta = $tallaVenta->getProducto()->getVenta();
+                    $venta = $tallaVenta->getProducto()->getVentaEntity();
             }
             if(isset($venta)){
                 $venta->setLastUpdate(new \DateTime());

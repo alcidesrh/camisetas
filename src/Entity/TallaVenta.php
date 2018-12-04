@@ -45,7 +45,7 @@ class TallaVenta implements \JsonSerializable
     private $talla;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\TallaStock")
+     * @ORM\ManyToOne(targetEntity="App\Entity\TallaStock")
      * @ORM\JoinColumn(name="talla_stock_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $tallaStock;

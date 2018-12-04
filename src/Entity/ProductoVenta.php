@@ -43,6 +43,10 @@ class ProductoVenta implements \JsonSerializable
      */
     private $venta;
 
+    public function getVentaEntity(){
+        return $this->venta;
+}
+
 
 
     public function getStock(){
