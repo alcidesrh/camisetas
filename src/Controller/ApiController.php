@@ -71,32 +71,6 @@ class ApiController extends AbstractController
             }
         }
         $producto->setNombre($data['nombre']);
-//        $tallas = [];
-//        for ($i = 0; $i < count($data['tallas']); $i++) {
-//            if (!$data['tallas'][$i]) {
-//                continue;
-//            }
-//            if (is_array($data['tallas'][$i])) {
-//                $array = $data['tallas'][$i];
-//                $talla = $entityManager->find('App:TallaStock', $array['talla']);
-//                $tallas[] = $talla;
-//                $talla->setCantidad($data['stock'][$i]);
-//                $entityManager->persist($talla);
-//            } else {
-//                $talla = new TallaStock();
-//                $talla->setTalla($entityManager->getRepository('App:Talla')->find($data['tallas'][$i]))->setCantidad(
-//                    $data['stock'][$i]
-//                );
-//                $producto->addTallas($talla);
-//            }
-//        }
-//        if (isset($data['id'])) {
-//            foreach ($producto->getTallas() as $value) {
-//                if ($value->getId() && !in_array($value->getId(), $tallas)) {
-//                    $producto->removeTallas($value);
-//                }
-//            }
-//        }
         $entityManager->persist($producto);
         $entityManager->flush();
 
@@ -354,5 +328,30 @@ class ApiController extends AbstractController
             ['user' => $entityManager->find('App:User', $id)],
             ['createAt' => 'DESC']
         );
+    }
+
+    /**
+     * @Route(
+     *     name="close_feria",
+     *     path="/close-feria",
+     *     methods={"POST"}
+     * )
+     */
+    public function closeFeria(EntityManagerInterface $entityManager)
+    {
+        if($venta = $entityManager->getRepository('App:Venta')->findOneBy(['open' => true])){
+            $venta->setOpen(false);
+            $venta->setCloseAt(new \DateTime());
+            $stock = $this->getUser()->getStock();
+            foreach ($stock->getProductos() as $producto) {
+                foreach ($producto->getTallas() as $talla) {
+                    $talla->setVendidas(0);
+                    $entityManager->persist($talla);
+                }
+            }
+            $entityManager->persist($venta);
+            $entityManager->flush();
+        }
+        return new JsonResponse('close');
     }
 }

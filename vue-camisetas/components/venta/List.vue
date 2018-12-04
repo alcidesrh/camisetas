@@ -11,7 +11,7 @@
     </v-snackbar>
     <v-card>
       <v-container style="position: fixed; z-index: 2001" fill-height justify-center
-                   v-show="loading || deleteLoading || userLoading">
+                   v-show="loading || deleteLoading || userLoading || loading2">
         <v-progress-circular indeterminate :size="70" :width="3" color="success"></v-progress-circular>
       </v-container>
       <v-tooltip top>
@@ -89,10 +89,13 @@
             <td class="justify-center align-center layout px-0">
               <v-tooltip top>
                 <v-btn icon class="mx-0"  @click="ventaUrl(props.item)" slot="activator">
-                  <v-icon color="orange">shopping_basket</v-icon>
+                  <v-icon color="teal">shopping_basket</v-icon>
                 </v-btn>
                 <span>Ver detalle de la venta</span>
               </v-tooltip>
+              <v-btn icon class="mx-0" @click="closeFeria()" v-if="props.item.open">
+                <v-icon color="orange">close</v-icon>
+              </v-btn>
               <v-btn icon class="mx-0" @click="deleteItem(props.item)">
                 <v-icon color="red">delete</v-icon>
               </v-btn>
@@ -110,6 +113,7 @@
     import {mapGetters} from 'vuex';
     import {API_HOST} from '../../config/_entrypoint';
     import moment from 'moment';
+    import fetch from '../../utils/fetch';
 
     export default {
         data() {
@@ -134,6 +138,7 @@
                 snackbarText: '',
                 snackbarColor: 'success',
                 flag: false,
+                loading2: false,
             }
         },
         computed: {
@@ -166,6 +171,21 @@
             }
         },
         methods: {
+            closeFeria(){
+                this.loading2 = true;
+                fetch('/close-feria',{
+                    method: 'POST',
+                    credentials: "same-origin",
+                }).then(response => {
+                    this.snackbarText = 'Se ha cerrado la venta';
+                    this.snackbar = true;
+                    this.loading2 = false;
+                    this.getItems();
+                }).catch(e => {
+                    this.loading2 = false;
+                    this.error(e.message)
+                });
+            },
             resetList(){
                 this.selectUser = false;
                 this.$store.dispatch('user/update/reset');
@@ -206,6 +226,14 @@
                             }
                             this.snackbarText = 'Se ha eliminado';
                             this.snackbar = true;
+                            if(item.open){
+                                fetch('/clean-sale-stock',{
+                                    method: 'GET',
+                                    credentials: "same-origin",
+                                }).catch(e => {
+                                        this.error(e.message)
+                                    });
+                            }
                             this.getItems();
                         })
                 }

@@ -85,7 +85,7 @@
                                 <v-btn icon class="mx-0"  @click="ventaUrl(props.item)" slot="activator">
                                     <v-icon color="orange">remove_red_eye</v-icon>
                                 </v-btn>
-                                <span>Ver Ventas de {{props.item.user.fullName}} </span>
+                                <span>Ver ventas de {{props.item.user.fullName}} </span>
                             </v-tooltip>
                             <v-btn icon class="mx-0" @click="editUrl(props.item)">
                                 <v-icon color="teal">edit</v-icon>

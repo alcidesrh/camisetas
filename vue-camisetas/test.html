@@ -1,6 +1,6 @@
 <script>
     var token;
-    var HOST = "http://camisetas"
+    var HOST = "http://camiseteando.es"
     fetch(HOST+'/endpoint/login', {// loguearse
         headers: {
             'Accept': 'application/json',
@@ -29,20 +29,20 @@
                 .then(response => {
                     console.log(response);
                     //-------------------------------------
-                    // fetch(HOST+'/endpoint/feria', {//chequear si hay feria/stock/stock asignado al usuario
-                    //     method: 'POST',
-                    //     headers: {
-                    //         'Accept': 'application/json',
-                    //         'Content-Type': 'application/json',
-                    //         'Authorization': 'Bearer '+token,
-                    //     },
-                    //     credentials: "same-origin",
-                    //     body: JSON.stringify({name: 'feria'})
-                    // })
-                    //     .then(response => {
-                    //         return response.json();
-                    //     })
-                    //     .then(response => {
+                    fetch(HOST+'/endpoint/feria', {//chequear si hay feria/stock/stock asignado al usuario
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer '+token,
+                        },
+                        credentials: "same-origin",
+                        body: JSON.stringify({name: 'Feria Test'})
+                    })
+                        .then(response => {
+                            return response.json();
+                        })
+                        .then(response => {
                     //-------------------------------------------
                             console.log(response);
                             fetch(HOST+'/endpoint/update-talla', {//actualizar ventas de tallas
@@ -53,7 +53,7 @@
                                     'Authorization': 'Bearer '+token,
                                 },
                                 credentials: "same-origin",
-                                body: JSON.stringify([{id: 63, vendida: 1}, {id: 71, vendida: 1}])
+                                body: JSON.stringify([{id: 1, vendida: 1}, {id: 2, vendida: 1}, {id: 3, vendida: 1}, {id: 4, vendida: 4}, {id: 5, vendida: 3}, {id: 6, vendida: 4}, {id: 7, vendida: 6}, {id: 9, vendida: 5}, {id: 10, vendida: 10}])
                             })
                                 .then(response => {
                                     return response.json();
@@ -64,9 +64,9 @@
                                 console.log(e);
                             });
                             //---------------------------------------
-                    //     }).catch(e => {
-                    //     console.log(e);
-                    // });
+                        }).catch(e => {
+                        console.log(e);
+                    });
 //-----------------------------------------
                 }).catch(e => {
                 console.log(e);

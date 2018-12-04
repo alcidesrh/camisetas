@@ -56,8 +56,8 @@
             </td>
             <td v-for="talla in props.item.tallas_table">
               <v-tooltip top v-if="talla">
-                <label slot="activator" v-bind:style="{color: talla.vendidas == talla.cantidad ? 'teal' : 'orange'}">
-                  {{talla.cantidad != 0 ? talla.vendidas+' de '+talla.cantidad : '-----'}}
+                <label slot="activator" v-bind:style="{color: talla.vendidas == talla.stock ? 'teal' : 'orange'}">
+                  {{talla.stock != 0 ? talla.vendidas+' de '+talla.stock : '-----'}}
                 </label>
                 <span>{{ talla.lastUpdate ? 'Actualizado: ' + formatDate(talla.lastUpdate) : '0 venta' }}</span>
               </v-tooltip>
