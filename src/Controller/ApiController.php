@@ -211,6 +211,7 @@ class ApiController extends AbstractController
                 $productoStock = $entityManager->getRepository('App:ProductoStock')->find(
                     $item['producto_stock']
                 );
+                if ($venta)
                 if ($productoVenta = $entityManager->getRepository('App:Venta')->findProductoVentaByProductoStock(
                     $productoStock
                 )) {

@@ -39,8 +39,10 @@ class VentaRepository extends ServiceEntityRepository
     {
         return $this->getEntityManager()->createQuery('
         SELECT DISTINCT IDENTITY(tv.producto) FROM App:TallaVenta tv
-         JOIN tv.tallaStock ts
-         WHERE ts.producto = :producto')->setParameter('producto', $productoStock)->getOneOrNullResult();
+        JOIN tv.producto p
+        JOIN p.venta v
+        JOIN tv.tallaStock ts
+        WHERE v.open = :open AND ts.producto = :producto')->setParameters(['open' => true, 'producto' => $productoStock])->getOneOrNullResult();
 
     }
 
