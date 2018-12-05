@@ -205,7 +205,7 @@ class ApiController extends AbstractController
 
         $array = new ArrayCollection();
         $arrayVenta = new ArrayCollection();
-        $venta = $entityManager->getRepository('App:Venta')->findOneBy(['open' => true]);
+        $venta = $entityManager->getRepository('App:Venta')->findOneBy(['open' => true, 'user' => $this->getUser()]);
         foreach ($data['productos'] as $item) {
             if (isset($item['producto_stock'])) {
                 $productoStock = $entityManager->getRepository('App:ProductoStock')->find(
@@ -339,7 +339,7 @@ class ApiController extends AbstractController
      */
     public function closeFeria(EntityManagerInterface $entityManager)
     {
-        if($venta = $entityManager->getRepository('App:Venta')->findOneBy(['open' => true])){
+        if($venta = $entityManager->getRepository('App:Venta')->findOneBy(['open' => true, 'user' => $this->getUser()])){
             $venta->setOpen(false);
             $venta->setCloseAt(new \DateTime());
             $stock = $this->getUser()->getStock();

@@ -62,7 +62,7 @@ class EndPointController extends AbstractController
     {
         if ($data = Util::decodeBody()) {
 
-            if (!$entityManager->getRepository('App:Venta')->findBy(['open' => true]) && isset($data['name'])) {
+            if (!$entityManager->getRepository('App:Venta')->findBy(['open' => true, 'user' => $this->getUser()]) && isset($data['name'])) {
                 $venta = new Venta();
                 $venta->setUser($this->getUser());
                 $venta->setFeria($data['name']);
@@ -86,7 +86,7 @@ class EndPointController extends AbstractController
             }
             return new JsonResponse($data);
         }
-        if($venta = $entityManager->getRepository('App:Venta')->findOneBy(['open' => true])){
+        if($venta = $entityManager->getRepository('App:Venta')->findOneBy(['open' => true, 'user' => $this->getUser()])){
             $venta->setOpen(false);
             $venta->setCloseAt(new \DateTime());
             $stock = $this->getUser()->getStock();
