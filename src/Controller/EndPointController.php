@@ -84,7 +84,6 @@ class EndPointController extends AbstractController
                 $entityManager->persist($venta);
                 $entityManager->flush();
             }
-            return new JsonResponse($data);
         }
         if($venta = $entityManager->getRepository('App:Venta')->findOneBy(['open' => true, 'user' => $this->getUser()])){
             $venta->setOpen(false);
