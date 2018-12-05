@@ -249,7 +249,8 @@ class ApiController extends AbstractController
                         }
                     }
 
-                    $entityManager->persist($talla, $tallaVenta);
+                    $entityManager->persist($talla);
+                    if(isset($tallaVenta))$entityManager->persist($tallaVenta);
                 }
             } else {
                 $producto = $entityManager->getRepository('App:Producto')->find($item['id']);
