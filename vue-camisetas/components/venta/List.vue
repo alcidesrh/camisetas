@@ -31,10 +31,6 @@
 
       <div>
         <v-card-title>
-          <v-btn icon flat @click.native="closeUpdate" class="modal-btn-close">
-            <v-icon>close</v-icon>
-          </v-btn>
-
           <v-layout class="mt-4">
             <v-flex headline v-if="user" >
               Ventas de {{user.fullName}}
@@ -91,11 +87,14 @@
                 <v-btn icon class="mx-0"  @click="ventaUrl(props.item)" slot="activator">
                   <v-icon color="teal">shopping_basket</v-icon>
                 </v-btn>
-                <span>Ver detalle de la venta</span>
+                <span>Detalle de la venta</span>
               </v-tooltip>
-              <v-btn icon class="mx-0" @click="closeFeria()" v-if="props.item.open">
+			  <v-tooltip top v-if="props.item.open">
+                <v-btn icon class="mx-0" @click="closeFeria()"  slot="activator">
                 <v-icon color="orange">close</v-icon>
               </v-btn>
+                <span>Cerrar venta</span>
+              </v-tooltip>              
               <v-btn icon class="mx-0" @click="deleteItem(props.item)">
                 <v-icon color="red">delete</v-icon>
               </v-btn>

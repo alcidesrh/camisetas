@@ -36,18 +36,7 @@ class EndPointController extends AbstractController
      */
     public function checkStock()
     {
-        if ($stock = $this->getUser()->getStock()) {
-            if ($stock->getRefresh()) {
-                $stock->setRefresh(false);
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($stock);
-                $entityManager->flush();
-            } else {
-                return new JsonResponse([null]);
-            }
-        }
-
-        return new JsonResponse([$stock]);
+        return new JsonResponse([$this->getUser()->getStock()]);
 
     }
 
