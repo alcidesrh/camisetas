@@ -381,7 +381,7 @@ class ApiController extends AbstractController
                 $tallaStock->addCantidad($value['reponer']);
                 $entityManager->persist($tallaStock);
             }
-//            $entityManager->flush();
+            $entityManager->flush();
 
             if($imprimir){
                 $user = $entityManager->getRepository('App:Venta')->find($data['venta'])->getUser();
@@ -393,7 +393,7 @@ class ApiController extends AbstractController
                     $productosStock[$productoKey][$talla->getTalla()->getNombre()]['cantidad'] = $talla->getCantidad();
                 }
                 $date = new \DateTime();
-                $mpdf = new Mpdf();
+                $mpdf = new Mpdf(['tempDir' => 'pdf/temp/']);
                 $mpdf->WriteHTML($this->renderView('pdf-resumen.html.twig', ['productos' => $productosPdf, 'user' => $user, 'productosStock' => $productosStock, 'fecha' => $date->format('d/m/Y h:i a')]));
                 $mpdf->Output('pdf/reponer.pdf', Destination::FILE);
                 return new JsonResponse('pdf/reponer.pdf');
