@@ -1,0 +1,46 @@
+<p style="font-size: 12px; position: fixed; right: 0px">{{ fecha }}</p>
+<h3 style="margin-bottom: 30px">Reposición al stock de {{ user.fullName }}</h3>
+<h4 style="margin-bottom: 10px">Productos a reponer:</h4>
+{% for key, data in productos %}
+    <table style="margin-bottom: 20px">
+        <thead>
+        <tr>
+            <td></td>
+            {% for key in data|keys %}
+                <td style="width: 50px">{{ key }}</td>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tr>
+            <td style="width: 180px">
+                  {{ key }}
+            </td>
+            {% for value in data %}
+                <td>{{ value.cantidad }}</td>
+            {% endfor %}
+        </tr>
+    </table>
+    <hr/>
+{% endfor %}
+<h4 style="margin-top: 30px">Stock actualizado:</h4>
+{% for key, data in productosStock %}
+    <table>
+        <thead>
+        <tr>
+            <td></td>
+            {% for key in data|keys %}
+                <td style="width: 50px">{{ key }}</td>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tr>
+            <td style="width: 180px">
+                {{ key }}
+            </td>
+            {% for value in data %}
+                <td>{{ value.cantidad }}</td>
+            {% endfor %}
+        </tr>
+    </table>
+    <hr/>
+{% endfor %}

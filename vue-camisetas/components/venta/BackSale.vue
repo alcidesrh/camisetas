@@ -16,31 +16,20 @@
       </v-container>
     </v-card>
 
-    <v-card>
+    <v-card v-if="retrieved">
       <v-card-title>
-        <span class="headline">Venta</span>
+        <v-layout>
+          <v-flex headline>
+            Reponer en el stock de {{retrieved.user.fullName}}
+            <v-btn color="primary" @click="reponer(false)" small>Reponer</v-btn>
+            <v-btn color="primary" @click="reponer(true)" small>Reponer e imprimir resumen</v-btn>
+          </v-flex>
+        </v-layout>
         <v-btn icon flat @click.native="closeVenta" class="modal-btn-close">
           <v-icon>close</v-icon>
         </v-btn>
       </v-card-title>
       <div v-if="retrieved">
-        <v-card
-                max-width="500"
-                class="ml-3"
-        >
-          <v-layout
-                  tag="v-card-text"
-                  text-xs-left
-                  wrap
-          >
-            <v-flex xs12 xs5 mr-3 mb-2><strong>Usuario:</strong> {{retrieved.user.fullName}}</v-flex>
-            <v-flex xs12 xs5 mr-3 mb-2><strong>Creado:</strong> {{formatDate(retrieved.createAt )}}</v-flex>
-            <v-flex xs12 mr-3 mb-2 v-if="retrieved.lastUpdate"><strong>Última actualización:</strong> {{formatDate(retrieved.lastUpdate )}}</v-flex>
-            <v-flex xs12 mr-3 mb-2><strong>Stock total:</strong> {{stockTotal}}</v-flex>
-            <v-flex xs12 mr-3 mb-2><strong>Venta total:</strong> {{ventaTotal}}</v-flex>
-            <v-flex xs12 mr-3 mb-2><strong>En stock:</strong> {{stockTotal - ventaTotal}}</v-flex>
-          </v-layout>
-        </v-card>
         <v-data-table
                 :headers="headers"
                 :items="retrieved.productos"
@@ -55,18 +44,22 @@
               </v-chip>
             </td>
             <td v-for="talla in props.item.tallas_table">
-              <v-tooltip top v-if="talla">
-                <label slot="activator" v-bind:style="{color: talla.vendidas == talla.stock ? 'teal' : 'orange'}">
-                  {{talla.stock != 0 ? talla.vendidas+' de '+talla.stock : '-----'}}
-                </label>
-                <span>{{ talla.lastUpdate ? 'Actualizado: ' + formatDate(talla.lastUpdate) : '0 venta' }}</span>
-              </v-tooltip>
-              <label v-else>-----</label>
+              <v-edit-dialog
+                      :return-value.sync="talla.vendidas"
+                      lazy
+                      persistent
+              >
+                <div>{{talla.vendidas}}</div>
+                <v-text-field
+                        slot="input"
+                        label="Cantidad"
+                        v-model="talla.vendidas"
+                        single-line
+                        autofocus
+                ></v-text-field>
+              </v-edit-dialog>
             </td>
           </template>
-          <v-alert slot="no-results" :value="true" color="error" icon="warning">
-            No se encontraron resultado para "{{ search }}".
-          </v-alert>
         </v-data-table>
       </div>
     </v-card>
@@ -75,16 +68,13 @@
 <script>
     import {mapGetters} from 'vuex';
     import {API_HOST} from '../../config/_entrypoint';
-    import moment from 'moment';
+    import fetch from '../../utils/fetch';
 
     export default {
         data() {
             return {
-                stockTotal: 0,
-                ventaTotal: 0,
                 fromUser: false,
                 loading: false,
-                search: '',
                 headers: [],
                 snackbar: false,
                 snackbarText: '',
@@ -110,8 +100,33 @@
             }
         },
         methods: {
-            formatDate(date){
-                return date?moment(date).format('DD/MM/YYYY'):"";
+            reponer(print){
+                let update = [];
+                this.retrieved.productos.forEach(producto => {
+                    producto.tallas.forEach(talla => {
+                        if(talla.vendidas != 0)
+                        update.push({talla: talla.id, reponer: talla.vendidas})
+                    })
+                });
+                this.loading = true;
+                let body = print?JSON.stringify({tallas: update, print: print, venta: this.retrieved.id}):JSON.stringify({tallas: update, print: print});
+                if(update.length){
+                    fetch('/replenish',{
+                        method: 'POST',
+                        body: body,
+                        credentials: "same-origin",
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            this.loading = false;
+                            if(print)
+                            window.open(API_HOST+'/'+data);
+                        })
+                        .catch(e => {
+                            this.loading = false;
+                            this.error(e.message)
+                        });
+                }
             },
             closeVenta() {
                 if (this.fromUser)
@@ -144,8 +159,6 @@
                         let filter = item2.tallas.filter(item3 => item3.talla.id == item.id);
                         if (filter.length){
                             item2.tallas_table.push(filter[0]);
-                            $this.stockTotal += filter[0].stock;
-                            $this.ventaTotal += filter[0].vendidas;
                         }
                         else
                             item2.tallas_table.push(false);

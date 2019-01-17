@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Entity\AbstractClasses\TallaAbstract;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -11,38 +12,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity()
  * @ApiResource()
  */
-class TallaVenta implements \JsonSerializable
+class TallaVenta extends TallaAbstract implements \JsonSerializable
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-    /**
-     * @ORM\Column(type="integer", options={"default": 0})
-     * @Groups("read_venta")
-     */
-    private $vendidas = 0;
-
-    /**
-     * @ORM\Column(type="integer", options={"default": 0})
-     * @Groups("read_venta")
-     */
-    private $cantidad = 0;
-
     /**
      * @Groups("read_venta")
      */
     private $stock;
-
-    /**
- * @ORM\ManyToOne(targetEntity="App\Entity\Talla")
- * @ORM\JoinColumn(name="talla_id", referencedColumnName="id")
- * @Groups("read_venta")
- */
-    private $talla;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\TallaStock")
@@ -55,17 +30,7 @@ class TallaVenta implements \JsonSerializable
      * @ORM\JoinColumn(name="producto_venta_id", referencedColumnName="id")
      *
      */
-    private $producto;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime", nullable=true)
-     * @Assert\DateTime
-     * @Groups("read_venta")
-     *
-     */
-    private $lastUpdate;
+    protected $producto;
 
     public function __construct(Talla $talla = null)
     {
@@ -77,53 +42,20 @@ class TallaVenta implements \JsonSerializable
     public function getStock(){
         return $this->cantidad + $this->vendidas;
     }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
     /**
      * @return mixed
      */
-    public function getVendidas()
+    public function getTallaStock()
     {
-        return $this->vendidas;
+        return $this->tallaStock;
     }
 
     /**
-     * @param mixed $vendidas
+     * @param mixed $tallaStock
      */
-    public function setVendidas($vendidas): void
+    public function setTallaStock($tallaStock): void
     {
-        $this->cantidad -= $vendidas;
-        $this->vendidas += $vendidas;
-    }
-
-
-
-    public function getCantidad()
-    {
-        return $this->cantidad;
-    }
-
-    public function setCantidad($cantidad): self
-    {
-        $this->cantidad = $cantidad ?? 0;
-
-        return $this;
-    }
-
-    public function getTalla()
-    {
-        return $this->talla;
-    }
-
-    public function setTalla(Talla $talla): self
-    {
-        $this->talla = $talla;
-
-        return $this;
+        $this->tallaStock = $tallaStock;
     }
 
     /**
@@ -140,38 +72,6 @@ class TallaVenta implements \JsonSerializable
     public function setProducto($producto): void
     {
         $this->producto = $producto;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getLastUpdate()
-    {
-        return $this->lastUpdate;
-    }
-
-    /**
-     * @param \DateTime $lastUpdate
-     */
-    public function setLastUpdate(\DateTime $lastUpdate): void
-    {
-        $this->lastUpdate = $lastUpdate;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTallaStock()
-    {
-        return $this->tallaStock;
-    }
-
-    /**
-     * @param mixed $tallaStock
-     */
-    public function setTallaStock($tallaStock): void
-    {
-        $this->tallaStock = $tallaStock;
     }
 
 

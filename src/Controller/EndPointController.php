@@ -134,4 +134,42 @@ class EndPointController extends AbstractController
 
         return new JsonResponse(['no data']);
     }
+
+    /**
+     * @Route(
+     *     name="return_product",
+     *     path="/return-product",
+     *     methods={"POST"}
+     * )
+     */
+    public function returnProduct(EntityManagerInterface $entityManager)
+    {
+        if ($tallas = Util::decodeBody()) {
+            foreach ($tallas as $value) {
+                if (!($talla = $entityManager->getRepository('App:TallaStock')->find($value['id']))) {
+                    continue;
+                }
+                $talla->returnProduct($value['vendida']);
+                $talla->setLastUpdate(new \DateTime());
+                $tallaVenta = $entityManager->getRepository('App:Venta')->findTallaByTallaStock($talla);
+                $tallaVenta->returnProduct($value['vendida']);
+                $tallaVenta->setLastUpdate(new \DateTime());
+                $entityManager->persist($talla, $tallaVenta);
+                if (!isset($venta)) {
+                    $venta = $tallaVenta->getProducto()->getVentaEntity();
+                }
+            }
+            if (isset($venta)) {
+                $venta->setLastUpdate(new \DateTime());
+                $entityManager->persist($venta);
+            };
+            $entityManager->flush();
+
+            return new JsonResponse(['updated']);
+        }
+
+        return new JsonResponse(['no data']);
+    }
+
+
 }

@@ -14,20 +14,6 @@
                    v-show="loading || deleteLoading || userLoading || loading2">
         <v-progress-circular indeterminate :size="70" :width="3" color="success"></v-progress-circular>
       </v-container>
-      <v-tooltip top>
-        <v-btn color="primary"
-               slot="activator"
-               dark
-               fab
-               fixed
-               bottom
-               right
-               @click="$router.push({name: 'VentasCreate'})"
-        >
-          <v-icon>add</v-icon>
-        </v-btn>
-        <span>Añadir Venta</span>
-      </v-tooltip>
 
       <div>
         <v-card-title>
@@ -94,7 +80,13 @@
                 <v-icon color="orange">close</v-icon>
               </v-btn>
                 <span>Cerrar venta</span>
-              </v-tooltip>              
+              </v-tooltip>
+              <v-tooltip top v-else>
+                <v-btn icon class="mx-0" @click="ventaBackUrl(props.item)"  slot="activator">
+                  <v-icon color="orange">undo</v-icon>
+                </v-btn>
+                <span>Reponer</span>
+              </v-tooltip>
               <v-btn icon class="mx-0" @click="deleteItem(props.item)">
                 <v-icon color="red">delete</v-icon>
               </v-btn>
@@ -198,6 +190,9 @@
             },
             ventaUrl(item){
                 return this.user?this.$router.push({name: 'VentaShow', params: {id: item['id'], user: this.user.id} }):this.$router.push({name: 'VentaShow', params: {id: item['id']} })
+            },
+            ventaBackUrl(item){
+                return this.user?this.$router.push({name: 'BackSale', params: {id: item['id'], user: this.user.id} }):this.$router.push({name: 'BackSale', params: {id: item['id']} })
             },
             editUrl(item){
                 return this.user?this.$router.push({name: 'StockUpdate', params: {id: item['id'], user: this.user.id} }):this.$router.push({name: 'StockUpdate', params: {id: item['id']} })

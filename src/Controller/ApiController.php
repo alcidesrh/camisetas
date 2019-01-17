@@ -23,6 +23,8 @@ use App\Repository\UserRepository;
 use App\Utils\Util;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
+use Mpdf\Mpdf;
+use Mpdf\Output\Destination;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 use Symfony\Component\Filesystem\Filesystem;
@@ -355,5 +357,49 @@ class ApiController extends AbstractController
             $entityManager->flush();
         }
         return new JsonResponse('close');
+    }
+
+    /**
+     * @Route(
+     *     name="replenish",
+     *     path="/replenish",
+     *     methods={"POST"}
+     * )
+     */
+    public function replenish(EntityManagerInterface $entityManager)
+    {
+        if($data = Util::decodeBody()){
+            $tallas = $data['tallas'];
+            $imprimir = $data['print'];
+            $productosPdf = [];
+            foreach ($tallas as $value){
+                $talla = $entityManager->getRepository('App:TallaVenta')->find($value['talla']);
+                if($imprimir){
+                    $productosPdf[$talla->getProducto()->getProducto()->getNombre()][$talla->getTalla()->getNombre()]['cantidad'] = $value['reponer'];
+                }
+                $tallaStock = $talla->getTallaStock();
+                $tallaStock->addCantidad($value['reponer']);
+                $entityManager->persist($tallaStock);
+            }
+//            $entityManager->flush();
+
+            if($imprimir){
+                $user = $entityManager->getRepository('App:Venta')->find($data['venta'])->getUser();
+                $stock = $user->getStock();
+                $stockPdf = [];
+                foreach ($stock->getProductos() as $producto){
+                    $productoKey = $producto->getProducto()->getNombre();
+                    foreach ($producto->getTallas() as $talla)
+                    $productosStock[$productoKey][$talla->getTalla()->getNombre()]['cantidad'] = $talla->getCantidad();
+                }
+                $date = new \DateTime();
+                $mpdf = new Mpdf();
+                $mpdf->WriteHTML($this->renderView('pdf-resumen.html.twig', ['productos' => $productosPdf, 'user' => $user, 'productosStock' => $productosStock, 'fecha' => $date->format('d/m/Y h:i a')]));
+                $mpdf->Output('pdf/reponer.pdf', Destination::FILE);
+                return new JsonResponse('pdf/reponer.pdf');
+            }
+            return new JsonResponse('ok');
+        }
+        return new JsonResponse('empty');
     }
 }

@@ -28,7 +28,7 @@ import es from './i18n-es/es'
 
 Vue.use(Vuetify, {
     lang: {
-        locales: {'Es-es': es,},
+        locales: {'Es-es': es},
         current: 'Es-es'
     }
 });
