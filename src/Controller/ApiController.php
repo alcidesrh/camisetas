@@ -369,24 +369,27 @@ class ApiController extends AbstractController
     public function replenish(EntityManagerInterface $entityManager)
     {
         if($data = Util::decodeBody()){
-            $tallas = $data['tallas'];
+            
             $imprimir = $data['print'];
-            $productosPdf = [];
-            foreach ($tallas as $value){
-                $talla = $entityManager->getRepository('App:TallaVenta')->find($value['talla']);
-                if($imprimir){
-                    $productosPdf[$talla->getProducto()->getProducto()->getNombre()][$talla->getTalla()->getNombre()]['cantidad'] = $value['reponer'];
-                }
-                $tallaStock = $talla->getTallaStock();
-                $tallaStock->addCantidad($value['reponer']);
-                $entityManager->persist($tallaStock);
-            }
-            $entityManager->flush();
 
-            if($imprimir){
+            if(!$imprimir){
+                $tallas = $data['tallas'];
+                foreach ($tallas as $value){
+                    $talla = $entityManager->getRepository('App:TallaVenta')->find($value['talla']);
+                    if($imprimir){
+                        $productosPdf[$talla->getProducto()->getProducto()->getNombre()][$talla->getTalla()->getNombre()]['cantidad'] = $value['reponer'];
+                    }
+                    $tallaStock = $talla->getTallaStock();
+                    $tallaStock->addCantidad($value['reponer']);
+                    $entityManager->persist($tallaStock);
+                }
+                $entityManager->flush();
+            }
+            else{
+                $productosPdf = [];
                 $user = $entityManager->getRepository('App:Venta')->find($data['venta'])->getUser();
                 $stock = $user->getStock();
-                $stockPdf = [];
+
                 foreach ($stock->getProductos() as $producto){
                     $productoKey = $producto->getProducto()->getNombre();
                     foreach ($producto->getTallas() as $talla)

@@ -22,7 +22,7 @@
           <v-flex headline>
             Reponer en el stock de {{retrieved.user.fullName}}
             <v-btn color="primary" @click="reponer(false)" small>Reponer</v-btn>
-            <v-btn color="primary" @click="reponer(true)" small>Reponer e imprimir resumen</v-btn>
+            <v-btn color="primary" @click="reponer(true)" small>Imprimir resumen</v-btn>
           </v-flex>
         </v-layout>
         <v-btn icon flat @click.native="closeVenta" class="modal-btn-close">
