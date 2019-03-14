@@ -61,24 +61,6 @@
                                                                                         style="max-width: 100px; max-height: 100px; vertical-align: middle"/>
                         </td>
                         <td>{{ props.item.nombre }}</td>
-                        <!--<td v-for="item in props.item.talla_stock">-->
-                            <!--<v-edit-dialog-->
-                                    <!--:return-value.sync="item.cantidad"-->
-                                    <!--large-->
-                                    <!--lazy-->
-                                    <!--persistent-->
-                            <!--&gt;-->
-                                <!--<div>{{ item.cantidad }}</div>-->
-                                <!--<div slot="input" class="mt-3 title">En Stock</div>-->
-                                <!--<v-text-field-->
-                                        <!--slot="input"-->
-                                        <!--v-model="item.cantidad"-->
-                                        <!--label="cantidad"-->
-                                        <!--single-line-->
-                                        <!--autofocus-->
-                                <!--&gt;</v-text-field>-->
-                            <!--</v-edit-dialog>-->
-                        <!--</td>-->
                         <td class="text-xs-center">
                             <v-btn icon class="mx-0" @click="editItem(props.item)">
                                 <v-icon color="teal">edit</v-icon>
@@ -121,32 +103,6 @@
                                 ></v-text-field>
                             </v-flex>
                         </v-layout>
-                        <!--<v-layout row wrap class="mt-3">-->
-                            <!--<v-flex xs2>-->
-                                <!--Tallas:-->
-                            <!--</v-flex>-->
-                            <!--<v-flex xs3 lg4>-->
-                                <!--En Stock:-->
-                            <!--</v-flex>-->
-                        <!--</v-layout>-->
-                        <!--<v-layout row wrap align-center v-for="(item, index) in tallas" :key="item.id">-->
-                            <!--<v-flex xs2>-->
-                                <!--<v-checkbox-->
-                                        <!--:label="item.nombre"-->
-                                        <!--v-model="producto.tallas[index]"-->
-                                        <!--@change="cleanStock(index)"-->
-                                        <!--:value="item"-->
-                                        <!--hide-details-->
-                                <!--&gt;</v-checkbox>-->
-                            <!--</v-flex>-->
-                            <!--<v-flex xs1>-->
-                                <!--<v-text-field-->
-                                        <!--v-model="producto.stock[index]"-->
-                                        <!--:disabled="!producto.tallas[index]"-->
-                                        <!--v-on:keyup="validNumber(index, $event)"-->
-                                <!--&gt;</v-text-field>-->
-                            <!--</v-flex>-->
-                        <!--</v-layout>-->
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>

@@ -64,7 +64,11 @@ class Producto implements \JsonSerializable
 
     public function getImagen(): ?File
     {
+        if($this->imagen)
         return $this->imagen;
+        $noImagen = new File();
+        $noImagen->setName('No imagen')->setExt('jpg')->setPath('Sin_imagen_disponible.jpg');
+        return$noImagen;
     }
 
     public function setImagen(File $imagen): self

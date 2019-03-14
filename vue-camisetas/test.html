@@ -27,7 +27,7 @@
                     return response.json();
                 })
                 .then(response => {
-                    console.log(response);return;
+                    console.log(response);
                     //-------------------------------------
                     fetch(HOST+'/endpoint/feria', {//chequear si hay feria/stock/stock asignado al usuario
                         method: 'POST',
@@ -54,7 +54,7 @@
                                     'Authorization': 'Bearer '+token,
                                 },
                                 credentials: "same-origin",
-                                body: JSON.stringify([{id: 137, vendida: 4}, {id: 138, vendida: 8}, {id: 139, vendida: 1}, {id: 140, vendida: 2}])
+                                body: JSON.stringify([{id: 169, vendida: 4}, {id: 172, vendida: 8}, {id: 175, vendida: 1}, {id: 186, vendida: 2}])
                             })
                                 .then(response => {
                                     return response.json();
