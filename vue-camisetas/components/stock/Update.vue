@@ -22,7 +22,7 @@
                     <v-icon>close</v-icon>
                 </v-btn>
             </v-card-title>
-            <v-form v-model="valid" ref="form" lazy-validation v-on:submit.prevent="save" class="ml-3" v-if="retrieved">
+            <v-form v-model="valid" ref="form" lazy-validation class="ml-3" v-if="retrieved">
                 <v-card-text>
                     <v-layout row wrap v-if="!loading && retrieved" class="my-4">
                         <v-flex xs12>
@@ -84,7 +84,7 @@
                     </v-layout>
                     <v-layout row wrap class="mt-3" v-if="productosSelected.length">
                         <v-flex lg12>
-                            Asignar cantidad por talla por producto:
+                            Asignar cantidad por talla por producto: <strong>Total {{getTotal()}}</strong>
                         </v-flex>
                         <v-flex lg12 class="mt-2">
                             <v-list two-line>
@@ -115,6 +115,13 @@
                                                 >
                                                     <label slot="label" style="font-size: 14px">{{talla.nombre}}</label>
                                                 </v-text-field>
+                                                <v-text-field style="max-width: 50px; display: inline-block"
+                                                              class="mx-3"
+                                                              v-model="productosSelected[index].tallas.reduce((el, prev2) => {return {stock: parseInt(el.stock) + parseInt(prev2.stock)}}).stock"
+                                                              disabled
+                                                >
+                                                    <label slot="label" style="font-size: 14px">Total</label>
+                                                </v-text-field>
                                             </v-list-tile-sub-title>
 
                                         </v-list-tile-content>
@@ -128,7 +135,7 @@
                         <v-btn color="primary darken-1" flat @click.native="closeUpdate">
                             Cancelar
                         </v-btn>
-                        <v-btn color="primary darken-1" flat type="submit">Guardar</v-btn>
+                        <v-btn color="primary darken-1" flat @click="save">Guardar</v-btn>
                     </div>
                 </v-card-text>
 
@@ -182,6 +189,13 @@
             }
         },
         methods: {
+            getTotal(){
+                let total = 0;
+                this.productosSelected.forEach(item => {
+                    total = total + item.tallas.reduce((el, prev2) => {return {stock: parseInt(el.stock) + parseInt(prev2.stock)}}).stock;
+                })
+                return total;
+            },
             closeUpdate() {
                 if (this.fromUser)
                     this.$router.push({name: 'StockList', params: {user: this.fromUser}})
@@ -257,7 +271,7 @@
             getItem() {
                 this.$store.dispatch('stock/update/retrieve', '/stocks/' + decodeURIComponent(this.$route.params.id)).then(() => {
                     this.item.id = this.retrieved.id;
-                    let productos = [], $this = this;
+                    let $this = this;
 
                     this.tallas.forEach((item) => {
                         $this.stock.push({id: item.id, stock: null});
@@ -281,9 +295,8 @@
                                 talla.stock = "";
                         });
                         result[0].producto_stock = item.id;
-                        productos.push(result[0]);
+                        this.productosSelected.push(Object.assign({}, result[0]));
                     });
-                    this.productosSelected = productos;
                     this.loading = false;
                 });
             }

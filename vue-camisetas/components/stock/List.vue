@@ -71,13 +71,6 @@
                         <td>{{ formatDate(props.item.createAt) }}</td>
                         <td>{{ formatDate(props.item.lastUpdate) }}</td>
                         <td>{{ props.item.user.fullName }}</td>
-                        <td>
-                            <v-chip v-for="producto in props.item.productos" :key="producto.id">
-                                <img height="35" v-bind:src="getImageUrl(producto.producto.imagen.path)"
-                                     class="py-1"/>
-                                <label class="pl-2 d-inline">{{ producto.producto.nombre }}</label>
-                            </v-chip>
-                        </td>
                         <td>{{ props.item.stock }}</td>
                         <td>{{ props.item.venta }}</td>
                         <td class="justify-center align-center layout px-0">
@@ -112,14 +105,13 @@
         data() {
             return {
                 selectUser: false,
-                stock: {user: false, productos: [], stock: []},
+                stock: {user: false, stock: []},
                 valid: true,
                 search: '',
                 headers: [
                     {text: 'Creado', value: 'createAt'},
                     {text: 'Actualizado', value: 'lastUpdate'},
                     {text: 'Usuario', value: 'user.fullName'},
-                    {text: 'Productos', value: 'producto.nombre'},
                     {text: 'Stock', value: 'stock'},
                     {text: 'Vendido', value: 'venta'},
                     {text: '', value: ''}
@@ -141,7 +133,6 @@
                 loading: 'stock/list/loading',
                 deleteLoading: 'stock/del/loading',
                 user: 'user/update/retrieved',
-                productos: 'producto/list/items',
                 tallas: 'talla/list/items',
                 userLoading: 'user/update/retrieveLoading',
                 users: 'user/list/items',
