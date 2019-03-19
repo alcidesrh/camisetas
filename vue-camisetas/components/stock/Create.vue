@@ -94,19 +94,19 @@
                         <v-flex style="max-width: 50px" class="mx-3" v-for="(item, index) in tallas" :key="item.id">
                             <v-text-field
                                     v-model="stock[index].stock"
-                                    v-on:keyup="validNumber(index, $event)"
+                                    v-on:keyup="stock[index].stock = validNumber(index, $event)?'':stock[index].stock"
                             >
                                 <label slot="label" style="font-size: 14px">{{item.nombre}}</label>
                             </v-text-field>
                         </v-flex>
                     </v-layout>
-                    <v-layout row wrap class="mt-3" v-if="productosSelected.length">
+                    <v-layout row wrap class="mt-3" v-if="productosSelected2.length">
                         <v-flex lg12>
-                            Asignar cantidad por talla por producto:
+                            Asignar cantidad por talla por producto: <strong>{{getTotal()}} total</strong>
                         </v-flex>
                         <v-flex lg12 class="mt-2">
                             <v-list two-line>
-                                <template v-for="producto,index in productosSelected">
+                                <template v-for="producto,index in productosSelected2">
 
                                     <v-divider class="my-2"
                                                v-if="index > 0"
@@ -127,10 +127,17 @@
                                                 <v-text-field style="max-width: 50px; display: inline-block"
                                                               class="mx-3" v-for="(talla, index2) in tallas"
                                                               :key="talla.id"
-                                                              v-model="productosSelected[index].tallas[index2].stock"
-                                                              v-on:keyup="validNumber2(index, index2, $event)"
+                                                              v-model="productosSelected2[index].tallas[index2].stock"
+                                                              v-on:keyup="productosSelected2[index].tallas[index2].stock = validNumber2(index, index2, $event)?'':productosSelected2[index].tallas[index2].stock"
                                                 >
                                                     <label slot="label" style="font-size: 14px">{{talla.nombre}}</label>
+                                                </v-text-field>
+                                                <v-text-field style="max-width: 50px; display: inline-block"
+                                                              class="mx-3"
+                                                              v-model="productosSelected2[index].tallas.reduce((el, prev2) => {if(!Number.isInteger(parseInt(el.stock)))el.stock = 0;if(!Number.isInteger(parseInt(prev2.stock)))prev2.stock = 0;return {stock: parseInt(el.stock) + parseInt(prev2.stock)}}).stock"
+                                                              disabled
+                                                >
+                                                    <label slot="label" style="font-size: 14px">Total</label>
                                                 </v-text-field>
                                             </v-list-tile-sub-title>
 
@@ -164,6 +171,7 @@
             return {
                 item: {user: false, productos: [], stock: []},
                 productosSelected: [],
+                productosSelected2: [],
                 users: [],
                 stock: [],
                 loading: false,
@@ -200,30 +208,34 @@
             },
             snackbar(val) {
                 val || (this.snackbarColor = 'success')
+            },
+            productosSelected(){
+                this.productosSelected2 = [];
+                let $this = this;
+                this.productosSelected.forEach(item => {
+                    $this.productosSelected2.push(Object.assign({}, item));
+                })
             }
         },
         methods: {
+            getTotal(){
+                let total = 0;
+                this.productosSelected2.forEach(item => {
+                    total = total + item.tallas.reduce((el, prev2) => {if(!Number.isInteger(parseInt(el.stock))) el.stock = 0; if(!Number.isInteger(parseInt(prev2.stock))) prev2.stock = 0;return {stock: parseInt(el.stock) + parseInt(prev2.stock)}}).stock;
+                })
+                return total;
+            },
             validNumber(index, event) {
                 if ((event.keyCode < 48 || (event.keyCode > 57 && event.keyCode < 96 || event.keyCode > 105)) && (event.keyCode != 8 && event.keyCode != 46 && event.keyCode != 37 && event.keyCode != 39 && event.keyCode != 13)) {
-                    let array = this.stock;
-                    this.stock = [];
-                    array.forEach(function (item, index2) {
-                        if (index2 == index)
-                            array[index] = {id: item.id, stock: null};
-                    });
-                    this.stock = array;
+                    return true;
                 }
+                return false;
             },
             validNumber2(index, index2, event) {
                 if ((event.keyCode < 48 || (event.keyCode > 57 && event.keyCode < 96 || event.keyCode > 105)) && (event.keyCode != 8 && event.keyCode != 46 && event.keyCode != 37 && event.keyCode != 39 && event.keyCode != 13)) {
-                    let array = this.productosSelected[index].tallas;
-                    this.productosSelected[index].tallas = [];
-                    array.forEach(function (item, index3) {
-                        if (index2 == index3)
-                            array[index3] = {id: item.id, stock: null};
-                    });
-                    this.productosSelected[index].tallas = array;
+                    return true;
                 }
+                return false;
             },
             getImageUrl(path) {
                 return API_HOST + '/' + path;
@@ -237,7 +249,7 @@
             setStock() {
                 this.item.productos = [];
                 let $this = this;
-                this.productosSelected.forEach(item => {
+                this.productosSelected2.forEach(item => {
                     $this.item.productos.push({id: item.id, stock: item.tallas});
                 });
                 this.item.stock = this.stock
@@ -246,7 +258,7 @@
             },
             save() {
                 if (!this.$refs.form.validate()) return;
-                if (!this.productosSelected.length) {
+                if (!this.productosSelected2.length) {
                     this.error('No ha elegido ningún producto');
                     return;
                 }
