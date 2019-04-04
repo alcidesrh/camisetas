@@ -207,6 +207,11 @@
                                 item2.tallas[cont].stock = item.stock;
                             })
                         }
+                        else{
+                            $this.productosSelected2.forEach(function(item2){
+                                item2.tallas[cont].stock = 0;
+                            })
+                        }
                         cont++;
                     });
                 },
