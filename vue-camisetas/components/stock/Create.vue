@@ -101,14 +101,16 @@
                         <v-flex xs12>
                             Asignar cantidad por talla para todos los productos:
                         </v-flex>
-                        <v-flex style="max-width: 50px" class="mx-3" v-for="(item, index) in tallas" :key="item.id">
-                            <v-text-field
-                                    v-model="stock[index].stock"
-                                    v-on:keyup="stock[index].stock = validNumber(index, $event)?'':stock[index].stock"
-                            >
-                                <label slot="label" style="font-size: 14px">{{item.nombre}}</label>
-                            </v-text-field>
-                        </v-flex>
+                        <div style="margin-left: 72px; display: flex">
+                            <v-flex style="max-width: 50px" class="mx-3" v-for="(item, index) in tallas" :key="item.id">
+                                <v-text-field
+                                        v-model="stock[index].stock"
+                                        v-on:keyup="stock[index].stock = validNumber(index, $event)?'':stock[index].stock"
+                                >
+                                    <label slot="label" style="font-size: 14px">{{item.nombre}}</label>
+                                </v-text-field>
+                            </v-flex>
+                        </div>
                     </v-layout>
                     <v-layout row wrap class="mt-3" v-if="productosSelected2.length">
                         <v-flex lg12>
