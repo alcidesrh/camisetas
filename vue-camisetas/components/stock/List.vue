@@ -71,6 +71,8 @@
                         <td>{{ formatDate(props.item.createAt) }}</td>
                         <td>{{ formatDate(props.item.lastUpdate) }}</td>
                         <td>{{ props.item.user.fullName }}</td>
+                        <td>{{ getTypeCant(props.item.productos, 'camisetas') }}</td>
+                        <td>{{ getTypeCant(props.item.productos, 'sudaderas') }}</td>
                         <td>{{ props.item.stock }}</td>
                         <td>{{ props.item.venta }}</td>
                         <td class="justify-center align-center layout px-0">
@@ -112,7 +114,9 @@
                     {text: 'Creado', value: 'createAt'},
                     {text: 'Actualizado', value: 'lastUpdate'},
                     {text: 'Usuario', value: 'user.fullName'},
-                    {text: 'Stock', value: 'stock'},
+                    {text: 'Camisetas', value: ''},
+                    {text: 'Sudaderas', value: ''},
+                    {text: 'Total stock', value: 'stock'},
                     {text: 'Vendido', value: 'venta'},
                     {text: '', value: ''}
                 ],
@@ -153,6 +157,22 @@
             }
         },
         methods: {
+            getTypeCant(products, type){
+                let total = 0;
+                  products.forEach(function(product){
+                      if(type == 'camisetas' && !product.producto.sudadera){
+                          product.tallas.forEach(function(talla){
+                              total = total + talla.cantidad;
+                          })
+                      }
+                      else if(type == 'sudaderas' && product.producto.sudadera){
+                          product.tallas.forEach(function(talla){
+                              total = total + talla.cantidad;
+                          })
+                      }
+                  });
+                  return total;
+            },
             resetList(){
                 this.selectUser = false;
                 this.$store.dispatch('user/update/reset');

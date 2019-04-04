@@ -73,6 +73,7 @@ class ApiController extends AbstractController
             }
         }
         $producto->setNombre($data['nombre']);
+        $producto->setSudadera($data['sudadera'] ?? null);
         $entityManager->persist($producto);
         $entityManager->flush();
 
@@ -164,7 +165,7 @@ class ApiController extends AbstractController
                 $talla = new TallaStock($entityManager->getRepository('App:Talla')->find($value['id']));
                 $talla->setProducto($productoStock);
                 $entityManager->persist($talla);
-                if (!is_null($data['productos'][$cont]['stock'][$i]['stock'])) {
+                if (!is_null($data['productos'][$cont]['stock'][$i]['stock']) && $data['productos'][$cont]['stock'][$i]['stock'] != 0) {
                     $talla->setCantidad($data['productos'][$cont]['stock'][$i]['stock'] ?? 0);
                 } else {
                     $talla->setCantidad($value['stock'] ?? 0);

@@ -33,40 +33,51 @@
                         <v-flex md6>
                             <v-select
                                     v-model="productosSelected"
-                                    :items="productos"
+                                    :items="productosToSelected"
                                     :rules="fieldRule"
                                     label="Seleccionar productos"
                                     prepend-icon="add_shopping_cart"
                                     multiple
                                     required
+                                    item-text="nombre"
+                                    return-object
                             >
                                 <template slot="selection" slot-scope="data">
-                                    <v-chip>
+                                    <v-chip style="padding-right: 10px">
                                         <img height="35" v-bind:src="getImageUrl(data.item.imagen.path)"
                                              class="py-1"/>
                                         <label class="pl-2 d-inline">{{ data.item.nombre }}</label>
                                     </v-chip>
                                 </template>
-                                <template slot="item" slot-scope="data">
-                                    <template v-if="typeof data.item !== 'object'">
-                                        No hay datos disponibles
-                                    </template>
-                                    <template v-else>
-                                        <v-checkbox
-                                                v-model="productosCheckBox[productos.indexOf(data.item)]"
-                                        >
-                                            <div slot="label"
-                                                 style="display: flex;align-items: center; justify-content: center">
-                                                <div class="d-inline ml-2">{{data.item.nombre}}</div>
-                                                <div class="d-inline ml-1">
-                                                    <img height="50" v-bind:src="getImageUrl(data.item.imagen.path)"
-                                                         class="py-2"/>
-                                                </div>
-                                            </div>
-                                        </v-checkbox>
-                                    </template>
-                                </template>
+                                <!--<template slot="item" slot-scope="data">-->
+                                    <!--<template v-if="typeof data.item !== 'object'">-->
+                                        <!--No hay datos disponibles-->
+                                    <!--</template>-->
+                                    <!--<template v-else>-->
+                                        <!--<v-checkbox-->
+                                                <!--v-model="productosCheckBox[productos.indexOf(data.item)]"-->
+                                        <!--&gt;-->
+                                            <!--<div slot="label"-->
+                                                 <!--style="display: flex;align-items: center; justify-content: center">-->
+                                                <!--<div class="d-inline ml-2">{{data.item.nombre}}</div>-->
+                                                <!--<div class="d-inline ml-1">-->
+                                                    <!--<img height="50" v-bind:src="getImageUrl(data.item.imagen.path)"-->
+                                                         <!--class="py-2"/>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</v-checkbox>-->
+                                    <!--</template>-->
+                                <!--</template>-->
                             </v-select>
+                        </v-flex>
+                        <v-flex md6 pl-3>
+                            <v-tooltip top><v-icon slot="activator" @click="asc = !asc" >sort_by_alpha</v-icon><span>Ordernar por nombre {{!asc?'ascendentemente':'descendentemente'}}</span></v-tooltip>
+                            <v-radio-group v-model="sort" row style="display: inline-block">
+                                <v-radio label="Todos" value="1"></v-radio>
+                                <v-radio label="Camisetas" value="2"></v-radio>
+                                <v-radio label="Sudadera" value="3"></v-radio>
+                            </v-radio-group>
+
                         </v-flex>
                     </v-layout>
                     <v-layout row wrap class="mt-3" v-if="stock.length">
@@ -111,7 +122,7 @@
                                                               class="mx-3" v-for="(talla, index2) in tallas"
                                                               :key="talla.id"
                                                               v-model="productosSelected2[index].tallas[index2].stock"
-                                                              v-on:keyup="productosSelected2[index].tallas[index2].stock = validNumber2(index, index2, $event)?'':productosSelected2[index].tallas[index2].stock"
+                                                              v-on:keyup="productosSelected2[index].tallas[index2].stock = validNumber2(index, index2, $event)?0:productosSelected2[index].tallas[index2].stock"
                                                 >
                                                     <label slot="label" style="font-size: 14px">{{talla.nombre}}</label>
                                                 </v-text-field>
@@ -150,8 +161,11 @@
     export default {
         data() {
             return {
+                sort: '1',
+                asc: false,
                 item: {user: false, productos: [], stock: []},
                 productosSelected: [],
+                productosToSelected: [],
                 productosSelected2: [],
                 productosCheckBox: [],
                 stock: [],
@@ -182,6 +196,46 @@
             })
         },
         watch: {
+            stock: {
+                handler: function(newValue) {
+                    let $this = this, cont = 0;
+                    newValue.forEach(function(item){
+                        if(Number.isInteger(parseInt(item.stock))){
+                            $this.productosSelected2.forEach(function(item2){
+                                item2.tallas[cont].stock = item.stock;
+                            })
+                        }
+                        cont++;
+                    });
+                },
+                deep: true
+            },
+            sort(val) {
+                if (val == 1)
+                    this.productosToSelected = this.productos
+                else if (val == 2)
+                    this.productosToSelected = this.productos.filter(item => !item.sudadera)
+                else
+                    this.productosToSelected = this.productos.filter(item => item.sudadera);
+            },
+            asc(val){
+                let sort = (a, b) => {
+                    if(val){
+                        if(a.nombre.toLowerCase() < b.nombre.toLowerCase()) { return -1; }
+                        if(a.nombre.toLowerCase() > b.nombre.toLowerCase()) { return 1; }
+                    }
+                    else{
+                        if(a.nombre.toLowerCase() > b.nombre.toLowerCase()) { return -1; }
+                        if(a.nombre.toLowerCase() < b.nombre.toLowerCase()) { return 1; }
+                    }
+
+                    return 0;
+                }
+                let productos = this.productos.sort(sort);
+                this.$store.dispatch('producto/list/setItems', productos);
+                this.productosSelected = this.productosSelected.sort(sort);
+                this.productosSelected2 = this.productosSelected2.sort(sort);
+            },
             errorUpdate(message) {
                 this.error(message);
             },
@@ -305,7 +359,8 @@
             if (typeof this.$route.params.user != typeof undefined)
                 this.fromUser = decodeURIComponent(this.$route.params.user);
             this.$store.dispatch('talla/list/getItems').then(() => {
-                this.$store.dispatch('producto/list/getItems').then(() => {
+                this.$store.dispatch('producto/list/getItems', 'all').then(() => {
+                    this.productosToSelected = this.productos;
                     this.getItem();
                 })
             });

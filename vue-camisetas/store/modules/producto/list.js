@@ -38,8 +38,13 @@ const getters = {
 };
 
 const actions = {
-    getItems({ commit }, page = '/productos') {
+    getItems({ commit }, sudadera = false) {
       commit(loading(true));
+        let page = '';
+      if(sudadera == 'all')
+          page = '/productos';
+      else
+         page = "/productos?sudadera[exists]="+sudadera;
 
       return fetch(page)
         .then(response => response.json())
@@ -52,6 +57,9 @@ const actions = {
           commit(loading(false));
           commit(error(e.message));
         });
+    },
+    setItems({ commit }, items){
+        commit(success(items));
     }
 };
 

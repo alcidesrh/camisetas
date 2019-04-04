@@ -26,10 +26,16 @@
                             Gestión de producto
                         </v-btn>
                         <v-list>
-                            <v-list-tile id="productos" @click="$router.push({name: 'ProductoList'})">
+                            <v-list-tile id="productos" @click="$router.push({name: 'ProductoList'});">
                                 <v-list-tile-title>
                                     <v-icon>format_list_numbered</v-icon>
                                     Camisetas
+                                </v-list-tile-title>
+                            </v-list-tile>
+                            <v-list-tile id="sudaderas" @click="$router.push({name: 'SudaderaList'});">
+                                <v-list-tile-title>
+                                    <v-icon>format_list_numbered</v-icon>
+                                    Sudaderas
                                 </v-list-tile-title>
                             </v-list-tile>
                             <v-list-tile id="tallas" @click="$router.push({name: 'TallaList'})">
@@ -75,7 +81,6 @@
                 return API_HOST + '/logout'
             }
         },
-        computed: {},
         watch: {},
         created() {
             this.$nextTick(function () {

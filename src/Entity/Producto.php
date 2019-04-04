@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
+
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\ExistsFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -10,6 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\ProductoRepository")
+ * @ApiFilter(ExistsFilter::class, properties={"sudadera"})
  */
 class Producto implements \JsonSerializable
 {
@@ -36,6 +40,12 @@ class Producto implements \JsonSerializable
      * @Groups({"read_stock", "read_venta"})
      */
     private $imagen;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     * @Groups({"read_stock", "read_venta"})
+     */
+    private $sudadera;
 
     public function __construct() {
         $this->tallas = new ArrayCollection();
@@ -82,5 +92,17 @@ class Producto implements \JsonSerializable
     public function jsonSerialize(): array
     {
         return [ 'id' => $this->id, 'nombre' => $this->nombre, 'imagen' => $this->getImagen()->getPath() ];
+    }
+
+    public function getSudadera(): ?bool
+    {
+        return $this->sudadera;
+    }
+
+    public function setSudadera(?bool $sudadera): self
+    {
+        $this->sudadera = $sudadera;
+
+        return $this;
     }
 }

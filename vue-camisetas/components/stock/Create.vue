@@ -53,38 +53,48 @@
                         <v-flex md6>
                             <v-select
                                     v-model="productosSelected"
-                                    :items="productos"
+                                    :items="productosToSelected"
                                     :rules="fieldRule"
                                     label="Seleccionar productos"
                                     prepend-icon="add_shopping_cart"
                                     multiple
                                     required
+                                    item-text="nombre"
+                                    return-object
                             >
                                 <template slot="selection" slot-scope="data">
-                                    <v-chip>
+                                    <v-chip style="padding-right: 10px">
                                         <img height="35" v-bind:src="getImageUrl(data.item.imagen.path)"
                                              class="py-1"/>
                                         <label class="pl-2 d-inline">{{ data.item.nombre }}</label>
                                     </v-chip>
                                 </template>
-                                <template slot="item" slot-scope="data">
-                                    <template v-if="typeof data.item !== 'object'">
-                                        No hay datos disponibles
-                                    </template>
-                                    <template v-else>
-                                        <v-checkbox>
-                                            <div slot="label"
-                                                 style="display: flex;align-items: center; justify-content: center">
-                                                <div class="d-inline ml-2">{{data.item.nombre}}</div>
-                                                <div class="d-inline ml-1">
-                                                    <img height="50" v-bind:src="getImageUrl(data.item.imagen.path)"
-                                                         class="py-2"/>
-                                                </div>
-                                            </div>
-                                        </v-checkbox>
-                                    </template>
-                                </template>
+                                <!--<template slot="item" slot-scope="data">-->
+                                    <!--<template v-if="typeof data.item !== 'object'">-->
+                                        <!--No hay datos disponibles-->
+                                    <!--</template>-->
+                                    <!--<template v-else>-->
+                                        <!--<v-checkbox>-->
+                                            <!--<div slot="label"-->
+                                                 <!--style="display: flex;align-items: center; justify-content: center">-->
+                                                <!--<div class="d-inline ml-2">{{data.item.nombre}}</div>-->
+                                                <!--<div class="d-inline ml-1">-->
+                                                    <!--<img height="50" v-bind:src="getImageUrl(data.item.imagen.path)"-->
+                                                         <!--class="py-2"/>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</v-checkbox>-->
+                                    <!--</template>-->
+                                <!--</template>-->
                             </v-select>
+                        </v-flex>
+                        <v-flex md6>
+                            <v-tooltip top><v-icon slot="activator" @click="asc = !asc" >sort_by_alpha</v-icon><span>Ordernar por nombre {{!asc?'ascendentemente':'descendentemente'}}</span></v-tooltip>
+                            <v-radio-group v-model="sort" row style="display: inline-block">
+                                <v-radio label="Todos" value="1"></v-radio>
+                                <v-radio label="Camisetas" value="2"></v-radio>
+                                <v-radio label="Sudadera" value="3"></v-radio>
+                            </v-radio-group>
                         </v-flex>
                     </v-layout>
                     <v-layout row wrap class="mt-3" v-if="stock.length">
@@ -169,8 +179,11 @@
     export default {
         data() {
             return {
+                sort: '1',
+                asc: false,
                 item: {user: false, productos: [], stock: []},
                 productosSelected: [],
+                productosToSelected: [],
                 productosSelected2: [],
                 users: [],
                 stock: [],
@@ -200,6 +213,46 @@
             })
         },
         watch: {
+            stock: {
+                handler: function(newValue) {
+                    let $this = this, cont = 0;
+                    newValue.forEach(function(item){console.log(Number.isInteger(parseInt(item.stock)), item)
+                        if(Number.isInteger(parseInt(item.stock))){
+                            $this.productosSelected2.forEach(function(item2){
+                                item2.tallas[cont].stock = item.stock;
+                            })
+                        }
+                        cont++;
+                    });
+                },
+                deep: true
+            },
+            sort(val) {
+                if (val == 1)
+                    this.productosToSelected = this.productos
+                else if (val == 2)
+                    this.productosToSelected = this.productos.filter(item => !item.sudadera)
+                else
+                    this.productosToSelected = this.productos.filter(item => item.sudadera);
+            },
+            asc(val){
+                let sort = (a, b) => {
+                    if(val){
+                        if(a.nombre.toLowerCase() < b.nombre.toLowerCase()) { return -1; }
+                        if(a.nombre.toLowerCase() > b.nombre.toLowerCase()) { return 1; }
+                    }
+                    else{
+                        if(a.nombre.toLowerCase() > b.nombre.toLowerCase()) { return -1; }
+                        if(a.nombre.toLowerCase() < b.nombre.toLowerCase()) { return 1; }
+                    }
+
+                    return 0;
+                }
+                let productos = this.productos.sort(sort);
+                this.$store.dispatch('producto/list/setItems', productos);
+                this.productosSelected = this.productosSelected.sort(sort);
+                this.productosSelected2 = this.productosSelected2.sort(sort);
+            },
             errorList(message) {
                 this.error(message);
             },
@@ -209,7 +262,7 @@
             snackbar(val) {
                 val || (this.snackbarColor = 'success')
             },
-            productosSelected(){
+            productosSelected() {
                 this.productosSelected2 = [];
                 let $this = this;
                 this.productosSelected.forEach(item => {
@@ -218,10 +271,14 @@
             }
         },
         methods: {
-            getTotal(){
+            getTotal() {
                 let total = 0;
                 this.productosSelected2.forEach(item => {
-                    total = total + item.tallas.reduce((el, prev2) => {if(!Number.isInteger(parseInt(el.stock))) el.stock = 0; if(!Number.isInteger(parseInt(prev2.stock))) prev2.stock = 0;return {stock: parseInt(el.stock) + parseInt(prev2.stock)}}).stock;
+                    total = total + item.tallas.reduce((el, prev2) => {
+                        if (!Number.isInteger(parseInt(el.stock))) el.stock = 0;
+                        if (!Number.isInteger(parseInt(prev2.stock))) prev2.stock = 0;
+                        return {stock: parseInt(el.stock) + parseInt(prev2.stock)}
+                    }).stock;
                 })
                 return total;
             },
@@ -285,13 +342,13 @@
         created() {
             this.loading = true;
 
-            fetch('/users/no-stock',{
+            fetch('/users/no-stock', {
                 method: 'GET',
                 credentials: "same-origin",
             })
                 .then(response => response.json())
                 .then(data => {
-                    this.users =  data['hydra:member'];
+                    this.users = data['hydra:member'];
                 })
                 .catch(e => {
                     this.error(e.message)
@@ -301,7 +358,7 @@
                 this.tallas.forEach((item) => {
                     $this.stock.push({id: item.id, stock: null});
                 })
-                this.$store.dispatch('producto/list/getItems').then(() => {
+                this.$store.dispatch('producto/list/getItems', 'all').then(() => {
 
                     this.productos.forEach(item => {
                         item.tallas = [];
@@ -309,6 +366,7 @@
                             item.tallas.push({id: item2.id, stock: null});
                         })
                     });
+                    this.productosToSelected = this.productos;
                     this.loading = false;
                 });
             });

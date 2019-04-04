@@ -26,7 +26,7 @@
                 >
                     <v-icon>add</v-icon>
                 </v-btn>
-                <span>Añadir Producto</span>
+                <span>Añadir Sudadera</span>
             </v-tooltip>
             <v-alert type="info" :value="true" v-show="items.length == 0" class="mt-2" style="width: 100%">
                 No hay elementos para mostrar
@@ -34,7 +34,7 @@
             <div v-show="items.length != 0">
                 <v-card-title>
                     <v-flex headline>
-                        Camisetas
+                        Sudaderas
                     </v-flex>
                     <v-spacer></v-spacer>
                     <v-spacer></v-spacer>
@@ -61,24 +61,6 @@
                                                                                         style="max-width: 100px; max-height: 100px; vertical-align: middle"/>
                         </td>
                         <td>{{ props.item.nombre }}</td>
-                        <td v-for="item in props.item.talla_stock">
-                            <v-edit-dialog
-                                    :return-value.sync="item.cantidad"
-                                    large
-                                    lazy
-                                    persistent
-                            >
-                                <div>{{ item.cantidad }}</div>
-                                <div slot="input" class="mt-3 title">En Stock</div>
-                                <v-text-field
-                                        slot="input"
-                                        v-model="item.cantidad"
-                                        label="cantidad"
-                                        single-line
-                                        autofocus
-                                ></v-text-field>
-                            </v-edit-dialog>
-                        </td>
                         <td class="text-xs-center">
                             <v-btn icon class="mx-0" @click="editItem(props.item)">
                                 <v-icon color="teal">edit</v-icon>
@@ -121,32 +103,6 @@
                                 ></v-text-field>
                             </v-flex>
                         </v-layout>
-                        <v-layout row wrap class="mt-3">
-                            <v-flex xs2>
-                                Tallas:
-                            </v-flex>
-                            <v-flex xs3 lg4>
-                                En Stock:
-                            </v-flex>
-                        </v-layout>
-                        <v-layout row wrap align-center v-for="(item, index) in tallas" :key="item.id">
-                            <v-flex xs2>
-                                <v-checkbox
-                                        :label="item.nombre"
-                                        v-model="producto.tallas[index]"
-                                        @change="cleanStock(index)"
-                                        :value="item"
-                                        hide-details
-                                ></v-checkbox>
-                            </v-flex>
-                            <v-flex xs1>
-                                <v-text-field
-                                        v-model="producto.stock[index]"
-                                        :disabled="!producto.tallas[index]"
-                                        v-on:keyup="validNumber(index, $event)"
-                                ></v-text-field>
-                            </v-flex>
-                        </v-layout>
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
@@ -170,7 +126,8 @@
                 search: '',
                 headers: [
                     {text: '', value: ''},
-                    {text: 'Nombre', value: 'nombre'}
+                    {text: 'Nombre', value: 'nombre'},
+                    {text: '', value: ''}
                 ],
                 dialog: false,
                 editedIndex: -1,
@@ -178,8 +135,7 @@
                 snackbarText: '',
                 snackbarColor: 'success',
                 flag: false,
-                items: [],
-                producto: {nombre: '', tallas: [], stock: [], imgName: null, imgSrc: null},
+                producto: {nombre: '', imgName: null, imgSrc: null},
                 img: null,
                 fieldRule: [
                     v => !!v || 'Este campo es requerido'
@@ -189,7 +145,7 @@
         },
         computed: {
             formTitle() {
-                return this.editedIndex === -1 ? 'Crear Producto' : 'Editar Producto'
+                return this.editedIndex === -1 ? 'Crear Sudadera' : 'Editar Sudadera'
             },
             ...mapGetters({
                 deletedItem: 'producto/del/deleted',
@@ -197,7 +153,7 @@
                 errorCreate: 'producto/create/error',
                 errorUpdate: 'producto/update/updateError',
                 errorDelete: 'producto/del/error',
-                productos: 'producto/list/items',
+                items: 'producto/list/items',
                 loading: 'producto/list/loading',
                 view: 'producto/list/view',
                 created: 'producto/create/created',
@@ -226,10 +182,6 @@
             }
         },
         methods: {
-            cleanStock(index) {
-                if (typeof this.producto.tallas[index] != typeof undefined && !this.producto.tallas[index])
-                    this.producto.stock[index] = null;
-            },
             photoProccess() {
                 let $this = this;
                 let reader = new FileReader();
@@ -252,39 +204,13 @@
             getImageUrl(path) {
                 return API_HOST + '/' + path
             },
-            validNumber(index, event) {
-                if ((event.keyCode < 48 || (event.keyCode > 57 && event.keyCode < 96 || event.keyCode > 105)) && (event.keyCode != 8 && event.keyCode != 46 && event.keyCode != 37 && event.keyCode != 39 && event.keyCode != 13)) {
-                    let array = this.producto.stock;
-                    this.producto.stock = [];
-                    array.forEach(function (item, index2) {
-                        if (index2 == index)
-                            array[index] = null;
-                    });
-                    this.producto.stock = array;
-                }
-            },
             cleanProduct() {
                 this.img = null;
-                this.producto = {nombre: '', tallas: [], stock: [], imgName: null, imgSrc: null};
+                this.producto = {nombre: ''};
                 document.getElementById('photo').value = "";
             },
             clickUpload() {
                 document.getElementById('photo').click()
-            },
-            updateTable() {
-                let $this = this;
-                this.tallas.forEach(item => {
-                    $this.productos.forEach(item2 => {
-                        if (typeof item2.talla_stock == typeof undefined)
-                            item2.talla_stock = [];
-                        let talla = item2.tallas.filter(item3 => item3.talla.id == item.id);
-                        if (talla.length)
-                            item2.talla_stock.push(talla[0]);
-                        else
-                            item2.talla_stock.push({talla: item, cantidad: 0});
-                    });
-                });
-                this.items = this.productos;
             },
             error(message) {
                 this.flag = true;
@@ -298,37 +224,15 @@
                 this.dialog = true;
             },
             editItem(item) {
-                this.producto = Object.assign({}, item);
+                this.open()
+                this.producto = Object.assign({}, item)
+                this.editedIndex = this.items.indexOf(item);
                 if (this.producto.imagen && this.producto.imagen.path)
                     this.img = this.getImageUrl(this.producto.imagen.path);
-                this.producto.stock = [];
-                let $this = this;
-                this.producto.talla_stock.forEach((item2, index) => {
-                    if (typeof item2.cantidad != typeof undefined && item2.cantidad != 0)
-                        $this.producto.stock[index] = item2.cantidad;
-                    else
-                        $this.producto.stock[index] = null;
-
-                });
-                this.tallasOrden(this.producto);
-                this.editedIndex = this.items.indexOf(item);
-                this.dialog = true;
-            },
-            tallasOrden(item) {
-                let tallas = [];
-                this.tallas.forEach((talla, index) => {
-                    let array = item.tallas.filter(talla2 => talla.id == talla2.talla.id)
-                    if (array.length) {
-                        tallas[index] = talla;
-                    }
-                    else
-                        tallas[index] = null;
-                });
-                item.tallas = tallas;
             },
             deleteItem(item) {
                 const index = this.items.indexOf(item)
-                if (confirm('Are you sure you want to delete?')) {
+                if (confirm('Seguro quieres eliminar este elemento?')) {
 
                     this.$store.dispatch('producto/del/delete', item).then(
                         () => {
@@ -339,9 +243,7 @@
                             this.items.splice(index, 1)
                             this.snackbarText = 'Se ha eliminado';
                             this.snackbar = true;
-                            this.$store.dispatch('producto/list/getItems').then(() => {
-                                $this.updateTable();
-                            });
+                            this.$store.dispatch('producto/list/getItems', true);
                         })
                 }
             },
@@ -352,21 +254,14 @@
             },
             save() {
                 if (!this.$refs.form.validate()) return;
-                let tallas = [];
-                this.producto.tallas.forEach(item => {
-                    if (item && typeof item.talla != typeof undefined)
-                        tallas.push({talla: item.talla});
-                    else
-                        tallas.push(item ? item.id : null);
-                })
-                this.producto.tallas = tallas;
+
+                this.producto.sudadera = true;
+
                 let data = new FormData(), $this = this, snackbarText = 'Se ha creado', producto = {};
                 if (this.editedIndex > -1) {
                     producto = {
                         id: this.producto.id,
-                        nombre: this.producto.nombre,
-                        tallas: this.producto.tallas,
-                        stock: this.producto.stock
+                        nombre: this.producto.nombre
                     };
                     if (typeof this.producto.imgName != typeof undefined) {
                         producto.imgName = this.producto.imgName;
@@ -379,46 +274,26 @@
                 }
                 data.append('producto', JSON.stringify(producto));
                 this.updateLoading = true;
-                axios.post(API_HOST + API_PATH + '/guardar-producto', data).then(function (response) {
+                axios.post(API_HOST + API_PATH + '/save-producto', data).then(function (response) {
                     $this.updateLoading = false;
-                    $this.cleanProduct();
+
                     if ($this.flag) {
                         $this.flag = false;
                         return;
                     }
                     $this.snackbarText = snackbarText;
                     $this.snackbar = true;
-                    $this.$store.dispatch('producto/list/getItems').then(() => {
-                        $this.updateTable();
-                    });
+                    $this.$store.dispatch('producto/list/getItems', true);
                 }).catch(function (error) {
-                    this.updateLoading = false;
+                    $this.updateLoading = false;
                     $this.error(error);
                 });
                 this.close()
             }
         },
         created() {
-            this.$store.dispatch('producto/list/getItems').then(() => {
-                this.$store.dispatch('talla/list/getItems').then(() => {
-                    let $this = this;
-                    this.tallas.forEach(item => {
-                        $this.headers.push({text: item.nombre, value: item.nombre});
-                        $this.productos.forEach(item2 => {
-                            if (typeof item2.talla_stock == typeof undefined)
-                                item2.talla_stock = [];
-
-                            let talla = item2.tallas.filter(item3 => item3.talla.id == item.id);
-                            if (talla.length)
-                                item2.talla_stock.push(talla[0]);
-                            else
-                                item2.talla_stock.push({talla: item, cantidad: 0});
-                        });
-                    });
-                    this.headers.push({text: '', value: ''});
-                    this.items = this.productos;
-                });
-            });
+            this.$store.dispatch('producto/list/setItems', []);
+            this.$store.dispatch('producto/list/getItems', true);
         }
     }
 </script>
