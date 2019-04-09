@@ -42,13 +42,13 @@
                                     item-text="nombre"
                                     return-object
                             >
-                                <template slot="selection" slot-scope="data">
-                                    <v-chip style="padding-right: 10px">
-                                        <img height="35" v-bind:src="getImageUrl(data.item.imagen.path)"
-                                             class="py-1"/>
-                                        <label class="pl-2 d-inline">{{ data.item.nombre }}</label>
-                                    </v-chip>
-                                </template>
+                                <!--<template slot="selection" slot-scope="data">-->
+                                    <!--<v-chip style="padding-right: 10px">-->
+                                        <!--<img height="35" v-bind:src="getImageUrl(data.item.imagen.path)"-->
+                                             <!--class="py-1"/>-->
+                                        <!--<label class="pl-2 d-inline">{{ data.item.nombre }}</label>-->
+                                    <!--</v-chip>-->
+                                <!--</template>-->
                                 <!--<template slot="item" slot-scope="data">-->
                                     <!--<template v-if="typeof data.item !== 'object'">-->
                                         <!--No hay datos disponibles-->

@@ -62,13 +62,13 @@
                                     item-text="nombre"
                                     return-object
                             >
-                                <template slot="selection" slot-scope="data">
-                                    <v-chip style="padding-right: 10px">
-                                        <img height="35" v-bind:src="getImageUrl(data.item.imagen.path)"
-                                             class="py-1"/>
-                                        <label class="pl-2 d-inline">{{ data.item.nombre }}</label>
-                                    </v-chip>
-                                </template>
+                                <!--<template slot="selection" slot-scope="data">-->
+                                    <!--<v-chip style="padding-right: 10px">-->
+                                        <!--<img height="35" v-bind:src="getImageUrl(data.item.imagen.path)"-->
+                                             <!--class="py-1"/>-->
+                                        <!--<label class="pl-2 d-inline">{{ data.item.nombre }}</label>-->
+                                    <!--</v-chip>-->
+                                <!--</template>-->
                                 <!--<template slot="item" slot-scope="data">-->
                                     <!--<template v-if="typeof data.item !== 'object'">-->
                                         <!--No hay datos disponibles-->
@@ -218,7 +218,7 @@
             stock: {
                 handler: function(newValue) {
                     let $this = this, cont = 0;
-                    newValue.forEach(function(item){console.log(Number.isInteger(parseInt(item.stock)), item)
+                    newValue.forEach(function(item){
                         if(Number.isInteger(parseInt(item.stock))){
                             $this.productosSelected2.forEach(function(item2){
                                 item2.tallas[cont].stock = item.stock;
