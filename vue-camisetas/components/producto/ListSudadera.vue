@@ -55,10 +55,9 @@
                         :disable-initial-sort="true"
                 >
                     <template slot="items" slot-scope="props">
-                        <td style="width: 100px; text-align: center;" class="py-1"><img v-if="props.item.imagen"
+                        <td style="width: 100px; text-align: center;" class="py-1"><img v-if="props.item.imagen" class="img-style" @click="zoom(getImageUrl(props.item.imagen.path))"
                                                                                         :alt="props.item.imagen.name"
-                                                                                        :src="getImageUrl(props.item.imagen.path)"
-                                                                                        style="max-width: 100px; max-height: 100px; vertical-align: middle"/>
+                                                                                        :src="getImageUrl(props.item.imagen.path)"/>
                         </td>
                         <td>{{ props.item.nombre }}</td>
                         <td class="text-xs-center">
@@ -118,6 +117,11 @@
     import {mapGetters} from 'vuex';
     import axios from 'axios';
     import {API_HOST, API_PATH} from '../../config/_entrypoint';
+    import zoom from 'vue-image-zoom';
+    import 'vue-image-zoom/dist/vue-image-zoom.css';
+
+    import Vue from 'vue'
+    Vue.use(zoom);
 
     export default {
         data() {
@@ -182,6 +186,13 @@
             }
         },
         methods: {
+            zoom(img){
+                this.$zoom(img, {
+                    allowZoom:          true,  // When false, zooming is not available. Image will be shown on 100% size.
+                    autoScale:          true,  // When true, if the image is larger than the screen, it will be automatically scaled down until suitable. Along with 'allowZoom'
+                    closeOnClickModal:  false, // When false, clicking modal layer will close the viewer.
+                });
+            },
             photoProccess() {
                 let $this = this;
                 let reader = new FileReader();
@@ -297,3 +308,13 @@
         }
     }
 </script>
+<style>
+    .img-style{
+        max-width: 130px; max-height: 130px; vertical-align: middle
+    }
+    @media only screen and (max-width : 550px) {
+        .img-style{
+            max-width: 150px; max-height: 150px;
+        }
+    }
+</style>
