@@ -308,7 +308,7 @@
 </script>
 <style>
     .img-style{
-        max-width: 130px; max-height: 130px; vertical-align: middle
+        max-width: 130px; max-height: 130px; vertical-align: middle; cursor: pointer;
     }
     @media only screen and (max-width : 550px) {
         .img-style{
