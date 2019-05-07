@@ -50,7 +50,7 @@
                         :headers="headers"
                         :items="items"
                         :search="search"
-                        :rows-per-page-items="[10,5,25,{'text':'All','value':-1}]"
+                        :rows-per-page-items="[{'text':'All','value':-1}, 10,5,25]"
                         no-data-text=""
                         :disable-initial-sort="true"
                 >
