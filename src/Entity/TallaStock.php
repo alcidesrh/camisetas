@@ -27,10 +27,6 @@ class TallaStock extends TallaAbstract implements \JsonSerializable
 
     }
 
-    public function addCantidad($cantidad){
-        $this->cantidad += $cantidad;
-    }
-
     /**
      * @return mixed
      */

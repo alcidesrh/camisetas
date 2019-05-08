@@ -101,6 +101,12 @@ abstract class TallaAbstract
 
         return $this;
     }
+    public function addCantidad($cantidad): self
+    {
+        $this->cantidad += $cantidad ?? 0;
+
+        return $this;
+    }
 
     public function getTalla()
     {

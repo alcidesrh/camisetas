@@ -80,12 +80,19 @@
 
                         </v-flex>
                     </v-layout>
+                    <v-layout row wrap><v-flex md6 pl-3>
+                        <v-radio-group v-model="addType" row style="display: inline-block">
+                            <v-radio label="Sumar" value="1"></v-radio>
+                            <v-radio label="Cantidad fija" value="2"></v-radio>
+                        </v-radio-group>
+                    </v-flex>
+                    </v-layout>
                     <v-layout row wrap class="mt-3" v-if="stock.length">
                         <v-flex xs12>
                             Asignar cantidad por talla para todos los productos:
                         </v-flex>
                         <div style="margin-left: 72px; display: flex">
-                        <v-flex style="max-width: 50px" class="mx-3" v-for="(item, index) in tallas" :key="item.id">
+                        <v-flex style="max-width: 68px" class="mx-3" v-for="(item, index) in tallas" :key="item.id">
                             <v-text-field
                                     v-model="stock[index].stock"
                                     v-on:keyup="stock[index].stock = validNumber(index, $event)?'':stock[index].stock"
@@ -99,7 +106,7 @@
                         <v-flex lg12>
                             Asignar cantidad por talla por producto: <strong>{{getTotal()}} total</strong>
                         </v-flex>
-                        <v-flex lg12 class="mt-2">
+                        <v-flex v-if="addType == 1" lg12 class="mt-2">
                             <v-list two-line>
                                 <template v-for="producto,index in productosSelected2">
 
@@ -120,7 +127,50 @@
                                             </v-list-tile-title>
                                             <v-list-tile-sub-title style="overflow: initial">
 
-                                                <v-text-field style="max-width: 50px; display: inline-block"
+                                                <v-text-field style="max-width: 68px; display: inline-block"
+                                                              class="mx-3" v-for="(talla, index2) in tallas"
+                                                              :key="talla.id"
+                                                              v-model="productosSelected2[index].tallas[index2].addCant"
+                                                              v-on:keyup="productosSelected2[index].tallas[index2].addCant = validNumber2(index, index2, $event)?0:productosSelected2[index].tallas[index2].addCant"
+                                                >
+                                                    <label slot="label" style="font-size: 14px">{{talla.nombre +'='+ productosSelected2[index].tallas[index2].stock}}</label>
+                                                </v-text-field>
+                                                <v-text-field style="max-width: 68px; display: inline-block"
+                                                              class="mx-3"
+                                                              v-model="productosSelected2[index].tallas.reduce((el, prev2) => {if(!Number.isInteger(parseInt(el.addCant)))el.addCant = 0;if(!Number.isInteger(parseInt(prev2.addCant)))prev2.addCant = 0;return {addCant: parseInt(el.addCant) + parseInt(prev2.addCant)}}).addCant + productosSelected2[index].tallas.reduce((el, prev2) => {if(!Number.isInteger(parseInt(el.stock)))el.stock = 0;if(!Number.isInteger(parseInt(prev2.stock)))prev2.stock = 0;return {stock: parseInt(el.stock) + parseInt(prev2.stock)}}).stock"
+                                                              disabled
+                                                >
+                                                    <label slot="label" style="font-size: 14px">Total</label>
+                                                </v-text-field>
+                                            </v-list-tile-sub-title>
+
+                                        </v-list-tile-content>
+                                    </v-list-tile>
+                                </template>
+                            </v-list>
+                        </v-flex>
+                        <v-flex v-else lg12 class="mt-2">
+                            <v-list two-line>
+                                <template v-for="producto,index in productosSelected2">
+
+                                    <v-divider class="my-2"
+                                               v-if="index > 0"
+                                               :inset="true"
+                                               :key="index"
+                                    ></v-divider>
+
+                                    <v-list-tile avatar>
+                                        <v-list-tile-avatar>
+                                            <img :src="getImageUrl(producto.imagen.path)">
+                                        </v-list-tile-avatar>
+
+                                        <v-list-tile-content class="pb-2">
+                                            <v-list-tile-title>
+                                                {{producto.nombre}}
+                                            </v-list-tile-title>
+                                            <v-list-tile-sub-title style="overflow: initial">
+
+                                                <v-text-field style="max-width: 68px; display: inline-block"
                                                               class="mx-3" v-for="(talla, index2) in tallas"
                                                               :key="talla.id"
                                                               v-model="productosSelected2[index].tallas[index2].stock"
@@ -128,7 +178,7 @@
                                                 >
                                                     <label slot="label" style="font-size: 14px">{{talla.nombre}}</label>
                                                 </v-text-field>
-                                                <v-text-field style="max-width: 50px; display: inline-block"
+                                                <v-text-field style="max-width: 68px; display: inline-block"
                                                               class="mx-3"
                                                               v-model="productosSelected2[index].tallas.reduce((el, prev2) => {if(!Number.isInteger(parseInt(el.stock)))el.stock = 0;if(!Number.isInteger(parseInt(prev2.stock)))prev2.stock = 0;return {stock: parseInt(el.stock) + parseInt(prev2.stock)}}).stock"
                                                               disabled
@@ -164,6 +214,7 @@
         data() {
             return {
                 sort: '1',
+                addType: '1',
                 asc: false,
                 item: {user: false, productos: [], stock: []},
                 productosSelected: [],
@@ -198,18 +249,27 @@
             })
         },
         watch: {
+            addType(){
+                let newStock = [], $this = this, newproductosSelected2 = [];
+                this.tallas.forEach((item) => {
+                    newStock.push({id: item.id, stock: null});
+                });
+                this.stock = newStock;
+                this.productosSelected.forEach(item => {
+                    newproductosSelected2.push(Object.assign({}, item));
+                });
+                this.productosSelected2 = newproductosSelected2;
+            },
             stock: {
                 handler: function(newValue) {
                     let $this = this, cont = 0;
                     newValue.forEach(function(item){
                         if(Number.isInteger(parseInt(item.stock))){
                             $this.productosSelected2.forEach(function(item2){
-                                item2.tallas[cont].stock = item.stock;
-                            })
-                        }
-                        else{
-                            $this.productosSelected2.forEach(function(item2){
-                                item2.tallas[cont].stock = 0;
+                                if($this.addType == 1)
+                                    item2.tallas[cont].addCant = item.stock;
+                                else
+                                    item2.tallas[cont].stock = item.stock;
                             })
                         }
                         cont++;
@@ -259,8 +319,13 @@
         },
         methods: {
             getTotal(){
-                let total = 0;
+                let total = 0, total2 = 0;
                 this.productosSelected2.forEach(item => {
+                    if(this.addType == 1){
+                        total2 = item.tallas.reduce((el, prev2) => {if(!Number.isInteger(parseInt(el.addCant))) el.addCant = 0; if(!Number.isInteger(parseInt(prev2.addCant))) prev2.addCant = 0;return {addCant: parseInt(el.addCant) + parseInt(prev2.addCant)}}).addCant;
+                        total = total2 + total + item.tallas.reduce((el, prev2) => {if(!Number.isInteger(parseInt(el.stock))) el.stock = 0; if(!Number.isInteger(parseInt(prev2.stock))) prev2.stock = 0;return {stock: parseInt(el.stock) + parseInt(prev2.stock)}}).stock;
+                    }
+                    else
                     total = total + item.tallas.reduce((el, prev2) => {if(!Number.isInteger(parseInt(el.stock))) el.stock = 0; if(!Number.isInteger(parseInt(prev2.stock))) prev2.stock = 0;return {stock: parseInt(el.stock) + parseInt(prev2.stock)}}).stock;
                 })
                 return total;
@@ -312,6 +377,8 @@
                     return;
                 }
                 this.setStock();
+                if(this.addType == 1)
+                    this.item.add = true;
                 this.$store.dispatch('stock/update/update', {
                     id: this.item.id,
                     values: this.item
@@ -351,7 +418,8 @@
                             if (typeof item.tallas[index] != typeof undefined)
                                 talla.stock = item.tallas[index].cantidad;
                             else
-                                talla.stock = "";
+                                talla.stock = 0;
+                            talla.addCant = 0;
                         });
                         result[0].producto_stock = item.id;
                         this.productosSelected.push(Object.assign({}, result[0]));

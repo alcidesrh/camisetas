@@ -208,7 +208,7 @@ class ApiController extends AbstractController
 
         $array = new ArrayCollection();
         $arrayVenta = new ArrayCollection();
-        $venta = $entityManager->getRepository('App:Venta')->findOneBy(['open' => true, 'user' => $this->getUser()]);
+        $venta = $entityManager->getRepository('App:Venta')->findOneBy(['open' => true, 'user' => $data['user']]);
         foreach ($data['productos'] as $item) {
             if (isset($item['producto_stock'])) {
                 $productoStock = $entityManager->getRepository('App:ProductoStock')->find(
@@ -240,17 +240,35 @@ class ApiController extends AbstractController
                             $tallaVenta = $entityManager->getRepository('App:Venta')->findTallaByTallaStock($talla);
                         }
                     }
-                    if ($item['stock'][$i]['stock']) {
-                        $talla->setCantidad($item['stock'][$i]['stock']);
-                        if ($venta) {
-                            $tallaVenta->setCantidad($item['stock'][$i]['stock']);
+                    if(!isset($data['add'])){
+                        if ($item['stock'][$i]['stock']) {
+                            $talla->setCantidad($item['stock'][$i]['stock']);
+                            if ($venta) {
+                                $tallaVenta->setCantidad($item['stock'][$i]['stock']);
+                            }
                         }
-                    } else {
-                        $talla->setCantidad($value['stock'] ?? 0);
-                        if ($venta) {
-                            $tallaVenta->setCantidad($value['stock'] ?? 0);
-                        }
+//                        else {
+//                            $talla->setCantidad($value['stock'] ?? 0);
+//                            if ($venta) {
+//                                $tallaVenta->setCantidad($value['stock'] ?? 0);
+//                            }
+//                        }
                     }
+                    else{
+                        if ($item['stock'][$i]['addCant']) {
+                            $talla->addCantidad($item['stock'][$i]['addCant']);
+                            if ($venta) {
+                                $tallaVenta->addCantidad($item['stock'][$i]['addCant']);
+                            }
+                        }
+//                        else {
+//                            $talla->addCantidad($value['stock'] ?? 0);
+//                            if ($venta) {
+//                                $tallaVenta->addCantidad($value['stock'] ?? 0);
+//                            }
+//                        }
+                    }
+
 
                     $entityManager->persist($talla);
                     if(isset($tallaVenta))$entityManager->persist($tallaVenta);
