@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <div>
         <v-snackbar
                 :color="snackbarColor"
                 :timeout="3000"
@@ -170,7 +170,7 @@
 
             </v-form>
         </v-card>
-    </v-container>
+    </div>
 </template>
 <script>
     import {mapGetters} from 'vuex';
