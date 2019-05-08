@@ -42,32 +42,32 @@
                                     item-text="nombre"
                                     return-object
                             >
-                                <template slot="selection" slot-scope="data">
-                                    <v-chip style="padding-right: 10px">
-                                        <img height="35" v-bind:src="getImageUrl(data.item.imagen.path)"
-                                             class="py-1"/>
-                                        <label class="pl-2 d-inline">{{ data.item.nombre }}</label>
-                                    </v-chip>
-                                </template>
-                                <template slot="item" slot-scope="data">
-                                    <template v-if="typeof data.item !== 'object'">
-                                        No hay datos disponibles
-                                    </template>
-                                    <template v-else>
-                                        <v-checkbox
-                                                v-model="productosCheckBox[productos.indexOf(data.item)]"
-                                        >
-                                            <div slot="label"
-                                                 style="display: flex;align-items: center; justify-content: center">
-                                                <div class="d-inline ml-2">{{data.item.nombre}}</div>
-                                                <div class="d-inline ml-1">
-                                                    <img height="50" v-bind:src="getImageUrl(data.item.imagen.path)"
-                                                         class="py-2"/>
-                                                </div>
-                                            </div>
-                                        </v-checkbox>
-                                    </template>
-                                </template>
+                                <!--<template slot="selection" slot-scope="data">-->
+                                    <!--<v-chip style="padding-right: 10px">-->
+                                        <!--<img height="35" v-bind:src="getImageUrl(data.item.imagen.path)"-->
+                                             <!--class="py-1"/>-->
+                                        <!--<label class="pl-2 d-inline">{{ data.item.nombre }}</label>-->
+                                    <!--</v-chip>-->
+                                <!--</template>-->
+                                <!--<template slot="item" slot-scope="data">-->
+                                    <!--<template v-if="typeof data.item !== 'object'">-->
+                                        <!--No hay datos disponibles-->
+                                    <!--</template>-->
+                                    <!--<template v-else>-->
+                                        <!--<v-checkbox-->
+                                                <!--v-model="productosCheckBox[productos.indexOf(data.item)]"-->
+                                        <!--&gt;-->
+                                            <!--<div slot="label"-->
+                                                 <!--style="display: flex;align-items: center; justify-content: center">-->
+                                                <!--<div class="d-inline ml-2">{{data.item.nombre}}</div>-->
+                                                <!--<div class="d-inline ml-1">-->
+                                                    <!--<img height="50" v-bind:src="getImageUrl(data.item.imagen.path)"-->
+                                                         <!--class="py-2"/>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</v-checkbox>-->
+                                    <!--</template>-->
+                                <!--</template>-->
                             </v-select>
                         </v-flex>
                         <v-flex md6 pl-3>
