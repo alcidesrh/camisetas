@@ -338,16 +338,16 @@ class ApiController extends AbstractController
     /**
      * @Route(
      *     name="close_feria",
-     *     path="/close-feria",
+     *     path="/close-feria/{id}",
      *     methods={"POST"}
      * )
      */
-    public function closeFeria(EntityManagerInterface $entityManager)
+    public function closeFeria(User $user, EntityManagerInterface $entityManager)
     {
-        if($venta = $entityManager->getRepository('App:Venta')->findOneBy(['open' => true, 'user' => $this->getUser()])){
+        if($venta = $entityManager->getRepository('App:Venta')->findOneBy(['open' => true, 'user' => $user])){
             $venta->setOpen(false);
             $venta->setCloseAt(new \DateTime());
-            $stock = $this->getUser()->getStock();
+            $stock = $user->getStock();
             foreach ($stock->getProductos() as $producto) {
                 foreach ($producto->getTallas() as $talla) {
                     $talla->setVendidas(0);
@@ -377,9 +377,7 @@ class ApiController extends AbstractController
                 $tallas = $data['tallas'];
                 foreach ($tallas as $value){
                     $talla = $entityManager->getRepository('App:TallaVenta')->find($value['talla']);
-                    if($imprimir){
-                        $productosPdf[$talla->getProducto()->getProducto()->getNombre()][$talla->getTalla()->getNombre()]['cantidad'] = $value['reponer'];
-                    }
+
                     $tallaStock = $talla->getTallaStock();
                     $tallaStock->addCantidad($value['reponer']);
                     $entityManager->persist($tallaStock);

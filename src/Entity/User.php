@@ -38,7 +38,7 @@ class User extends NombreAbstract implements UserInterface, \Serializable, \Json
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"read", "read_stock"})
+     * @Groups({"read", "read_stock", "read_venta"})
      */
     private $id;
 

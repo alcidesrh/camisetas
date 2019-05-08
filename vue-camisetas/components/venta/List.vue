@@ -69,7 +69,7 @@
                 <span>Detalle de la venta</span>
               </v-tooltip>
 			  <v-tooltip top v-if="props.item.open">
-                <v-btn icon class="mx-0" @click="closeFeria()"  slot="activator">
+                <v-btn icon class="mx-0" @click="closeFeria(props.item.user.id)"  slot="activator">
                 <v-icon color="orange">close</v-icon>
               </v-btn>
                 <span>Cerrar venta</span>
@@ -153,9 +153,9 @@
             }
         },
         methods: {
-            closeFeria(){
+            closeFeria(user){
                 this.loading2 = true;
-                fetch('/close-feria',{
+                fetch('/close-feria/'+user,{
                     method: 'POST',
                     credentials: "same-origin",
                 }).then(response => {
@@ -238,7 +238,7 @@
         created() {
             this.$store.dispatch('user/update/reset');
             if (this.users.length == 0) {
-                this.$store.dispatch('user/list/getItems');
+                this.$store.dispatch('user/list/getItems')
             }
             if(typeof this.$route.params.user != typeof undefined){
                 this.$store.dispatch('user/update/retrieve', '/users/' + decodeURIComponent(this.$route.params.user)).then(() =>{

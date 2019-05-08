@@ -121,6 +121,7 @@
                             this.loading = false;
                             if(print)
                             window.open(API_HOST+'/'+data);
+                            else this.closeVenta();
                         })
                         .catch(e => {
                             this.loading = false;

@@ -7,7 +7,7 @@
             'Content-Type': 'application/json',
         },
         method: 'POST',
-        body: JSON.stringify({username: 'admin', password: 'admin'})
+        body: JSON.stringify({username: 'alcides', password: 'comeasyouare'})
     })
         .then(response => {
             return response.json();
@@ -54,7 +54,7 @@
                                     'Authorization': 'Bearer '+token,
                                 },
                                 credentials: "same-origin",
-                                body: JSON.stringify([{id: 169, vendida: 4}, {id: 172, vendida: 8}, {id: 175, vendida: 1}, {id: 186, vendida: 2}])
+                                body: JSON.stringify([{id: 305, vendida: 2}, {id: 313, vendida: 3}])
                             })
                                 .then(response => {
                                     return response.json();
