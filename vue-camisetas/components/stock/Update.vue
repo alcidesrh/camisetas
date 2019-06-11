@@ -82,8 +82,8 @@
                     </v-layout>
                     <v-layout row wrap><v-flex md6 pl-3>
                         <v-radio-group v-model="addType" row style="display: inline-block">
-                            <v-radio label="Sumar" value="1"></v-radio>
-                            <v-radio label="Cantidad fija" value="2"></v-radio>
+                            <v-radio label="Sumar al Stock" value="1"></v-radio>
+                            <v-radio label="Asignar cantidad fija al Stock" value="2"></v-radio>
                         </v-radio-group>
                     </v-flex>
                     </v-layout>
