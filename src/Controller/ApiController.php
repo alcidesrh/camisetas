@@ -422,4 +422,22 @@ class ApiController extends AbstractController
         }
         return new JsonResponse('empty');
     }
+
+    /**
+     * @Route("/remove-producto/{id}", name="remove_producto")
+     */
+    public function removeProduct(Producto $producto, EntityManagerInterface $entityManager): JsonResponse
+    {
+
+        foreach (array_merge(
+            $entityManager->getRepository('App:ProductoStock')->findBy(['producto' => $producto]),
+            $entityManager->getRepository('App:ProductoVenta')->findBy(['producto' => $producto])) as $item){
+            $entityManager->remove($item);
+        }
+        $entityManager->flush();
+        $entityManager->remove($producto);
+        $entityManager->flush();
+
+        return new JsonResponse(['remove']);
+    }
 }

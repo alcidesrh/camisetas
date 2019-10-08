@@ -92,7 +92,8 @@
                             else
                                 document.getElementById('gestion_producto').firstChild.click();
                         }
-                        document.getElementById(route_reload[0]).firstChild.click();
+                        else
+                         document.getElementById(route_reload[0]).firstChild.click();
                     } else {
                         if (route_reload[0] == 'stocks')
                             document.getElementById(route_reload[0]).firstChild.click();

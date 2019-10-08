@@ -24,8 +24,8 @@ class ProductoStock implements \JsonSerializable
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Producto")
-     * @ORM\JoinColumn(name="producto_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Producto", cascade={"remove"})
+     * @ORM\JoinColumn(name="producto_id", referencedColumnName="id", onDelete="CASCADE")
      * @Groups("read_stock")
      */
     private $producto;

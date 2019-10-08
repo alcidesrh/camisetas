@@ -242,20 +242,24 @@
                     this.img = this.getImageUrl(this.producto.imagen.path);
             },
             deleteItem(item) {
-                const index = this.items.indexOf(item)
+                const index = this.items.indexOf(item);
+                let $this = this;
                 if (confirm('Seguro quieres eliminar este elemento?')) {
-
-                    this.$store.dispatch('producto/del/delete', item).then(
-                        () => {
-                            if (this.flag) {
-                                this.flag = false;
-                                return;
-                            }
-                            this.items.splice(index, 1)
-                            this.snackbarText = 'Se ha eliminado';
-                            this.snackbar = true;
-                            this.$store.dispatch('producto/list/getItems', true);
-                        })
+                    this.updateLoading = true;
+                    axios.delete(API_HOST + API_PATH + '/remove-producto/'+item.id).then(() => {
+                        if (this.flag) {
+                            this.flag = false;
+                            return;
+                        }
+                        $this.items.splice(index, 1)
+                        $this.snackbarText = 'Se ha eliminado';
+                        $this.snackbar = true;
+                        $this.$store.dispatch('producto/list/getItems');
+                        $this.updateLoading = false;
+                    }).catch(function (error) {
+                        $this.updateLoading = false;
+                        $this.error(error);
+                    });
                 }
             },
             close() {
