@@ -49,54 +49,57 @@ class EndPointController extends AbstractController
      */
     public function checkFeria(EntityManagerInterface $entityManager)
     {
-        if ($data = Util::decodeBody()) {
+        if($stock = $this->getUser()->getStock()){
 
-            if (!$entityManager->getRepository('App:Venta')->findBy(
-                    ['open' => true, 'user' => $this->getUser()]
-                ) && isset($data['name'])) {
-                $venta = new Venta();
-                $venta->setUser($this->getUser());
-                $venta->setFeria($data['name']);
+            if ($data = Util::decodeBody()) {
 
-                $stock = $this->getUser()->getStock();
-                foreach ($stock->getProductos() as $productoStock) {
-                    $productoVenta = new ProductoVenta();
-                    $productoVenta->setVenta($venta);
-                    $productoVenta->setProducto($productoStock->getProducto());
-                    $entityManager->persist($productoVenta);
-                    foreach ($productoStock->getTallas() as $tallaStock) {
-                        $tallaVenta = new TallaVenta($tallaStock->getTalla());
-                        $tallaVenta->setTallaStock($tallaStock);
-                        $tallaVenta->setCantidad($tallaStock->getCantidad());
-                        $tallaVenta->setProducto($productoVenta);
-                        $entityManager->persist($tallaVenta);
-                    }
-                }
-                $entityManager->persist($venta);
-                $entityManager->flush();
-            } else {
-                if (isset($data['close'])) {
-                    if (!($venta = $entityManager->getRepository('App:Venta')->findOneBy(
+                if (!$entityManager->getRepository('App:Venta')->findBy(
                         ['open' => true, 'user' => $this->getUser()]
-                    ))) {
-                        return new JsonResponse($data);
-                    }
-                    $venta->setOpen(false);
-                    $venta->setCloseAt(new \DateTime());
-                    $stock = $this->getUser()->getStock();
-                    foreach ($stock->getProductos() as $producto) {
-                        foreach ($producto->getTallas() as $talla) {
-                            $talla->setVendidas(0);
-                            $entityManager->persist($talla);
+                    ) && isset($data['name'])) {
+                    $venta = new Venta();
+                    $venta->setUser($this->getUser());
+                    $venta->setFeria($data['name']);
+
+                    foreach ($stock->getProductos() as $productoStock) {
+                        $productoVenta = new ProductoVenta();
+                        $productoVenta->setVenta($venta);
+                        $productoVenta->setProducto($productoStock->getProducto());
+                        $entityManager->persist($productoVenta);
+                        foreach ($productoStock->getTallas() as $tallaStock) {
+                            $tallaVenta = new TallaVenta($tallaStock->getTalla());
+                            $tallaVenta->setTallaStock($tallaStock);
+                            $tallaVenta->setCantidad($tallaStock->getCantidad());
+                            $tallaVenta->setProducto($productoVenta);
+                            $entityManager->persist($tallaVenta);
                         }
                     }
                     $entityManager->persist($venta);
                     $entityManager->flush();
+                } else {
+                    if (isset($data['close'])) {
+                        if (!($venta = $entityManager->getRepository('App:Venta')->findOneBy(
+                            ['open' => true, 'user' => $this->getUser()]
+                        ))) {
+                            return new JsonResponse($data);
+                        }
+                        $venta->setOpen(false);
+                        $venta->setCloseAt(new \DateTime());
+                        foreach ($stock->getProductos() as $producto) {
+                            foreach ($producto->getTallas() as $talla) {
+                                $talla->setVendidas(0);
+                                $entityManager->persist($talla);
+                            }
+                        }
+                        $entityManager->persist($venta);
+                        $entityManager->flush();
+                    }
                 }
             }
-        }
 
-        return new JsonResponse($data);
+            return new JsonResponse($data);
+        }
+        else
+            return new JsonResponse(['error' => 'no stock for this user']);
     }
 
     /**
