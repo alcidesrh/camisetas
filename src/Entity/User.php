@@ -109,6 +109,10 @@ class User extends NombreAbstract implements UserInterface, \Serializable, \Json
         $this->ventas = new ArrayCollection();
     }
 
+    public function getVentas(){
+        return $this->ventas;
+    }
+
     public function getStock(){
         return $this->stock;
     }
