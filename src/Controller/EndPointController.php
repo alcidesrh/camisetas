@@ -50,7 +50,7 @@ class EndPointController extends AbstractController
     public function getFeria(EntityManagerInterface $entityManager)
     {
         $response = [];
-        foreach ($this->$this->getUser()->getVentas() as $venta){
+        foreach ($this->getUser()->getVentas() as $venta){
             $return[] = ['id'=> $venta->getId(), 'name' => $venta->getFeria(), 'active' => $venta->getOpen()];
         }
 
