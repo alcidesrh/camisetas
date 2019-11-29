@@ -51,7 +51,7 @@ class EndPointController extends AbstractController
     {
         $response = [];
         foreach ($this->getUser()->getVentas() as $venta){
-            $return[] = ['id'=> $venta->getId(), 'name' => $venta->getFeria(), 'active' => $venta->getOpen()];
+            $response[] = ['id'=> $venta->getId(), 'name' => $venta->getFeria(), 'active' => $venta->getOpen()];
         }
 
         return new JsonResponse($response);
