@@ -3,6 +3,7 @@
 namespace App\Controller\Security;
 
 use App\Utils\Util;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,11 +20,12 @@ class SecurityController extends AbstractController
         if($user = $this->getUser() && !$this->isGranted('ROLE_ADMIN')){
             return $this->redirect($this->generateUrl('security_logout'));
         }
+        $error = $authenticationUtils->getLastAuthenticationError() || $request->get('access_error', false);//$authenticationUtils->getLastAuthenticationError() ?? $request->get('access_error', "");
         return $this->render('security/login.html.twig', [
             // last username entered by the user (if any)
             'last_username' => $authenticationUtils->getLastUsername(),
             // last authentication error (if any)
-            'error' => $authenticationUtils->getLastAuthenticationError() ?? $request->get('access_error', ""),
+            'error' => $error
         ]);
     }
 
@@ -54,8 +56,36 @@ class SecurityController extends AbstractController
     }
 
 
-    public function reloadAction()
+    public function reloadAction(EntityManagerInterface $entityManager)
     {
+//        $cols = ['B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M'];
+//        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+//        $spreadsheet = $reader->load("STOCK KINI 07-11-2019.xlsx");
+////        $cellValue = $spreadsheet->getActiveSheet()->getCell('A3')->getValue();
+//
+//        $stock = new Stock();
+//        $stock->setUser($entityManager->getRepository('App:User')->find(2));
+//
+//        for ($i = 3; $i < 104; $i++){
+//            if($i == 88 || $i == 89)continue;
+//            $producto = $entityManager->getRepository('App:Producto')->findOneBy(['nombre' => $spreadsheet->getActiveSheet()->getCell("A$i")->getValue()]);
+//            for ($j = 0; $j < count($cols); $j++){
+//                $productoStock = new ProductoStock();
+//                $productoStock->setProducto($producto);
+//                $productoStock->setStock($stock);
+//                $entityManager->persist($productoStock);
+//
+//                $talla = new TallaStock($entityManager->getRepository('App:Talla')->findOneBy(['nombre' => "{$cols[$j]}1"]));
+//                $talla->setProducto($productoStock);
+//                $talla->setCantidad($spreadsheet->getActiveSheet()->getCell("{$cols[$j]}$i")->getValue() ?? 0);
+//
+//                $entityManager->persist($talla);
+//                $productoStock->addTallas($talla);
+//            }
+//        }
+//        $entityManager->persist($stock);
+//        $entityManager->flush();
+
         $route = $this->get('router')->getContext()->getPathInfo();
         $route = str_getcsv($route, '/');
         unset($route[0]);

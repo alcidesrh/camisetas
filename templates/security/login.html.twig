@@ -35,10 +35,10 @@
 <head>
     <meta charset="utf-8">
     <title>Camisetas</title>
-    <link href="{{ asset('build/fonts/MaterialIcons-Regular.eot') }}" rel="stylesheet">
+    {# <link href="{{ asset('build/fonts/MaterialIcons-Regular.eot') }}" rel="stylesheet">
     <link href="{{ asset('build/fonts/MaterialIcons-Regular.woff') }}" rel="stylesheet">
     <link href="{{ asset('build/fonts/MaterialIcons-Regular.woff2') }}" rel="stylesheet">
-    <link href="{{ asset('build/fonts/MaterialIcons-Regular.ttf') }}" rel="stylesheet">
+    <link href="{{ asset('build/fonts/MaterialIcons-Regular.ttf') }}" rel="stylesheet"> #}
     {#<link href="https://fonts.googleapis.com/icon?family=Material+Icons"#}
     {#rel="stylesheet">#}
     <link href="{{ asset('build/app.css') }}" rel="stylesheet">
@@ -50,7 +50,7 @@
         var last_username = '{{ last_username }}';
         var csrf_token = '{{ csrf_token('authenticate') }}';
         {% if error %}
-        var errorMsg = '{{ error.messageKey|trans(error.messageData, 'security') }}';
+        var errorMsg = '{{ error }}';
         {% endif %}
     </script>
 <script src="{{ asset('build/login.js') }}" type="text/javascript"></script>
