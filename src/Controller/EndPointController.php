@@ -18,6 +18,7 @@ use App\Utils\Util;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\DateTime;
 
@@ -64,7 +65,7 @@ class EndPointController extends AbstractController
      *     methods={"POST"}
      * )
      */
-    public function checkFeria(EntityManagerInterface $entityManager)
+    public function checkFeria(EntityManagerInterface $entityManager, Request $request)
     {
         if($stock = $this->getUser()->getStock()){
 
@@ -72,10 +73,10 @@ class EndPointController extends AbstractController
 
                 if (!$entityManager->getRepository('App:Venta')->findBy(
                         ['open' => true, 'user' => $this->getUser()]
-                    ) && isset($data['name'])) {
+                    ) && (isset($data['name']) || $request->get('name'))) {
                     $venta = new Venta();
                     $venta->setUser($this->getUser());
-                    $venta->setFeria($data['name']);
+                    $venta->setFeria($data['name'] ?? $request->get('name'));
 
                     foreach ($stock->getProductos() as $productoStock) {
                         $productoVenta = new ProductoVenta();
