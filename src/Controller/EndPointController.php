@@ -93,6 +93,7 @@ class EndPointController extends AbstractController
                     }
                     $entityManager->persist($venta);
                     $entityManager->flush();
+                    $data['id'] = $venta->getId();
                 } else {
                     if (isset($data['close'])) {
                         if (!($venta = $entityManager->getRepository('App:Venta')->findOneBy(
