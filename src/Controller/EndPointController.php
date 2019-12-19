@@ -40,22 +40,22 @@ class EndPointController extends AbstractController
 
     }
 
-    // /**
-    //  * @Route(
-    //  *     name="get_feria",
-    //  *     path="/feria",
-    //  *     methods={"GET"}
-    //  * )
-    //  */
-    // public function getFeria(EntityManagerInterface $entityManager)
-    // {
-    //     $response = [];
-    //     foreach ($this->getUser()->getVentas() as $venta){
-    //         $response[] = ['id'=> $venta->getId(), 'name' => $venta->getFeria(), 'active' => $venta->getOpen()];
-    //     }
+    /**
+     * @Route(
+     *     name="get_feria",
+     *     path="/feria",
+     *     methods={"GET"}
+     * )
+     */
+    public function getFeria(EntityManagerInterface $entityManager)
+    {
+        $response = [];
+        foreach ($this->getUser()->getVentas() as $venta){
+            $response[] = ['id'=> $venta->getId(), 'name' => $venta->getFeria(), 'active' => $venta->getOpen()];
+        }
 
-    //     return new JsonResponse($response);
-    // }
+        return new JsonResponse($response);
+    }
 
     /**
      * @Route(
