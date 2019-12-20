@@ -231,13 +231,23 @@ class Venta implements JsonSerializable
         unset($this->productos[$this->productos->indexOf($productoVenta)]);
     }
 
+    public function getProductoClean()
+    {
+       $result = [];
+       foreach($this->productos as $item){
+           $result[] = [
+            'producto' => $item->getProducto(), 'tallas' => $item->getTallasClean(), 'sold' => $item->getVenta(), 'stock' => $item->getStock()
+           ];
+       }
+       return $result;
+    }
     public function jsonSerialize()
     {
         return [
-            'nombre' => $this->feria,
+            'name' => $this->feria,
             'active' => $this->open,
-            'productos' => $this->productos->toArray(),
-            'vendido' => $this->getVenta(),
+            'productos' => $this->getProductoClean(),
+            'sold' => $this->getVenta(),
             'stock' => $this->getStock()
         ];
     }
