@@ -8,6 +8,7 @@ use App\Filter\PropertyFilter;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -16,7 +17,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiFilter(PropertyFilter::class)
  * @ORM\Entity(repositoryClass="App\Repository\VentaRepository")
  */
-class Venta
+class Venta implements JsonSerializable
 {
     /**
      * @ORM\Id()
@@ -230,6 +231,16 @@ class Venta
         unset($this->productos[$this->productos->indexOf($productoVenta)]);
     }
 
+    public function jsonSerialize()
+    {
+        return [
+            'nombre' => $this->feria,
+            'abierta' => $this->open,
+            'productos' => $this->productos->toArray(),
+            'vendido' => $this->getVenta(),
+            'stock' => $this->getStock()
+        ];
+    }
 
 
 }

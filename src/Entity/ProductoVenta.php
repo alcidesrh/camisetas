@@ -123,7 +123,7 @@ class ProductoVenta implements \JsonSerializable
 
     public function jsonSerialize(): array
     {
-        return [ 'id' => $this->id, 'producto' => $this->producto, 'tallas' => $this->tallas->toArray() ];
+        return [ 'id' => $this->id, 'producto' => $this->producto, 'tallas' => $this->tallas->toArray(), 'vendido' => $this->getVenta(), 'stock' => $this->getStock() ];
     }
 
 }

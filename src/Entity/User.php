@@ -247,6 +247,6 @@ class User extends NombreAbstract implements UserInterface, \Serializable, \Json
 
     public function jsonSerialize(): array
     {
-        return [ 'id' => $this->id, 'nombre' => $this->nombre, 'username' => $this->username, 'apellidos' => $this->apellidos ];
+        return [ 'id' => $this->id, 'nombre' => $this->nombre, 'username' => $this->username, 'apellidos' => $this->apellidos, 'roles' => $this->roles ];
     }
 }

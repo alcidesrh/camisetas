@@ -58,6 +58,18 @@ class EndPointController extends AbstractController
         return new JsonResponse($response);
     }
 
+     /**
+     * @Route(
+     *     name="feria_data",
+     *     path="/feria-data",
+     *     methods={"POST"}
+     * )
+     */
+    public function gettFeriaData(EntityManagerInterface $entityManager, Request $request)
+    {
+         return new JsonResponse($entityManager->getRepository('App:Venta')->find(Util::decodeBody()['id']));
+    }
+
     /**
      * @Route(
      *     name="check_feria",
