@@ -236,7 +236,7 @@ class Venta implements JsonSerializable
        $result = [];
        foreach($this->productos as $item){
            $result[] = [
-            'producto' => $item->getProducto(), 'tallas' => $item->getTallasClean(), 'sold' => $item->getVenta(), 'stock' => $item->getStock()
+            'name' => $item->getProducto()->getNombre(), 'imagen' => $item->getProducto()->getImagen()->getPath(), 'tallas' => $item->getTallasClean(), 'sold' => $item->getVenta(), 'stock' => $item->getStock()
            ];
        }
        return $result;
