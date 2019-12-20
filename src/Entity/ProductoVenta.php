@@ -121,9 +121,19 @@ class ProductoVenta implements \JsonSerializable
         $this->venta = $venta;
     }
 
+    public function getTallasClean()
+    {
+        $result = [];
+        foreach($this->tallas as $talla){
+            if($talla->getStock())
+              $result[] = $talla;
+        }
+        return $result;
+    }
+
     public function jsonSerialize(): array
     {
-        return [ 'id' => $this->id, 'producto' => $this->producto, 'tallas' => $this->tallas->toArray(), 'vendido' => $this->getVenta(), 'stock' => $this->getStock() ];
+        return [ 'id' => $this->id, 'producto' => $this->producto, 'tallas' => $this->getTallasClean(), 'vendido' => $this->getVenta(), 'stock' => $this->getStock() ];
     }
 
 }

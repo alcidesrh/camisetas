@@ -235,7 +235,7 @@ class Venta implements JsonSerializable
     {
         return [
             'nombre' => $this->feria,
-            'abierta' => $this->open,
+            'active' => $this->open,
             'productos' => $this->productos->toArray(),
             'vendido' => $this->getVenta(),
             'stock' => $this->getStock()
