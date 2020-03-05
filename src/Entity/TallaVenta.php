@@ -78,6 +78,6 @@ class TallaVenta extends TallaAbstract implements \JsonSerializable
 
     public function jsonSerialize(): array
     {
-        return [ 'id' => $this->id, 'talla' => $this->talla->getNombre(), 'stock' => $this->cantidad, 'sold' => $this->getVendidas() ];
+        return [ 'id' => $this->tallaStock->getId(), 'talla' => $this->talla->getNombre(), 'stock' => $this->cantidad, 'sold' => $this->getVendidas() ];
     }
 }
