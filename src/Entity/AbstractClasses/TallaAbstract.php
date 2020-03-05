@@ -88,8 +88,6 @@ abstract class TallaAbstract
         $this->vendidas -= $cant;
     }
 
-
-
     public function getCantidad()
     {
         return $this->cantidad;
