@@ -147,10 +147,10 @@ class EndPointController extends AbstractController
                 if (!($talla = $entityManager->getRepository('App:TallaStock')->find($value['id']))) {
                     continue;
                 }
-                $talla->setVendidas($value['vendida']);
+                $talla->setVendidas($value['cantidad']);
                 $talla->setLastUpdate(new \DateTime());
                 $tallaVenta = $entityManager->getRepository('App:Venta')->findTallaByTallaStock($talla);
-                $tallaVenta->setVendidas($value['vendida']);
+                $tallaVenta->setVendidas($value['cantidad']);
                 $tallaVenta->setLastUpdate(new \DateTime());
                 $entityManager->persist($talla, $tallaVenta);
                 if (!isset($venta)) {
@@ -183,10 +183,10 @@ class EndPointController extends AbstractController
                 if (!($talla = $entityManager->getRepository('App:TallaStock')->find($value['id']))) {
                     continue;
                 }
-                $talla->returnProduct($value['vendida']);
+                $talla->returnProduct($value['cantidad']);
                 $talla->setLastUpdate(new \DateTime());
                 $tallaVenta = $entityManager->getRepository('App:Venta')->findTallaByTallaStock($talla);
-                $tallaVenta->returnProduct($value['vendida']);
+                $tallaVenta->returnProduct($value['cantidad']);
                 $tallaVenta->setLastUpdate(new \DateTime());
                 $entityManager->persist($talla, $tallaVenta);
                 if (!isset($venta)) {
