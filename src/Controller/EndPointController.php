@@ -52,7 +52,7 @@ class EndPointController extends AbstractController
     {
         $response = [];
         foreach ($this->getUser()->getVentas() as $venta){
-            $response[] = ['id'=> $venta->getId(), 'name' => $venta->getFeria(), 'active' => $venta->getOpen()];
+            $response[] = $venta;//['id'=> $venta->getId(), 'name' => $venta->getFeria(), 'active' => $venta->getOpen()];
         }
 
         return new JsonResponse($response);
@@ -65,7 +65,7 @@ class EndPointController extends AbstractController
      *     methods={"GET"}
      * )
      */
-    public function gettFeriaData(EntityManagerInterface $entityManager, $id)
+    public function getFeriaData(EntityManagerInterface $entityManager, $id)
     {
          return new JsonResponse($entityManager->getRepository('App:Venta')->find($id));
     }
