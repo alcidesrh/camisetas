@@ -241,6 +241,7 @@ class Venta implements JsonSerializable
        }
        return $result;
     }
+
     public function jsonSerialize()
     {
         return [
@@ -248,7 +249,8 @@ class Venta implements JsonSerializable
             'active' => $this->open,
             'productos' => $this->getProductoClean(),
             'sold' => $this->getVenta(),
-            'stock' => $this->getStock()
+            'stock' => $this->getStock(),
+            'create' => $this->createAt->format('d/m/yy')
         ];
     }
 
