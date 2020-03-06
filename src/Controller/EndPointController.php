@@ -43,6 +43,23 @@ class EndPointController extends AbstractController
 
     /**
      * @Route(
+     *     name="get_ventas",
+     *     path="/ventas",
+     *     methods={"GET"}
+     * )
+     */
+    public function getVentas(EntityManagerInterface $entityManager)
+    {
+        $response = [];
+        foreach ($this->getUser()->getVentas() as $venta){
+            $response[] = $venta;
+        }
+
+        return new JsonResponse($response);
+    }
+
+    /**
+     * @Route(
      *     name="get_feria",
      *     path="/feria",
      *     methods={"GET"}
@@ -52,7 +69,7 @@ class EndPointController extends AbstractController
     {
         $response = [];
         foreach ($this->getUser()->getVentas() as $venta){
-            $response[] = $venta;//['id'=> $venta->getId(), 'name' => $venta->getFeria(), 'active' => $venta->getOpen()];
+            $response[] = ['id'=> $venta->getId(), 'name' => $venta->getFeria(), 'active' => $venta->getOpen()];
         }
 
         return new JsonResponse($response);
